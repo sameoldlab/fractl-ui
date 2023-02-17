@@ -1,0 +1,11 @@
+{
+  "name": "fractal-kit",
+  "version": "0.0.1",
+  "description": "",
+  "keywords": [],
+  "scripts": {
+    "core:build": "pnpm -F @fractal-kit/core build " 
+  },
+  "author": "",
+  "license": "MIT"
+}
