@@ -1,5 +1,5 @@
 module.exports = {
-    files: 'src/**',
+    files: 'src/lib/**',
     targets: ['vue3', 'svelte', 'react'],
 	extension: 'svelte'
   };

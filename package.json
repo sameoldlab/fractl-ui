@@ -1,10 +1,11 @@
 {
-  "name": "fractal-kit",
+  "name": "fraktl",
   "version": "0.0.1",
   "description": "",
   "keywords": [],
   "scripts": {
-    "core:build": "pnpm -F @fractal-kit/core build " 
+      "ui:build": "pnpm -F @fraktl/ui build",
+      "ui:dev": "pnpm   -F @fraktl/ui dev"
   },
   "author": "",
   "license": "MIT"
