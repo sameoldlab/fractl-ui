@@ -15,6 +15,6 @@
     "checkJs": true,
     "isolatedModules": true
   },
-  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte", "mitosis.config.js"],
+  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte", "mitosis.config.cjs"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
