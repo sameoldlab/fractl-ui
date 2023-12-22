@@ -1,6 +1,6 @@
 <script lang="ts">
   import Modal from "./Common/Modal.svelte"
-  import "./cta-modal"
+  //   import "./cta-modal"
   import MenuItem from "./Common/MenuItem.svelte"
   let wallets = [
     {
@@ -50,8 +50,7 @@
           </div>
         </MenuItem>
       {/each}
+      <slot name="footer">d</slot>ds
     </div>
-    <slot slot="footer" />
   </Modal>
 {/if}
-

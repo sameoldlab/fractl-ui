@@ -24,18 +24,17 @@
 
       index += tabbable.length + (e.shiftKey ? -1 : 1)
       index %= tabbable.length
-
       tabbable[index].focus()
       e.preventDefault()
     }
   }
   // Restore focus to trigger
-  const previously_focused =
+  const lastFocus =
     typeof document !== "undefined" && document.activeElement
 
-  if (previously_focused) {
+  if (lastFocus) {
     onDestroy(() => {
-      previously_focused.focus()
+      lastFocus.focus()
     })
   }
 </script>

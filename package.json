@@ -1,12 +1,32 @@
 {
-  "name": "fraktl",
   "version": "0.0.1",
   "description": "",
   "keywords": [],
-  "scripts": {
-      "ui:build": "pnpm -F @fraktl/ui build",
-      "ui:dev": "pnpm   -F @fraktl/ui dev"
-  },
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "name": "@fraktl/evm",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "mitosis build -c mitosis.config.cjs",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "dependencies": {
+    "@builder.io/mitosis": "^0.0.90",
+    "@builder.io/mitosis-cli": "^0.0.64",
+    "prettier": "^2.8.4"
+  },
+  "devDependencies": {
+    "@builder.io/eslint-plugin-mitosis": "^0.0.14",
+    "@sveltejs/vite-plugin-svelte": "^2.4.1",
+    "@tsconfig/svelte": "^3.0.0",
+    "eslint": "^8.34.0",
+    "svelte": "^4.0.0",
+    "svelte-check": "^3.4.1",
+    "tslib": "^2.5.0",
+    "typescript": "^5.0.1",
+    "vite": "^4.1.0"
+  }
 }

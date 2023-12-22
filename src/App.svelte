@@ -1,12 +1,14 @@
 <!-- <svelte:options tag="my-app" /> -->
 <script lang="ts">
     import svelteLogo from "./assets/svelte.svg"
-    import Card from "./components/Card.svelte"
+    // import Card from "./components/Card.svelte"
     import ConnectModal from "./components/ConnectModal.svelte"
   </script>
   
   <main>
-    <ConnectModal />
+    <ConnectModal>
+        <svelte:fragment slot="footer">df</svelte:fragment>
+    </ConnectModal>
     <p>
       Check out <a
         href="https://github.com/sveltejs/kit#readme"
