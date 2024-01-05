@@ -1,8 +1,9 @@
 * {
-    --dialog-radius: 1em;
-    --text-color: white;
-    font-family: "Inter";
+	--dialog-radius: 1em;
+	--text-color: white;
+	font-family: 'Inter', system-ui, sans-serif;
 }
+
 button {
-    cursor: pointer;
+	cursor: pointer;
 }
