@@ -1,5 +1,5 @@
 import type { Account, Address, Client, GetBalanceReturnType } from 'viem'
-import config from '../lib/wagmiConfig'
+import config from '$lib/wagmiConfig'
 import { derived, get } from 'svelte/store'
 import { getEnsName, getEnsAvatar, getBalance } from '@wagmi/core'
 import { getAccount, type Config } from '@wagmi/core'

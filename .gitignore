@@ -11,6 +11,7 @@ pnpm-debug.log*
 lerna-debug.log*
 dist-ssr
 *.local
+.svelte-kit
 
 # Editor directories and files
 .vscode/*

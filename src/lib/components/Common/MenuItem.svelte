@@ -1,8 +1,25 @@
-<script>
+<script lang='ts'>
+	import { type Config, type Connector } from "@wagmi/core"
+	import { createConnector } from "../../lib/createConncetor"
+
     export let theme="dark"
+		export let connector: Connector
+
+		interface connectorProps {
+			connector: Connector
+
+		}
+
+		const {
+			elements: {connect}
+		} = createConnector(connector)
+
 </script>
 
-<button class={theme}><slot /></button>
+<button use:connect class={theme}>
+	{connector.name}
+	<img class="logo" src={connector.icon} alt={connector.name}>
+</button>
 
 <style>
   button {
@@ -26,6 +43,12 @@
     border-radius: 16px;
 
     transition: all 0.125s ease;
+		
+		& img {
+			width: auto;
+			height: 2.25em;
+			border-radius: 8px;
+		}
 }
 
 button.dark {

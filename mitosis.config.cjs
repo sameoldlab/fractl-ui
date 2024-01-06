@@ -1,5 +1,5 @@
 module.exports = {
-    files: 'src/components/**',
+    files: 'src/lib/**',
     dest: 'dist',
     targets: ['vue3', 'solid', 'react'],
     getTargetPath: ({ target }) => {

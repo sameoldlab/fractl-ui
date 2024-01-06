@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { fly } from 'svelte/transition'
-	import copyEN from '../lib/copy.EN'
+	import copyEN from '$lib/copy.EN'
 	import Modal from './Common/Modal.svelte'
 	import { connect, type Config, type Connector, reconnect } from '@wagmi/core'
 	import { quadInOut } from 'svelte/easing'
