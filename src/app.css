@@ -6,4 +6,18 @@
 
 button {
 	cursor: pointer;
+	box-sizing: border-box;
+	border: none;
+}
+
+button[data-melt-dialog-trigger] {
+	border: none;
+	background: transparent;
+	color: var(--text-color);
+	width: full;
+	box-sizing: border-box;
+	border: none;
+	padding: 1em 2em;
+	font-weight: 600;
+	border-radius: 16px;
 }

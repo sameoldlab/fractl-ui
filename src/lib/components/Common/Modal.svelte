@@ -1,87 +1,78 @@
 <script lang="ts">
-	import { createEventDispatcher, onDestroy } from 'svelte'
-	import { quadInOut } from 'svelte/easing'
-	import { fly, type TransitionConfig } from 'svelte/transition'
+	import { createEventDispatcher } from 'svelte'
+	import { type TransitionConfig } from 'svelte/transition'
+	import { createDialog } from '@melt-ui/svelte'
 
-	const dispatch = createEventDispatcher()
-	const close = () => dispatch('close')
-
-	let modal: HTMLDialogElement
-	export let title = 'Modal Title'
-
-	const handle_keydown = (e: KeyboardEvent) => {
-		// Escape to close
-		if (e.key === 'Escape') {
-			close()
-			return
-		}
-
-		// Focus Trap
-		if (e.key === 'Tab') {
-			const nodes = modal.querySelectorAll('*')
-			const tabbable = Array.from(nodes).filter(node => node.tabIndex >= 0)
-
-			let index = tabbable.indexOf(document.activeElement!)
-			if (index === -1 && e.shiftKey) index = 0
-
-			index += tabbable.length + (e.shiftKey ? -1 : 1)
-			index %= tabbable.length
-			tabbable[index].focus()
-			e.preventDefault()
-			return
-		}
-	}
-	// Restore focus to trigger
-	const lastFocus = typeof document !== 'undefined' && document.activeElement
-
-	if (lastFocus) {
-		onDestroy(() => {
-			lastFocus.focus()
-		})
-	}
 	export let transition: (node: HTMLElement) => TransitionConfig
-	
+	const dispatch = createEventDispatcher()
+	export let titleText = 'Title Text'
+	// export let triggerText = 'Trigger Text'
+	export let role: 'dialog' | 'alertdialog' = 'dialog'
+	export let focusTarget: string | HTMLElement | SVGElement | null
+
+	const {
+		elements: {
+			trigger,
+			portalled,
+			overlay,
+			content,
+			title,
+			description,
+			close
+		},
+		states
+	} = createDialog({
+		role,
+		onOpenChange: ({ next }) => {
+			console.log('open change event')
+			dispatch('close')
+			return next
+		},
+		closeFocus: focusTarget || ((defaultEl?: HTMLElement) => focusTarget)
+	})
+	export const { open } = states
+	// let customTrigger
 </script>
 
-<svelte:window on:keydown={handle_keydown} />
+<!-- {#if !customTrigger}
+	<button {...$trigger} use:trigger > {triggerText} </button>
+{/if} -->
 
-<div class="dialog-overlay" on:click={close} />
+<div {...$portalled} use:portalled>
+	{#if $open}
+		<div {...$overlay} use:overlay class="dialog-overlay" />
 
-<div class="dialog-window" role="dialog" aria-modal="true" bind:this={modal}
-transition:transition>
-	<!-- Header -->
-	<header class="dialog-head">
-		<div class="icon-left" />
-		<div id="dialog-title">{title}</div>
-		<div class="icon-right">
-			<button id="close" on:click={close} aria-label="Close Modal">
-				<svg
-					aria-hidden="true"
-					focusable="false"
-					xmlns="http://www.w3.org/2000/svg"
-					width="12"
-					height="12"
-					viewBox="0 0 12 12"
-					fill="none"
-				>
-					<path
-						stroke="#E0E8FF"
-						stroke-linecap="round"
-						stroke-width="2"
-						d="M10 10 2 2M10 10 2 2M10 2l-8 8"
-					/>
-				</svg>
-			</button>
+		<div {...$content} use:content class="dialog-window" transition:transition>
+			<header class="dialog-head">
+				<slot name="icon-left" class="icon-left" />
+				<h2 {...$title} use:title class="dialog-title">{titleText}</h2>
+				<div class="icon-right">
+					<button {...$close} id="close" use:close
+						><!--  aria-label="Close Modal"> -->
+						<svg
+							aria-hidden="true"
+							focusable="false"
+							xmlns="http://www.w3.org/2000/svg"
+							width="12"
+							height="12"
+							viewBox="0 0 12 12"
+							fill="none"
+						>
+							<path
+								stroke="#E0E8FF"
+								stroke-linecap="round"
+								stroke-width="2"
+								d="M10 10 2 2M10 10 2 2M10 2l-8 8"
+							/>
+						</svg>
+					</button>
+				</div>
+			</header>
+			<!-- <p {...$description} use:description>{description}</p> -->
+
+			<slot />
 		</div>
-	</header>
-	<!-- Modal Body -->
-	<section>
-		<slot name="body" />
-	</section>
-
-	<footer>
-		<slot name="footer" />
-	</footer>
+	{/if}
 </div>
 
 <style>
@@ -100,26 +91,32 @@ transition:transition>
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		background-color: rgba(255, 255, 255, 0.06);
-		border: 1px solid rgba(255, 255, 255, 0.04);
+		background-color: hsla(0, 0%, 100%, 0%);
+		border: 1px solid hsla(0, 0%, 100%, 0%);
 		border-radius: 50%;
+		transition:
+			background-color 140ms ease-in,
+			border 140ms ease-in;
+	}
+	#close:hover {
+		border: 1px solid hsla(0, 0%, 100%, 4%);
+		background-color: hsla(0, 0%, 100%, 6%);
 	}
 	/* Targetting Dialog Head Slot */
-	#dialog-title {
+	.dialog-title {
 		margin: 0;
-		width: 100%;
-		height: 100%;
-		text-align: center;
 		color: var(--text-color);
 		font-weight: 600;
 		font-size: 1em;
+		grid-column: title;
+		text-align: center;
 		/* background-color: aqua; */
 	}
 
 	header {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
+		display: grid;
+		grid-template-columns: 30px [title-start] 1fr [title-end] 30px;
+		align-items: baseline;
 
 		margin-bottom: 30px;
 	}

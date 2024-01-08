@@ -1,35 +1,26 @@
 <script lang="ts">
-	import { fly } from 'svelte/transition'
-	import copyEN from '$lib/copy.EN'
-	import Modal from './Common/Modal.svelte'
+	import copyEN from '$lib/copy/copy.EN'
 	import { connect, type Config, type Connector, reconnect } from '@wagmi/core'
+
+	import Modal from './Common/Modal.svelte'
+	import { fly } from 'svelte/transition'
 	import { quadInOut } from 'svelte/easing'
+	import { createEventDispatcher } from 'svelte'
+	import { writable } from 'svelte/store'
 
 	export let config: Config
 	export let demo = true
-
-	export let triggerLabel = 'Connect Wallet'
-	export let enableTrigger = false
+	export const triggerText = 'Connect Wallet'
+	// export let showModal: boolean
 
 	// export let inputWatch = true
 	// export let accountStatus: string
 	// export let chainStatus
 	// export let showBalance: string
+	$: if (config.state.status === 'connected') $open = false
 
-	let _state = config.state
-	config.subscribe(
-		state => state.status,
-		status => {
-			console.log('status is ', status)
-			console.log('config.state: ', config.state)
-			_state = config.state
-			if (config.state.status === 'connected') showModal = false
-			config = config
-			_state = _state
-		}
-	)
-
-	export let showModal: boolean
+	export let customTrigger = false
+	export let open = writable(false)
 
 	let activeRequest: null | Connector = null //config.connectors[0]
 	$: title = !activeRequest ? 'Connect Wallet' : `${activeRequest.name}`
@@ -45,80 +36,132 @@
 		config = config
 		console.log('config.state: ', config.state)
 	}
+
+	let triggerEl: HTMLButtonElement
+	const handleTrigger = (e: Event) => {
+		open.set(true)
+	}
+	const clearRequest = () => (activeRequest = null)
 </script>
 
-{#if enableTrigger}
-	<button on:click={() => (showModal = true)} class="trigger"
-		>{triggerLabel}</button
-	>
-{/if}
+<button
+	aria-haspopup="dialog"
+	data-melt-dialog-trigger=""
+	aria-expanded={$open ? 'true' : 'false'}
+	on:click={handleTrigger}
+	bind:this={triggerEl}
+>
+	{triggerText}
+</button>
 
-{#if showModal}
-	<Modal
-		on:close={() => (showModal = false)}
-		{title}
-		transition={e =>
-			fly(e, { duration: 100, y: 40, opacity: 0, easing: quadInOut })}
-	>
-		<div slot="body" class="main">
-			{#if activeRequest}
-				<!-- <div class="main"></div> -->
-				{#if config.state.status === 'connecting'}
-					<div class="activeRequest">
-						<img
-							class="logo"
-							src={activeRequest.icon}
-							alt={activeRequest.name}
-						/>
-					</div>
-					<h3 class="heading">Requesting Connection</h3>
-					<p class="subhead">
-						{copyEN(activeRequest.name).connecting[activeRequest.type]}
-					</p>
-				{:else}
-					<div class="activeRequest">
-						<img
-							class="logo"
-							src={activeRequest.icon}
-							alt={activeRequest.name}
-						/>
-					</div>
-					<h3 class="heading">Connection Declined</h3>
-					<p class="subhead">
-						{copyEN(activeRequest.name).rejected[activeRequest.type]}
-					</p>
-					<button on:click={() => handleConnect(activeRequest)}>Retry</button>
-				{/if}
+<Modal
+	titleText={title}
+	role="alertdialog"
+	focusTarget={triggerEl}
+	bind:open
+	on:close={clearRequest}
+	transition={(e) =>
+		fly(e, { duration: 100, y: 40, opacity: 0, easing: quadInOut })}
+>
+	<button slot="icon-left" class:hide={!activeRequest} on:click={clearRequest}>
+		@
+	</button>
+
+	<div class="main">
+		{#if activeRequest}
+			<div class="active-request">
+				<svg
+					class:hide={config.state.status !== 'connecting'}
+					class="spin"
+					width="108"
+					height="108"
+					viewBox="0 0 100 100"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						d="M98 50C98 23.4903 76.5097 2 50 2"
+						stroke="url(#a)"
+						stroke-width="4"
+						stroke-linecap="round"
+					/>
+					<defs>
+						<radialGradient
+							id="radial"
+							cx="0"
+							cy="0"
+							r="1"
+							gradientUnits="userSpaceOnUse"
+							gradientTransform="translate(100 50) rotate(-90) scale(47 47)"
+						>
+							<stop stop-color="currentColor" />
+							<stop offset="1" stop-color="currentColor" stop-opacity="0" />
+						</radialGradient>
+						<linearGradient
+							x1="8.042%"
+							y1="0%"
+							x2="65.682%"
+							y2="23.865%"
+							id="a"
+						>
+							<stop stop-color="currentColor" stop-opacity="0" offset="0%" />
+							<stop
+								stop-color="currentColor"
+								stop-opacity=".631"
+								offset="63.146%"
+							/>
+							<stop stop-color="currentColor" offset="100%" />
+						</linearGradient>
+					</defs>
+				</svg>
+
+				<img class="logo" src={activeRequest.icon} alt={activeRequest.name} />
+			</div>
+
+			{#if config.state.status === 'connecting'}
+				<h3 class="heading">Requesting Connection</h3>
+				<p class="subhead">
+					{copyEN(activeRequest.name).connecting[activeRequest.type]}
+				</p>
 			{:else}
-				{#each config.connectors as connector}
-					<button
-						on:click={() => handleConnect(connector)}
-						data-uid={connector.uid}
-						class="connector connector-dark"
-					>
-						{connector.name}
-						<img class="logo" src={connector.icon} alt={connector.name} />
-					</button>
-				{/each}
-				{#if demo}
-					<button class="connector connector-mock"> Demo Mode </button>
-				{/if}
-
-				<slot name="footer">l</slot>
+				<h3 class="heading error">Connection Declined</h3>
+				<p class="subhead">
+					{copyEN(activeRequest.name).rejected[activeRequest.type]}
+				</p>
+				<button on:click={() => handleConnect(activeRequest)}>Retry</button>
 			{/if}
-		</div>
-	</Modal>
-{/if}
+			<button on:click={clearRequest}>Back</button>
+		{:else}
+			{#each config.connectors as connector}
+				<button
+					on:click={() => handleConnect(connector)}
+					data-uid={connector.uid}
+					class="connector connector-dark"
+				>
+					{connector.name}
+					<img class="logo" src={connector.icon} alt={connector.name} />
+				</button>
+			{/each}
+			{#if demo}
+				<button class="connector connector-mock"> Demo Mode </button>
+			{/if}
+
+			<slot name="footer" />
+		{/if}
+	</div>
+</Modal>
 
 <style>
+	.main:has(.active-request) {
+		display: grid;
+		justify-items: center;
+	}
+
 	.main {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		color: #e9e9e9;
+		color: var(--text-color, #e9e9e9);
 
 		& .heading {
-			font-size: 1.1em;
+			font-size: 1em;
 			font-weight: 700;
 			margin-block: 0.5em;
 			/* margin: 0; */
@@ -132,19 +175,48 @@
 			margin-bottom: 1.75em;
 		}
 	}
-	.activeRequest {
-		padding-bottom: 1.5em;
+	.active-request {
+		display: grid;
+		height: 5.75em;
+		width: 100%;
+		grid-area: 1 / 1;
+		margin-bottom: 1.5em;
+		align-items: center;
+		justify-content: center;
+
+		& * {
+			grid-area: 1 / 1;
+		}
 
 		& .logo {
-			height: 5.75rem;
+			margin: auto;
+			border-radius: 50%;
+			transform: scale(0.95);
 		}
 	}
-	.trigger {
-		box-sizing: border-box;
-		border: none;
-		padding: 1em 2em;
-		font-weight: 600;
-		border-radius: 16px;
+	.logo {
+		border-radius: 50%;
+	}
+
+	.hide {
+		display: none;
+		opacity: 0;
+	}
+
+	.error {
+		color: oklch(80% 0.16 8);
+	}
+
+	.spin {
+		animation: 1500ms linear infinite spin;
+		color: oklch(70% 0.52 230);
+		/* height: 7em; */
+	}
+
+	@keyframes spin {
+		100% {
+			transform: rotate(360deg);
+		}
 	}
 
 	.connector {
@@ -152,15 +224,14 @@
 		cursor: pointer;
 		width: 100%;
 		display: flex;
-		flex-direction: row;
+		/* flex-direction: row; */
 		gap: 10px;
 		justify-content: space-between;
 		align-items: center;
 
-		margin: 10px;
+		margin-block: 0.5em;
 		border: none;
-		padding: 20px 16px;
-		padding: 1.5em 1em;
+		padding: 1.125em 1em;
 
 		align-self: stretch;
 		font-weight: 600;
@@ -171,8 +242,10 @@
 
 		& .logo {
 			width: auto;
-			height: 2em;
+			height: 2.5em;
+			/* height: 2em; */
 		}
+		/* padding: 1.5em 1em; */
 	}
 
 	.connector-dark {
@@ -192,9 +265,5 @@
 	.connector-mock {
 		background: hsla(76, 20%, 15%, 1);
 		color: hsla(73, 86%, 68%, 1);
-	}
-
-	.logo {
-		border-radius: 50%;
 	}
 </style>
