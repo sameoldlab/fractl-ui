@@ -9,10 +9,11 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
-		"build": "mitosis build -c mitosis.config.cjs",
-		"package": "svelte-kit sync && svelte-package && publint",
-		"prepublishOnly": "npm run package",
+		"build": "vite build && npm run package",
 		"preview": "vite preview",
+		"pack:mitosis": "mitosis build -c mitosis.config.cjs",
+		"pack:svelte": "svelte-kit sync && svelte-package && publint",
+		"prepublishOnly": "npm run package",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
@@ -32,9 +33,8 @@
 	"dependencies": {
 		"@builder.io/mitosis": "^0.0.137",
 		"@sveltejs/adapter-auto": "^3.1.0",
-		"@wagmi/core": "2.0.0-rc.1",
-		"publint": "^0.2.7",
-		"viem": "2.0.0-rc.2"
+		"@wagmi/core": "^2.0.1",
+		"viem": "^2.0.1"
 	},
 	"peerDependencies": {
 		"svelte": "^4.0.0"
@@ -42,6 +42,7 @@
 	"devDependencies": {
 		"@builder.io/eslint-plugin-mitosis": "^0.0.15",
 		"@builder.io/mitosis-cli": "^0.0.96",
+		"@melt-ui/svelte": "^0.67.0",
 		"@sveltejs/adapter-vercel": "^4.0.3",
 		"@sveltejs/enhanced-img": "^0.1.7",
 		"@sveltejs/kit": "^2.0.4",
@@ -49,6 +50,7 @@
 		"@sveltejs/vite-plugin-svelte": "^3.0.1",
 		"@tsconfig/svelte": "^5.0.2",
 		"eslint": "^8.56.0",
+		"publint": "^0.2.7",
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
 		"svelte": "^4.2.8",
