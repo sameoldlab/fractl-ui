@@ -9,7 +9,8 @@
 
 	export let config: Config
 
-	$accountStore.then((v) => console.log(v))
+	const { account, balance, nameService } = accountStore
+	const { connector, address } = $account
 
 	/* 	const { address, ensAvatar, ensName, balance } = {
 		address: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',
@@ -32,50 +33,52 @@
 	}
 </script>
 
-{#await $accountStore then { account, ensAvatar, ensName, balance }}
-	{@const { connector, address } = account}
+<button
+	aria-haspopup="dialog"
+	data-melt-dialog-trigger=""
+	aria-expanded={$open ? 'true' : 'false'}
+	class="account-data"
+	bind:this={triggerEl}
+	on:click={() => open.set(true)}
+>
+	{#await $nameService}
+		<p class="address">{truncate(address)}</p>
+	{:then { avatar, name }}
+		<img class="avatar" src={avatar} alt="" />
+		{name || truncate(address)}
+	{/await}
+</button>
 
-	<button
-		aria-haspopup="dialog"
-		data-melt-dialog-trigger=""
-		aria-expanded={$open ? 'true' : 'false'}
-		class="account-data"
-		bind:this={triggerEl}
-		on:click={() => open.set(true)}
-	>
-		{#if !ensAvatar}
+<Modal
+	titleText="Connected"
+	role="dialog"
+	focusTarget={triggerEl}
+	bind:open
+	transition={(e) =>
+		fly(e, { duration: 100, y: 40, opacity: 0, easing: quadInOut })}
+>
+	<!-- header>div*2+div.balance+hr+div>div.header -->
+	<div class="main">
+		{#await $nameService}
+			<img class="avatar" alt="" />
 			<p class="address">{truncate(address)}</p>
-		{:else}
-			<img class="avatar" src={ensAvatar} alt="" />
-		{/if}
-		{ensName || truncate(address)}
-	</button>
+		{:then { avatar, name }}
+			<img class="avatar" src={avatar} alt="" />
+			<p class="address">{name || truncate(address)}</p>
+		{/await}
 
-	<Modal
-		titleText="Connected"
-		role="dialog"
-		focusTarget={triggerEl}
-		bind:open
-		transition={(e) =>
-			fly(e, { duration: 100, y: 40, opacity: 0, easing: quadInOut })}
-	>
-		<!-- header>div*2+div.balance+hr+div>div.header -->
-		<div class="main">
-			<img class="avatar" src={ensAvatar} alt="" />
-			<p class="address">{ensName || truncate(address)}</p>
-			<p class="balance">{balance.formatted.substring(0, 10)}</p>
-			<div class="row">
-				<!-- <button on:click>icon</button> -->
-				<!-- <button on:click>icon</button> -->
-				<!-- </header> -->
-				<button on:click={handleDisconnect}> Switch</button>
-				<button on:click={() => handleDisconnect(connector)}>
-					Disconnect</button
-				>
-			</div>
+		{#await $balance then { formatted }}
+			<p class="balance">{formatted.substring(0, 10)}</p>
+		{/await}
+		<div class="row">
+			<!-- <button on:click>icon</button> -->
+			<!-- <button on:click>icon</button> -->
+			<!-- </header> -->
+			<button on:click={handleDisconnect}> Switch</button>
+			<button on:click={() => handleDisconnect(connector)}> Disconnect</button>
 		</div>
-	</Modal>
-{/await}
+	</div>
+</Modal>
 
 <!-- </div> -->
 

@@ -24,13 +24,15 @@
 		<p>status: {_state.status}</p>
 	</div>
 
-	{#if connected}
-		<AccountModal config={$config} />
-	{:else}
-		<ConnectModal config={$config}>
-			<svelte:fragment slot="footer"></svelte:fragment>
-		</ConnectModal>
-	{/if}
+	<div class="wagmi">
+		{#if connected}
+			<AccountModal config={$config} />
+		{:else}
+			<ConnectModal config={$config}>
+				<svelte:fragment slot="footer"></svelte:fragment>
+			</ConnectModal>
+		{/if}
+	</div>
 	<!-- 	<button
 		on:click={() => {
 			dialogElem.showModal()
@@ -58,5 +60,8 @@
 		height: 100%;
 		color: red;
 		/* //var(--text-color); */
+	}
+	.wagmi {
+		background: green;
 	}
 </style>

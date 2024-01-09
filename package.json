@@ -1,65 +1,38 @@
 {
-	"name": "@fractl-ui/evm",
-	"version": "0.0.1",
+	"name": "fractl-ui",
+	"version": "0.0.0",
 	"description": "",
-	"keywords": [],
-	"author": "sameoldlab",
-	"license": "MIT",
 	"private": true,
-	"type": "module",
+	"author": "sameoldlab",
+	"main": "index.js",
 	"scripts": {
-		"dev": "vite dev",
-		"build": "vite build && npm run package",
-		"preview": "vite preview",
-		"pack:mitosis": "mitosis build -c mitosis.config.cjs",
-		"pack:svelte": "svelte-kit sync && svelte-package && publint",
-		"prepublishOnly": "npm run package",
-		"check": "svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write ."
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"lint": "eslint .",
+		"format": "prettier --write .",
+		"prepare": "husky install"
 	},
-	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"svelte": "./dist/index.js"
-		}
+	"lint-staged": {
+		"**/*.{js,ts,svelte}": [
+			"eslint"
+		],
+		"**/*": "prettier --write --ignore-unknown"
 	},
-	"files": [
-		"dist",
-		"!dist/**/*.test.*",
-		"!dist/**/*.spec.*"
-	],
-	"dependencies": {
-		"@builder.io/mitosis": "^0.0.137",
-		"@sveltejs/adapter-auto": "^3.1.0",
-		"@wagmi/core": "^2.0.1",
-		"viem": "^2.0.1"
-	},
-	"peerDependencies": {
-		"svelte": "^4.0.0"
-	},
+	"keywords": [],
+	"license": "MIT",
 	"devDependencies": {
-		"@builder.io/eslint-plugin-mitosis": "^0.0.15",
-		"@builder.io/mitosis-cli": "^0.0.96",
-		"@melt-ui/svelte": "^0.67.0",
-		"@sveltejs/adapter-vercel": "^4.0.3",
-		"@sveltejs/enhanced-img": "^0.1.7",
-		"@sveltejs/kit": "^2.0.4",
-		"@sveltejs/package": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.1",
 		"@tsconfig/svelte": "^5.0.2",
+		"@typescript-eslint/eslint-plugin": "^6.16.0",
 		"eslint": "^8.56.0",
-		"publint": "^0.2.7",
+		"eslint-plugin-svelte": "^2.35.1",
+		"husky": "^8.0.3",
+		"lint-staged": "^15.2.0",
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
 		"svelte": "^4.2.8",
 		"svelte-check": "^3.6.2",
-		"svelte-preprocess": "^5.1.3",
 		"tslib": "^2.6.2",
 		"typescript": "^5.3.3",
 		"vite": "^5.0.10"
-	},
-	"svelte": "./dist/index.js",
-	"types": "./dist/index.d.ts"
+	}
 }
