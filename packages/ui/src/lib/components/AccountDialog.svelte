@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { fetchBalance, type Config } from '@wagmi/core'
-	import accountStore from './accountStore'
+	// import { type Config } from '@wagmi/core'
+	// import accountStore from '$lib/stores/accountStore'
 	import { truncate } from '$lib/utils'
 
-	export let config: Config
+	// export let config: Config
 
 	// $accountStore.then(v=>console.log(v))
 
@@ -79,11 +79,11 @@
 		height: 3em;
 	}
 
-	header {
+	/* 	header {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-	}
+	} */
 
 	.main {
 		max-width: 300px;
