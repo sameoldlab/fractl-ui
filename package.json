@@ -9,7 +9,11 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"lint": "eslint .",
 		"format": "prettier --write .",
-		"prepare": "husky install"
+		"prepare": "husky install",
+		"dev:evm": "pnpm --filter @fractl-ui/evm dev",
+		"build:evm": "pnpm --filter @fractl-ui/evm build",
+		"dev:site": "pnpm --filter site dev",
+		"build:site": "pnpm --filter site build"
 	},
 	"lint-staged": {
 		"**/*.{js,ts,svelte}": [
