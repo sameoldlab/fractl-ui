@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { fetchBalance, type Config, disconnect } from '@wagmi/core'
-	import accountStore from './accountStore'
+	import { type Config, disconnect } from '@wagmi/core'
+	import accountStore from '$lib/stores/accountStore'
 	import { truncate } from '$lib/utils'
 	import Modal from './Common/Modal.svelte'
-	import type { Writable } from 'svelte/store'
 	import { fly } from 'svelte/transition'
 	import { quadInOut } from 'svelte/easing'
 

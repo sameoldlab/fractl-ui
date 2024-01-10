@@ -5,14 +5,14 @@
 	"keywords": [],
 	"author": "sameoldlab",
 	"license": "MIT",
-	"private": true,
 	"type": "module",
+	"main": "./dist/index.js",
 	"scripts": {
 		"dev": "vite dev",
-		"build": "vite build",
+		"build": "vite build && pnpm run package",
 		"preview": "vite preview",
 		"pack:mitosis": "mitosis build -c mitosis.config.cjs",
-		"pack:svelte": "svelte-kit sync && svelte-package && publint",
+		"package": "svelte-kit sync && svelte-package && publint",
 		"prepublishOnly": "npm run package",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
@@ -47,7 +47,8 @@
 		"@sveltejs/enhanced-img": "^0.1.7",
 		"@sveltejs/kit": "^2.0.4",
 		"@sveltejs/package": "^2.0.0",
-		"publint": "^0.2.7"
+		"publint": "^0.2.7",
+		"vite": "^5.0.10"
 	},
 	"svelte": "./dist/index.js",
 	"types": "./dist/index.d.ts"
