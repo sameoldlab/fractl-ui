@@ -12,12 +12,11 @@
 
 	const {
 		elements: {
-			trigger,
+			// trigger,
 			portalled,
 			overlay,
 			content,
 			title,
-			description,
 			close
 		},
 		states
@@ -28,7 +27,8 @@
 			dispatch('close')
 			return next
 		},
-		closeFocus: focusTarget || ((defaultEl?: HTMLElement) => focusTarget)
+		closeFocus:
+			focusTarget || ((defaultEl?: HTMLElement) => defaultEl || focusTarget)
 	})
 	export const { open } = states
 	// let customTrigger
@@ -44,9 +44,11 @@
 
 		<div {...$content} use:content class="dialog-window" transition:transition>
 			<header class="dialog-head">
-				<slot name="icon-left" class="icon-left" />
+				<div class="header-icon">
+					<slot name="icon-left" />
+				</div>
 				<h2 {...$title} use:title class="dialog-title">{titleText}</h2>
-				<div class="icon-right">
+				<div class="header-icon">
 					<button {...$close} id="close" use:close
 						><!--  aria-label="Close Modal"> -->
 						<svg
@@ -76,31 +78,36 @@
 </div>
 
 <style>
-	.icon-right,
-	.icon-left {
-		display: block;
-		height: 30px;
-		width: 30px;
-		/* background-color: aqua; */
-	}
-	#close {
+	.header-icon {
 		height: 100%;
 		width: 100%;
-		/* top: 20px;
-    right: 30px; */
+
+		cursor: pointer;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		background-color: hsla(0, 0%, 100%, 0%);
-		border: 1px solid hsla(0, 0%, 100%, 0%);
-		border-radius: 50%;
-		transition:
-			background-color 140ms ease-in,
-			border 140ms ease-in;
-	}
-	#close:hover {
-		border: 1px solid hsla(0, 0%, 100%, 4%);
-		background-color: hsla(0, 0%, 100%, 6%);
+
+		& button {
+			height: 100%;
+			width: 100%;
+
+			border-radius: 50%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			padding: 0;
+			background-color: transparent;
+			border: 1px solid hsla(0, 0%, 100%, 0%);
+			color: var(--text-color);
+			transition:
+				background-color 140ms ease-in,
+				border 140ms ease-in;
+		}
+		& button:hover {
+			border: 1px solid hsla(0, 0%, 100%, 4%);
+			background-color: hsla(0, 0%, 100%, 6%);
+		}
 	}
 	/* Targetting Dialog Head Slot */
 	.dialog-title {
@@ -116,7 +123,7 @@
 	header {
 		display: grid;
 		grid-template-columns: 30px [title-start] 1fr [title-end] 30px;
-		align-items: baseline;
+		align-items: center;
 
 		margin-bottom: 30px;
 	}

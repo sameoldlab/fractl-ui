@@ -5,7 +5,6 @@
 	import Modal from './Common/Modal.svelte'
 	import { fly } from 'svelte/transition'
 	import { quadInOut } from 'svelte/easing'
-	import { createEventDispatcher } from 'svelte'
 	import { writable } from 'svelte/store'
 
 	export let config: Config
@@ -19,7 +18,7 @@
 	// export let showBalance: string
 	$: if (config.state.status === 'connected') $open = false
 
-	export let customTrigger = false
+	// export let customTrigger = false
 	export let open = writable(false)
 
 	let activeRequest: null | Connector = null //config.connectors[0]
@@ -38,7 +37,7 @@
 	}
 
 	let triggerEl: HTMLButtonElement
-	const handleTrigger = (e: Event) => {
+	const handleTrigger = () => {
 		open.set(true)
 	}
 	const clearRequest = () => (activeRequest = null)
@@ -64,7 +63,23 @@
 		fly(e, { duration: 100, y: 40, opacity: 0, easing: quadInOut })}
 >
 	<button slot="icon-left" class:hide={!activeRequest} on:click={clearRequest}>
-		@
+		<svg
+			width="18"
+			height="18"
+			viewBox="0 0 18 18"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+			aria-hidden="true"
+			focusable="false"
+		>
+			<path
+				d="M12 3L5.5 9.5L12 16"
+				stroke="currentcolor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			/>
+		</svg>
 	</button>
 
 	<div class="main">
@@ -130,7 +145,6 @@
 				</p>
 				<button on:click={() => handleConnect(activeRequest)}>Retry</button>
 			{/if}
-			<button on:click={clearRequest}>Back</button>
 		{:else}
 			{#each config.connectors as connector}
 				<button
