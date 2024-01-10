@@ -31,7 +31,6 @@
 		"!dist/**/*.spec.*"
 	],
 	"dependencies": {
-		"@builder.io/mitosis": "^0.0.137",
 		"@wagmi/core": "^2.0.1",
 		"viem": "^2.0.1"
 	},
@@ -39,9 +38,7 @@
 		"svelte": "^4.0.0"
 	},
 	"devDependencies": {
-		"@builder.io/eslint-plugin-mitosis": "^0.0.15",
 		"@sveltejs/adapter-auto": "^3.1.0",
-		"@builder.io/mitosis-cli": "^0.0.96",
 		"@melt-ui/svelte": "^0.67.0",
 		"@sveltejs/adapter-vercel": "^4.0.3",
 		"@sveltejs/enhanced-img": "^0.1.7",
