@@ -4,8 +4,8 @@
 	import { ConnectModal, AccountModal } from '$lib/components'
 	import { onMount } from 'svelte'
 	import { reconnect } from '@wagmi/core'
+	import { isMobile } from '$lib/utils'
 
-	$: _state = $config.state
 	$: connected = $config.state.status === 'connected'
 
 	onMount(async () => {
@@ -15,10 +15,11 @@
 
 <main>
 	<div>
-		<p>chain: {_state.chainId}</p>
-		<p>connections: {JSON.stringify(_state.connections)}</p>
-		<p>current: {_state.current}</p>
-		<p>status: {_state.status}</p>
+		<p>is mobile: {isMobile()}</p>
+		<p>chain: {$config.state.chainId}</p>
+		<p>connections: {JSON.stringify($config.state.connections)}</p>
+		<p>current: {$config.state.current}</p>
+		<p>status: {$config.state.status}</p>
 	</div>
 
 	<div class="wagmi">
@@ -30,6 +31,7 @@
 			</ConnectModal>
 		{/if}
 	</div>
+
 	<!-- 	<button
 		on:click={() => {
 			dialogElem.showModal()

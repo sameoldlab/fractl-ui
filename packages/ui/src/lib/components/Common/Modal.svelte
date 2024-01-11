@@ -30,7 +30,7 @@
 		closeFocus:
 			focusTarget || ((defaultEl?: HTMLElement) => defaultEl || focusTarget)
 	})
-	export const { open } = states
+	export const open = states.open
 	// let customTrigger
 </script>
 
@@ -79,8 +79,8 @@
 
 <style>
 	.header-icon {
-		height: 100%;
-		width: 100%;
+		height: 30px;
+		width: 30px;
 
 		cursor: pointer;
 		display: flex;

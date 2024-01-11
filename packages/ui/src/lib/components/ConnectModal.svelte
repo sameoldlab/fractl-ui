@@ -239,24 +239,23 @@
 		width: 100%;
 		display: flex;
 		/* flex-direction: row; */
-		gap: 10px;
 		justify-content: space-between;
 		align-items: center;
 
 		margin-block: 0.5em;
 		border: none;
-		padding: 1.125em 1em;
+		padding: 1em 1.25em;
 
 		align-self: stretch;
-		font-weight: 600;
 		border-radius: 16px;
 
-		transition: all 0.125s ease;
 		font-size: 1em;
+		font-weight: 600;
+		transition: all 0.125s ease;
 
 		& .logo {
 			width: auto;
-			height: 2.5em;
+			height: 1.75em;
 			/* height: 2em; */
 		}
 		/* padding: 1.5em 1em; */

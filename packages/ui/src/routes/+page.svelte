@@ -1,23 +1,44 @@
 <!-- <svelte:options tag="my-app" /> -->
 <script lang="ts">
 	import config from '$lib/wagmiConfig'
-	import { ConnectModal, AccountDialog } from '$lib/components'
+	import { ConnectModal, AccountModal } from '$lib/components'
 	import { onMount } from 'svelte'
 	import { reconnect } from '@wagmi/core'
-
-	$config.subscribe(
-		(state) => state.status,
-		() => ($config = $config)
-	)
+	import FractlSvg from './fractl.svg'
 
 	onMount(async () => {
 		reconnect($config, { connectors: $config.connectors })
 	})
-
-	let dialogElem: HTMLDialogElement
-	let showModal = false
 </script>
 
+<main>
+	<div>
+		<h1>
+			<!-- Fractl-ui -->
+			<img src={FractlSvg} alt="Fractl UI" />
+		</h1>
+		<p>
+			dapp UI Library for Svelte... <span class="whisper">
+				(and eventually Web Components and Mitosis).
+			</span>
+		</p>
+	</div>
+
+	<button class="button-85">
+		{#if $config.state.status === 'connected'}
+			<AccountModal {config} />
+		{:else}
+			<ConnectModal config={$config}>
+				<!-- <svelte:fragment slot="footer"></svelte:fragment> -->
+			</ConnectModal>
+		{/if}
+
+		<!-- 
+	{#if connected}
+		<AccountDialog config={$config}></AccountDialog>
+	{/if} -->
+	</button>
+</main>
 <footer class="links">
 	<a href="https://github.com/sameoldlab/fractl-ui">
 		<svg
@@ -35,26 +56,6 @@
 		</svg>
 	</a>
 </footer>
-<main>
-	<div>
-		<h1>Fractl-ui</h1>
-		<p>
-			dapp UI Library for Svelte... <span class="whisper">
-				(and eventually Web Components and Mitosis).
-			</span>
-		</p>
-	</div>
-
-	<button on:click={() => (showModal = true)} class="trigger button-85">
-		<ConnectModal config={$config}>
-			<!-- <svelte:fragment slot="footer">df</svelte:fragment> -->
-		</ConnectModal></button
-	>
-	<!-- 
-	{#if connected}
-		<AccountDialog config={$config}></AccountDialog>
-	{/if} -->
-</main>
 
 <style>
 	div {
@@ -70,6 +71,7 @@
 		font-weight: 300;
 		font-family: system-serif, cursive, 'Times New Roman', Times, serif;
 		margin: 0;
+		color: var(--text-color);
 	}
 	p {
 		opacity: 0.7;
@@ -115,6 +117,7 @@
 		user-select: none;
 		-webkit-user-select: none;
 		touch-action: manipulation;
+		transition: all 200ms ease-in-out;
 	}
 
 	.button-85:before {
@@ -166,10 +169,10 @@
 		top: 0;
 		border-radius: 100px;
 	}
-	.trigger {
+	/* 	.trigger {
 		box-sizing: border-box;
 		border: none;
 		padding: 1em 2em;
 		font-weight: 600;
-	}
+	} */
 </style>
