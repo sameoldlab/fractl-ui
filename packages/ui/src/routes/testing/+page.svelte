@@ -1,7 +1,7 @@
 <!-- <svelte:options tag="my-app" /> -->
 <script lang="ts">
 	import config from '$lib/wagmiConfig'
-	import { ConnectModal, AccountDialog, AccountModal } from '$lib/components'
+	import { ConnectModal, AccountModal } from '$lib/components'
 	import { onMount } from 'svelte'
 	import { reconnect } from '@wagmi/core'
 
@@ -11,9 +11,6 @@
 	onMount(async () => {
 		reconnect($config, { connectors: $config.connectors })
 	})
-
-	let dialogElem: HTMLDialogElement
-	let showModal = false
 </script>
 
 <main>
@@ -26,7 +23,7 @@
 
 	<div class="wagmi">
 		{#if connected}
-			<AccountModal config={$config} />
+			<AccountModal {config} />
 		{:else}
 			<ConnectModal config={$config}>
 				<svelte:fragment slot="footer"></svelte:fragment>
@@ -46,8 +43,6 @@
 			}}>close</button
 		>
 	</dialog> -->
-
-	<!-- Might be better to do this in a library package??? https://kit.svelte.dev/docs/packaging. Yes, yes it was-->
 </main>
 
 <style>

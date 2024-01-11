@@ -5,11 +5,19 @@
 	import Modal from './Common/Modal.svelte'
 	import { fly } from 'svelte/transition'
 	import { quadInOut } from 'svelte/easing'
+	import type { Readable } from 'svelte/store'
+	import Zorb from './zorb/Zorb.svelte'
 
-	export let config: Config
+	export let config: Readable<Config>
 
-	const { account, balance, nameService } = accountStore
+	const { account, balance, nameService, unsubscribe } = accountStore(config)
 	const { connector, address } = $account
+	let name, avatar
+
+	$nameService.then((v) => {
+		if (v.name) name = v.name
+		if (v.avatar) avatar = v.avatar
+	})
 
 	/* 	const { address, ensAvatar, ensName, balance } = {
 		address: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',
@@ -22,11 +30,11 @@
 			symbol: 'ETH'
 		}
 	} */
-
 	let open
 	let triggerEl: HTMLButtonElement
 	const handleDisconnect = (connector) => {
-		disconnect(config, {
+		unsubscribe()
+		disconnect($config, {
 			connector
 		})
 	}
@@ -36,16 +44,17 @@
 	aria-haspopup="dialog"
 	data-melt-dialog-trigger=""
 	aria-expanded={$open ? 'true' : 'false'}
-	class="account-data"
+	class="account-trigger"
 	bind:this={triggerEl}
 	on:click={() => open.set(true)}
 >
-	{#await $nameService}
-		<p class="address">{truncate(address)}</p>
-	{:then { avatar, name }}
+	{#if avatar}
 		<img class="avatar" src={avatar} alt="" />
-		{name || truncate(address)}
-	{/await}
+	{:else}
+		<Zorb {address} />
+	{/if}
+
+	<p class="address">{name || truncate(address)}</p>
 </button>
 
 <Modal
@@ -58,13 +67,12 @@
 >
 	<!-- header>div*2+div.balance+hr+div>div.header -->
 	<div class="main">
-		{#await $nameService}
-			<img class="avatar" alt="" />
-			<p class="address">{truncate(address)}</p>
-		{:then { avatar, name }}
+		{#if avatar}
 			<img class="avatar" src={avatar} alt="" />
-			<p class="address">{name || truncate(address)}</p>
-		{/await}
+		{:else}
+			<Zorb {address} />
+		{/if}
+		<p class="address">{name || truncate(address)}</p>
 
 		{#await $balance then { formatted }}
 			<p class="balance">{formatted.substring(0, 10)}</p>
@@ -73,7 +81,7 @@
 			<!-- <button on:click>icon</button> -->
 			<!-- <button on:click>icon</button> -->
 			<!-- </header> -->
-			<button on:click={handleDisconnect}> Switch</button>
+			<button on:click={handleDisconnect} disabled> Switch</button>
 			<button on:click={() => handleDisconnect(connector)}> Disconnect</button>
 		</div>
 	</div>
@@ -83,22 +91,24 @@
 
 <style>
 	.avatar {
-		height: auto;
 		border-radius: 50%;
 	}
-	.account-data {
+	.account-trigger {
 		display: flex;
 		align-items: center;
 		gap: 1em;
-		height: 3em;
+		height: 100%;
+
+		transition: all 1ms ease-in-out;
 
 		& .avatar {
 			width: 2em;
+			height: 2em;
 		}
 	}
 	.row {
 		display: flex;
-
+		gap: 1em;
 		flex-direction: row;
 	}
 	p {

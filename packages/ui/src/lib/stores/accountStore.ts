@@ -1,4 +1,3 @@
-import config from '$lib/wagmiConfig'
 import { derived } from 'svelte/store'
 import { getEnsName, getEnsAvatar, getBalance } from '@wagmi/core'
 import { getAccount, type Config } from '@wagmi/core'
@@ -6,9 +5,9 @@ import type { Readable } from 'svelte/motion'
 
 export const createAccountStore = (
 	config: Readable<Config>,
-	resolver = 'ENS'
+	{ resolver } = { resolver: 'ENS' }
 ) => {
-	config.subscribe(($conf) => {
+	const unsubscribe = config.subscribe(($conf) => {
 		if ($conf.state.status !== 'connected') {
 			console.error('not connected')
 			return {
@@ -19,6 +18,7 @@ export const createAccountStore = (
 			}
 		}
 	})
+
 	const account = derived(config, ($conf) => {
 		const account = getAccount($conf)
 		if (!account.isConnected) throw Error('account is not connected')
@@ -58,7 +58,8 @@ export const createAccountStore = (
 	return {
 		account,
 		balance,
-		nameService
+		nameService,
+		unsubscribe
 	}
 }
-export default createAccountStore(config)
+export default createAccountStore
