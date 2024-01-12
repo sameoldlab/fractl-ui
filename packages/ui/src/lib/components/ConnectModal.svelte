@@ -16,10 +16,10 @@
 	// export let accountStatus: string
 	// export let chainStatus
 	// export let showBalance: string
-	$: if (config.state.status === 'connected') $open = false
+	const open = writable(false)
 
+	$: if (config.state.status === 'connected') $open = false
 	// export let customTrigger = false
-	export let open = writable(false)
 
 	let activeRequest: null | Connector = null //config.connectors[0]
 	$: title = !activeRequest ? 'Connect Wallet' : `${activeRequest.name}`
@@ -38,7 +38,7 @@
 
 	let triggerEl: HTMLButtonElement
 	const handleTrigger = () => {
-		open.set(true)
+		$open = true
 	}
 	const clearRequest = () => (activeRequest = null)
 </script>
@@ -57,7 +57,7 @@
 	titleText={title}
 	role="alertdialog"
 	focusTarget={triggerEl}
-	bind:open
+	{open}
 	on:close={clearRequest}
 	transition={(e) =>
 		fly(e, { duration: 100, y: 40, opacity: 0, easing: quadInOut })}

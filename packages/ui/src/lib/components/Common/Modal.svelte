@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte'
-	import { type TransitionConfig } from 'svelte/transition'
 	import { createDialog } from '@melt-ui/svelte'
+	import type { TransitionConfig } from 'svelte/transition'
+	import type { Writable } from 'svelte/store'
 
 	export let transition: (node: HTMLElement) => TransitionConfig
 	const dispatch = createEventDispatcher()
@@ -9,6 +10,7 @@
 	// export let triggerText = 'Trigger Text'
 	export let role: 'dialog' | 'alertdialog' = 'dialog'
 	export let focusTarget: string | HTMLElement | SVGElement | null
+	export let open: Writable<boolean>
 
 	const {
 		elements: {
@@ -18,8 +20,7 @@
 			content,
 			title,
 			close
-		},
-		states
+		}
 	} = createDialog({
 		role,
 		onOpenChange: ({ next }) => {
@@ -27,10 +28,9 @@
 			dispatch('close')
 			return next
 		},
-		closeFocus:
-			focusTarget || ((defaultEl?: HTMLElement) => defaultEl || focusTarget)
+		closeFocus: focusTarget,
+		open
 	})
-	export const open = states.open
 	// let customTrigger
 </script>
 

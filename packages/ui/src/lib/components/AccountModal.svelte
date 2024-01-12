@@ -6,6 +6,7 @@
 	import { fly } from 'svelte/transition'
 	import { quadInOut } from 'svelte/easing'
 	import type { Readable } from 'svelte/store'
+	import { writable, type Readable } from 'svelte/store'
 	import Zorb from './zorb/Zorb.svelte'
 
 	export let config: Readable<Config>
@@ -30,7 +31,7 @@
 			symbol: 'ETH'
 		}
 	} */
-	let open
+	const open = writable(false)
 	let triggerEl: HTMLButtonElement
 	const handleDisconnect = (connector) => {
 		unsubscribe()
@@ -46,7 +47,7 @@
 	aria-expanded={$open ? 'true' : 'false'}
 	class="account-trigger"
 	bind:this={triggerEl}
-	on:click={() => open.set(true)}
+	on:click={() => ($open = true)}
 >
 	{#if avatar}
 		<img class="avatar" src={avatar} alt="" />
@@ -61,7 +62,7 @@
 	titleText="Connected"
 	role="dialog"
 	focusTarget={triggerEl}
-	bind:open
+	{open}
 	transition={(e) =>
 		fly(e, { duration: 100, y: 40, opacity: 0, easing: quadInOut })}
 >
