@@ -7,19 +7,8 @@ export const createAccountStore = (
 	config: Readable<Config>,
 	{ resolver } = { resolver: 'ENS' }
 ) => {
-	const unsubscribe = config.subscribe(($conf) => {
-		if ($conf.state.status !== 'connected') {
-			console.error('not connected')
-			return {
-				account: undefined,
-				ensName: undefined,
-				ensAvatar: undefined,
-				balance: undefined
-			}
-		}
-	})
-
 	const account = derived(config, ($conf) => {
+		if ($conf.state.status !== 'connected') return undefined
 		const account = getAccount($conf)
 		if (!account.isConnected) throw Error('account is not connected')
 		return account
@@ -28,13 +17,15 @@ export const createAccountStore = (
 	const balance = derived(
 		[config, account],
 		async ([$conf, $acc]) =>
-			await getBalance($conf, {
+			$acc &&
+			(await getBalance($conf, {
 				address: $acc.address
-			})
+			}))
 	)
 
 	const nameService = derived([config, account], async ([$conf, $acc]) => {
 		let name: string | undefined, avatar: string | undefined
+		if (!$acc) return { name, avatar }
 
 		if (resolver === 'ENS') {
 			name = await getEnsName($conf, {
@@ -58,8 +49,7 @@ export const createAccountStore = (
 	return {
 		account,
 		balance,
-		nameService,
-		unsubscribe
+		nameService
 	}
 }
 export default createAccountStore

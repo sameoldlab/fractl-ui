@@ -5,20 +5,20 @@
 	import Modal from './Common/Modal.svelte'
 	import { fly } from 'svelte/transition'
 	import { quadInOut } from 'svelte/easing'
-	import type { Readable } from 'svelte/store'
 	import { writable, type Readable } from 'svelte/store'
 	import Zorb from './zorb/Zorb.svelte'
 
 	export let config: Readable<Config>
 
-	const { account, balance, nameService, unsubscribe } = accountStore(config)
+	const { account, balance: balanceStore, nameService } = accountStore(config)
 	const { connector, address } = $account
-	let name, avatar
+	let name, avatar, balance
 
 	$nameService.then((v) => {
 		if (v.name) name = v.name
 		if (v.avatar) avatar = v.avatar
 	})
+	$balanceStore.then((v) => (balance = v.formatted))
 
 	/* 	const { address, ensAvatar, ensName, balance } = {
 		address: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',
@@ -33,11 +33,8 @@
 	} */
 	const open = writable(false)
 	let triggerEl: HTMLButtonElement
-	const handleDisconnect = (connector) => {
-		unsubscribe()
-		disconnect($config, {
-			connector
-		})
+	const handleDisconnect = async (connector) => {
+		await disconnect($config, { connector })
 	}
 </script>
 
@@ -75,9 +72,7 @@
 		{/if}
 		<p class="address">{name || truncate(address)}</p>
 
-		{#await $balance then { formatted }}
-			<p class="balance">{formatted.substring(0, 10)}</p>
-		{/await}
+		<p class="balance">{balance?.substring(0, 10) || 0}</p>
 		<div class="row">
 			<!-- <button on:click>icon</button> -->
 			<!-- <button on:click>icon</button> -->
