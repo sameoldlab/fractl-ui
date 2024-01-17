@@ -1,17 +1,25 @@
 import { http, createConfig, createStorage } from '@wagmi/core'
-// import { injected, walletConnect, mock } from 'wagmi/connectors'
+import { mock, walletConnect } from '$lib/connectors'
 import { readable } from 'svelte/store'
 import { mainnet, arbitrum } from '@wagmi/core/chains'
 
 const storage = createStorage({ storage: localStorage })
 const _config = createConfig({
 	chains: [mainnet, arbitrum],
-	// storage,
+	storage,
 	transports: {
 		[mainnet.id]: http(),
 		[arbitrum.id]: http()
 	},
-	// connectors: [injected()],
+	connectors: [
+		mock({
+			accounts: ['0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045']
+		}),
+		walletConnect({
+			projectId: import.meta.env.VITE_WALLETCONNECT_PROJECT_ID,
+			showQrModal: false
+		})
+	]
 })
 const config = readable(_config, (set) => {
 	_config.subscribe(

@@ -44,7 +44,10 @@
 		"@sveltejs/enhanced-img": "^0.1.7",
 		"@sveltejs/kit": "^2.0.4",
 		"@sveltejs/package": "^2.0.0",
+		"@types/qrcode": "^1.5.5",
+		"@walletconnect/ethereum-provider": "^2.11.0",
 		"publint": "^0.2.7",
+		"qrcode": "^1.5.3",
 		"vite": "^5.0.10"
 	},
 	"svelte": "./dist/index.js",
