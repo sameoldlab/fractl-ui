@@ -30,7 +30,7 @@ export type MockParameters = {
 				signMessageError?: boolean | Error | undefined
 				signTypedDataError?: boolean | Error | undefined
 				reconnect?: boolean | undefined
-			}
+		  }
 		| undefined
 }
 
@@ -46,7 +46,7 @@ export function mock(parameters: MockParameters) {
 
 	return createConnector<Provider>((config) => ({
 		id: 'mock',
-		name: 'Mock Connector',
+		name: 'Demo Wallet',
 		type: mock.type,
 		async setup() {
 			connectedChainId = config.chains[0].id

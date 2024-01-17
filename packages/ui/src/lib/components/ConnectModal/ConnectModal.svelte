@@ -1,14 +1,14 @@
 <script lang="ts">
 	import copyEN from '$lib/copy/copy.EN'
 	import { connect, type Config, type Connector, reconnect } from '@wagmi/core'
-
-	import Modal from './Common/Modal.svelte'
+	import Modal from '../Common/Modal.svelte'
 	import { fly } from 'svelte/transition'
 	import { quadInOut } from 'svelte/easing'
 	import { writable } from 'svelte/store'
+	import Scannable from './Scannable.svelte'
 
 	export let config: Config
-	export let demo = true
+	// export let demo = true
 	export const triggerText = 'Connect Wallet'
 	// export let showModal: boolean
 
@@ -25,14 +25,15 @@
 	$: title = !activeRequest ? 'Connect Wallet' : `${activeRequest.name}`
 
 	const handleConnect = async (connector: Connector) => {
+		await reconnect(config, { connectors: [connector] })
+
 		try {
-			await reconnect(config, { connectors: [connector] })
 			connect(config, { connector })
 			activeRequest = connector
 		} catch (error) {
 			console.info('caught: ', error)
 		}
-		config = config
+
 		console.log('config.state: ', config.state)
 	}
 
@@ -84,81 +85,49 @@
 
 	<div class="main">
 		{#if activeRequest}
-			<div class="active-request">
-				<svg
-					class:hide={config.state.status !== 'connecting'}
-					class="spin"
-					width="108"
-					height="108"
-					viewBox="0 0 100 100"
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg"
-				>
-					<path
-						d="M98 50C98 23.4903 76.5097 2 50 2"
-						stroke="url(#a)"
-						stroke-width="4"
-						stroke-linecap="round"
-					/>
-					<defs>
-						<radialGradient
-							id="radial"
-							cx="0"
-							cy="0"
-							r="1"
-							gradientUnits="userSpaceOnUse"
-							gradientTransform="translate(100 50) rotate(-90) scale(47 47)"
-						>
-							<stop stop-color="currentColor" />
-							<stop offset="1" stop-color="currentColor" stop-opacity="0" />
-						</radialGradient>
-						<linearGradient
-							x1="8.042%"
-							y1="0%"
-							x2="65.682%"
-							y2="23.865%"
-							id="a"
-						>
-							<stop stop-color="currentColor" stop-opacity="0" offset="0%" />
-							<stop
-								stop-color="currentColor"
-								stop-opacity=".631"
-								offset="63.146%"
-							/>
-							<stop stop-color="currentColor" offset="100%" />
-						</linearGradient>
-					</defs>
-				</svg>
+			{#if activeRequest.type === 'injected'}
+				<!-- <Injected connector={activeRequest}></Injected> -->
+				<div class="active-request">
+					<!-- prettier-ignore -->
+					<svg class:hide={config.state.status !== 'connecting'} class="spin" width="108" height="108" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" > 
+						<path d="M98 50C98 23.4903 76.5097 2 50 2" stroke="url(#a)" stroke-width="4" stroke-linecap="round" /> 
+						<defs> 
+							<radialGradient id="radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(100 50) rotate(-90) scale(47 47)" > <stop stop-color="currentColor" /> <stop offset="1" stop-color="currentColor" stop-opacity="0" /> </radialGradient> 
+							<linearGradient x1="8.042%" y1="0%" x2="65.682%" y2="23.865%" id="a" > <stop stop-color="currentColor" stop-opacity="0" offset="0%" /> <stop stop-color="currentColor" stop-opacity=".631" offset="63.146%" /> <stop stop-color="currentColor" offset="100%" /> </linearGradient>
+						 </defs> 
+					</svg>
+					<img class="logo" src={activeRequest.icon} alt={activeRequest.name} />
+				</div>
 
-				<img class="logo" src={activeRequest.icon} alt={activeRequest.name} />
-			</div>
-
-			{#if config.state.status === 'connecting'}
-				<h3 class="heading">Requesting Connection</h3>
-				<p class="subhead">
-					{copyEN(activeRequest.name).connecting[activeRequest.type]}
-				</p>
-			{:else}
-				<h3 class="heading error">Connection Declined</h3>
-				<p class="subhead">
-					{copyEN(activeRequest.name).rejected[activeRequest.type]}
-				</p>
-				<button on:click={() => handleConnect(activeRequest)}>Retry</button>
+				{#if config.state.status === 'connecting'}
+					<h3 class="heading">Requesting Connection</h3>
+					<p class="subhead">
+						{copyEN(activeRequest.name).connecting[activeRequest.type]}
+					</p>
+				{:else}
+					<h3 class="heading error">Connection Declined</h3>
+					<p class="subhead">
+						{copyEN(activeRequest.name).rejected[activeRequest.type]}
+					</p>
+					<button on:click={() => handleConnect(activeRequest)}>Retry</button>
+				{/if}
+			{:else if activeRequest.type === 'walletConnect'}
+				<Scannable connector={activeRequest} />
 			{/if}
 		{:else}
-			{#each config.connectors as connector}
+			{#each config.connectors.toReversed() as connector}
 				<button
 					on:click={() => handleConnect(connector)}
 					data-uid={connector.uid}
-					class="connector connector-dark"
+					class="connector connector-dark {connector.type}"
 				>
 					{connector.name}
-					<img class="logo" src={connector.icon} alt={connector.name} />
+					<!-- {connector.type} -->
+					{#if connector.icon}
+						<img class="logo" src={connector.icon} alt={connector.name} />
+					{/if}
 				</button>
 			{/each}
-			{#if demo}
-				<button class="connector connector-mock"> Demo Mode </button>
-			{/if}
 
 			<slot name="footer" />
 		{/if}
@@ -209,6 +178,7 @@
 		}
 	}
 	.logo {
+		/* Can't make this modiffiable unless I change the spinner's path */
 		border-radius: 50%;
 	}
 
@@ -275,7 +245,7 @@
 		background-color: #2f3139;
 	}
 
-	.connector-mock {
+	.connector.mock {
 		background: hsla(76, 20%, 15%, 1);
 		color: hsla(73, 86%, 68%, 1);
 	}
