@@ -22,6 +22,11 @@
 	},
 	"keywords": [],
 	"license": "MIT",
+	"homepage": "https://fractl.click/",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/sameoldlab/fractl-ui.git"
+	},
 	"devDependencies": {
 		"@sveltejs/vite-plugin-svelte": "^3.0.1",
 		"@tsconfig/svelte": "^5.0.2",

@@ -7,6 +7,11 @@
 	"license": "MIT",
 	"type": "module",
 	"main": "./dist/index.js",
+	"homepage": "https://fractl.click/",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/sameoldlab/fractl-ui.git"
+	},
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
