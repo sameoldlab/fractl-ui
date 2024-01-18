@@ -2,6 +2,7 @@ import { derived } from 'svelte/store'
 import { getEnsName, getEnsAvatar, getBalance } from '@wagmi/core'
 import { getAccount, type Config } from '@wagmi/core'
 import type { Readable } from 'svelte/motion'
+import { formatUnits } from 'viem'
 
 export const createAccountStore = (
 	config: Readable<Config>,
@@ -14,14 +15,20 @@ export const createAccountStore = (
 		return account
 	})
 
-	const balance = derived(
-		[config, account],
-		async ([$conf, $acc]) =>
-			$acc &&
-			(await getBalance($conf, {
-				address: $acc.address
-			}))
-	)
+	const balance = derived([config, account], async ([$conf, $acc]) => {
+		if (!$acc) return
+
+		const _balance = await getBalance($conf, {
+			address: $acc.address
+		})
+
+		/* Feels cursed... */
+		const balance = {
+			formatted: formatUnits(_balance.value, _balance.decimals),
+			..._balance
+		}
+		return balance
+	})
 
 	const nameService = derived([config, account], async ([$conf, $acc]) => {
 		let name: string | undefined, avatar: string | undefined
