@@ -1,6 +1,6 @@
 <!-- <svelte:options tag="my-app" /> -->
 <script lang="ts">
-	import config from '$lib/wagmiConfig'
+	import config from '../../wagmiConfig'
 	import { ConnectModal, AccountModal } from '$lib/components'
 	import { onMount } from 'svelte'
 	import { reconnect } from '@wagmi/core'

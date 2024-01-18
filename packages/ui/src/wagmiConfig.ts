@@ -16,6 +16,13 @@ const _config = createConfig({
 			accounts: ['0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045']
 		}),
 		walletConnect({
+			metadata: {
+				name: 'Fractl',
+				url: 'https://fractl.click',
+				verifyUrl: 'https://fractl.click',
+				icons: ['./_app/immutable/assets/fractl.I45eptSj.svg'],
+				description: 'dapp UI Library'
+			},
 			projectId: import.meta.env.VITE_WALLETCONNECT_PROJECT_ID,
 			showQrModal: false
 		})

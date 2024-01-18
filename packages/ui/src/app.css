@@ -1,4 +1,4 @@
-* {
+:root {
 	--dialog-radius: 1em;
 	--text-color: white;
 	font-family: 'Inter', system-ui, sans-serif;
