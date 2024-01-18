@@ -23,7 +23,7 @@ const _config = createConfig({
 				icons: ['./_app/immutable/assets/fractl.I45eptSj.svg'],
 				description: 'dapp UI Library'
 			},
-			projectId: import.meta.env.VITE_WALLETCONNECT_PROJECT_ID,
+			projectId: '3baa16893e7c0a8e95029e58bed8768c',
 			showQrModal: false
 		})
 	]
