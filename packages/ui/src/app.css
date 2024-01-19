@@ -1,7 +1,6 @@
 :root {
 	--dialog-radius: 1em;
-	--text-color: white;
-	font-family: 'Inter', system-ui, sans-serif;
+	--fcl-text-color: white;
 }
 
 button {
@@ -13,7 +12,7 @@ button {
 button[data-melt-dialog-trigger] {
 	border: none;
 	background: transparent;
-	color: var(--text-color);
+	color: var(--fcl-text-color);
 	width: full;
 	box-sizing: border-box;
 	border: none;

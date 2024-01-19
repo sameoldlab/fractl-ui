@@ -1,11 +1,13 @@
 <script lang="ts">
 	import copyEN from '$lib/copy/copy.EN'
-	import { connect, type Config, type Connector, reconnect } from '@wagmi/core'
 	import Modal from '../Common/Modal.svelte'
-	import { fly } from 'svelte/transition'
-	import { quadInOut } from 'svelte/easing'
-	import { writable } from 'svelte/store'
 	import Scannable from './Scannable.svelte'
+
+	import { fly } from 'svelte/transition'
+	import { writable } from 'svelte/store'
+	import { quadInOut } from 'svelte/easing'
+	import { connect, reconnect } from '@wagmi/core'
+	import type { Config, Connector } from '@wagmi/core'
 
 	export let config: Config
 	// export let demo = true
@@ -21,7 +23,7 @@
 	$: if (config.state.status === 'connected') $open = false
 	// export let customTrigger = false
 
-	let activeRequest: null | Connector = null //config.connectors[0]
+	let activeRequest: null | Connector = null //config.connectors[3]
 	$: title = !activeRequest ? 'Connect Wallet' : `${activeRequest.name}`
 
 	const handleConnect = async (connector: Connector) => {
@@ -83,11 +85,11 @@
 		</svg>
 	</button>
 
-	<div class="main">
+	<div class="fcl__layout-1col">
 		{#if activeRequest}
 			{#if activeRequest.type === 'injected'}
 				<!-- <Injected connector={activeRequest}></Injected> -->
-				<div class="active-request">
+				<div class="fcl__graphic-primary">
 					<!-- prettier-ignore -->
 					<svg class:hide={config.state.status !== 'connecting'} class="spin" width="108" height="108" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" > 
 						<path d="M98 50C98 23.4903 76.5097 2 50 2" stroke="url(#a)" stroke-width="4" stroke-linecap="round" /> 
@@ -96,38 +98,51 @@
 							<linearGradient x1="8.042%" y1="0%" x2="65.682%" y2="23.865%" id="a" > <stop stop-color="currentColor" stop-opacity="0" offset="0%" /> <stop stop-color="currentColor" stop-opacity=".631" offset="63.146%" /> <stop stop-color="currentColor" offset="100%" /> </linearGradient>
 						 </defs> 
 					</svg>
-					<img class="logo" src={activeRequest.icon} alt={activeRequest.name} />
+					<img
+						class="fcl_graphic-icon rounded"
+						src={activeRequest.icon}
+						alt={activeRequest.name}
+					/>
 				</div>
 
 				{#if config.state.status === 'connecting'}
-					<h3 class="heading">Requesting Connection</h3>
-					<p class="subhead">
+					<h3 class="fcl__text-primary">Requesting Connection</h3>
+					<p class="fcl__subhead">
 						{copyEN(activeRequest.name).connecting[activeRequest.type]}
 					</p>
 				{:else}
-					<h3 class="heading error">Connection Declined</h3>
-					<p class="subhead">
+					<h3 class="fcl__text-primary error">Connection Declined</h3>
+					<p class="fcl__subhead">
 						{copyEN(activeRequest.name).rejected[activeRequest.type]}
 					</p>
-					<button on:click={() => handleConnect(activeRequest)}>Retry</button>
+					<button
+						on:click={() => handleConnect(activeRequest)}
+						class="fcl__btn-primary justify-center">Retry</button
+					>
 				{/if}
 			{:else if activeRequest.type === 'walletConnect'}
 				<Scannable connector={activeRequest} />
 			{/if}
 		{:else}
-			{#each config.connectors.toReversed() as connector}
-				<button
-					on:click={() => handleConnect(connector)}
-					data-uid={connector.uid}
-					class="connector connector-dark {connector.type}"
-				>
-					{connector.name}
-					<!-- {connector.type} -->
-					{#if connector.icon}
-						<img class="logo" src={connector.icon} alt={connector.name} />
-					{/if}
-				</button>
-			{/each}
+			<div class="connectors">
+				{#each config.connectors.toReversed() as connector}
+					<button
+						on:click={() => handleConnect(connector)}
+						data-uid={connector.uid}
+						class="fcl__btn-primary connector justify-between {connector.type}"
+					>
+						{connector.name}
+						<!-- {connector.type} -->
+						{#if connector.icon}
+							<img
+								class="logo rounded"
+								src={connector.icon}
+								alt={connector.name}
+							/>
+						{/if}
+					</button>
+				{/each}
+			</div>
 
 			<slot name="footer" />
 		{/if}
@@ -135,60 +150,10 @@
 </Modal>
 
 <style>
-	.main:has(.active-request) {
-		display: grid;
-		justify-items: center;
-	}
-
-	.main {
-		color: var(--text-color, #e9e9e9);
-
-		& .heading {
-			font-size: 1em;
-			font-weight: 700;
-			margin-block: 0.5em;
-			/* margin: 0; */
-		}
-		& .subhead {
-			opacity: 0.7;
-			font-size: 0.9em;
-			font-weight: 500;
-			text-align: center;
-			margin: 0;
-			margin-bottom: 1.75em;
-		}
-	}
-	.active-request {
-		display: grid;
-		height: 5.75em;
-		width: 100%;
-		grid-area: 1 / 1;
-		margin-bottom: 1.5em;
-		align-items: center;
-		justify-content: center;
-
-		& * {
-			grid-area: 1 / 1;
-		}
-
-		& .logo {
-			margin: auto;
-			border-radius: 50%;
-			transform: scale(0.95);
-		}
-	}
-	.logo {
-		/* Can't make this modiffiable unless I change the spinner's path */
-		border-radius: 50%;
-	}
-
 	.hide {
 		display: none;
 		opacity: 0;
-	}
-
-	.error {
-		color: oklch(80% 0.16 8);
+		/* transition: opacity 150ms 1s ease-in; */
 	}
 
 	.spin {
@@ -203,48 +168,11 @@
 		}
 	}
 
-	.connector {
-		box-sizing: border-box;
-		cursor: pointer;
+	.connectors {
+		display: grid;
 		width: 100%;
-		display: flex;
-		/* flex-direction: row; */
-		justify-content: space-between;
-		align-items: center;
-
-		margin-block: 0.5em;
-		border: none;
-		padding: 1em 1.25em;
-
-		align-self: stretch;
-		border-radius: 16px;
-
-		font-size: 1em;
-		font-weight: 600;
-		transition: all 0.125s ease;
-
-		& .logo {
-			width: auto;
-			height: 1.75em;
-			/* height: 2em; */
-		}
-		/* padding: 1.5em 1em; */
+		gap: 0.5em;
 	}
-
-	.connector-dark {
-		background-color: #222429;
-		color: #f1f1f1;
-	}
-	.connector-dark:hover {
-		background-color: #2f3139;
-	}
-	.connector:active {
-		scale: 99%;
-	}
-	.connector-dark:active {
-		background-color: #2f3139;
-	}
-
 	.connector.mock {
 		background: hsla(76, 20%, 15%, 1);
 		color: hsla(73, 86%, 68%, 1);

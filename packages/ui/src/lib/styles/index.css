@@ -1,0 +1,343 @@
+/* Mirroring from https://docs.family.co/connectkit/theming#theme-variables-variables */
+:root {
+	/* Primary button  */
+	--fcl-primary-btn-font-size: 1em;
+	--fcl-primary-btn-border-radius: 0.5em;
+	--fcl-primary-btn-color: green;
+	--fcl-primary-btn-background: red;
+	--fcl-primary-btn-box-shadow: ;
+	--fcl-primary-btn-hover-color: orange;
+	--fcl-primary-btn-hover-background: ;
+	--fcl-primary-btn-hover-box-shadow: ;
+	--fcl-primary-btn-active-color: blue;
+	--fcl-primary-btn-active-background: ;
+	--fcl-primary-btn-active-box-shadow: ;
+
+	/* Secondary button  */
+	--fcl-secondary-btn-font-size: 1em;
+	--fcl-secondary-btn-border-radius: 0.5em;
+	--fcl-secondary-btn-color: green;
+	--fcl-secondary-btn-background: red;
+	--fcl-secondary-btn-box-shadow: ;
+	--fcl-secondary-btn-hover-color: orange;
+	--fcl-secondary-btn-hover-background: ;
+	--fcl-secondary-btn-hover-box-shadow: ;
+	--fcl-secondary-btn-active-color: blue;
+	--fcl-secondary-btn-active-background: ;
+	--fcl-secondary-btn-active-box-shadow: ;
+
+	/* Text Variables */
+	/* --fcl-font-family: cursive; */
+	/* --fcl-modal-heading-font-weight: 600; */
+	/* --fcl-text-color: ; */
+	/* --fcl-text-color: white; */
+	--fcl-text-color-muted: ;
+	--fcl-text-color-muted-hover: ;
+	--fcl-text-color-danger: ;
+	--fcl-text-color-valid: ;
+
+	/* Miscallenuous Variables */
+	--fcl-focus-color: tomato;
+	--fcl-body-action-color: ;
+	--fcl-body-divider: ;
+	--fcl-qr-dot-color: ;
+	--fcl-qr-border-color: ;
+	--fcl-qr-border-radius: ;
+	--fcl-tooltip-color: ;
+	--fcl-tooltip-background: ;
+	--fcl-tooltip-background-secondary: ;
+	--fcl-tooltip-shadow: ;
+	--fcl-spinner-color: ;
+
+	--dialog-radius: 1em;
+}
+/* @import url('./index.css'); */
+
+[data-melt-dialog-portalled] {
+	/* Modal Variables */
+	/* --fcl-overlay-background: ; */
+	/* --fcl-overlay-backdrop-filter: ; */
+	--fcl-modal-box-shadow: ;
+	/* --fcl-border-radius: ; */
+	/* --fcl-body-background: ; */
+	--fcl-body-background-transparent: ;
+	--fcl-body-background-secondary: ;
+	--fcl-body-background-secondary-hover-background: ;
+	--fcl-body-background-secondary-hover-outline: ;
+	--fcl-body-background-tertiary: ;
+	color: var(--fcl-text-color, #f1f1f1);
+}
+/* =============== */
+/* Button Classes */
+/* =============== */
+button[data-melt-dialog-trigger] {
+	box-sizing: border-box;
+	border: none;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 0.75em; /* Likely to target avatars, chain logos, token logos, or additional text */
+
+	color: var(--fcl-text-color, #f1f1f1);
+	background: transparent;
+	width: full;
+	padding: 1em 2em;
+	font-weight: 600;
+	border-radius: 16px;
+	font-family: var(
+		--fcl-font-family,
+		Inter,
+		'Helvetica Neue',
+		'Arial Nova',
+		system-ui,
+		-apple-system,
+		BlinkMacSystemFont,
+		Oxygen,
+		Ubuntu,
+		Cantarell,
+		'Open Sans',
+		sans-serif
+	);
+}
+
+button.fcl__btn-primary {
+	cursor: pointer;
+	min-width: 0;
+	box-sizing: border-box;
+	cursor: pointer;
+	width: 100%;
+	display: flex;
+	gap: 0.25em; /* for svg icons*/
+	align-items: center;
+
+	font-size: 0.9em;
+	font-weight: 600;
+	transition: background-color 100ms ease-in-out;
+
+	border: none;
+	padding: 1em 1.25em;
+	border-radius: 0.75em; /* wrong radius */
+	background-color: #222429;
+	color: #f1f1f1;
+
+	&:hover {
+		background-color: #2f3139;
+	}
+
+	&:active {
+		scale: 99%;
+		background-color: #2f3139;
+	}
+}
+/* 	Make a butoon icon class if this gets more complex */
+button[data-melt-dialog-trigger] img,
+button[data-melt-dialog-trigger] svg,
+button.fcl__btn-primary img,
+button.fcl__btn-primary svg,
+.fcl__btn-icon {
+	width: 2em;
+	/* margin-inline: .5em; */
+}
+/*	
+	Styles button as regular text. 
+	Keep specificity at 0,1,0 to allow
+	overides from additonal styles 
+*/
+.fcl__btn-text {
+	background: transparent;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	color: inherit;
+	font-size: 1em;
+}
+/* =============== */
+/* Dialog Classes */
+/* =============== */
+[data-melt-dialog-overlay] {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	z-index: 900;
+
+	background: var(--fcl-overlay-background, black);
+	filter: var(--fcl-overlay-backdrop-filter, opacity(0.5));
+}
+
+[data-melt-dialog-content] {
+	display: block;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 901;
+
+	min-width: 200px;
+	max-width: 20ch;
+	padding: 30px;
+	border: 1px solid #343939;
+	background: var(--fcl-body-background, #141519);
+	font-family: var(
+		--fcl-font-family,
+		Inter,
+		'Helvetica Neue',
+		'Arial Nova',
+		system-ui,
+		-apple-system,
+		BlinkMacSystemFont,
+		Oxygen,
+		Ubuntu,
+		Cantarell,
+		'Open Sans',
+		sans-serif
+	);
+	border-radius: var(--fcl-border-radius, 1em);
+
+	/* Targetting Dialog Head Slot */
+	& header {
+		display: grid;
+		grid-template-columns: 30px [title-start] 1fr [title-end] 30px;
+		align-items: center;
+		padding-bottom: 1em;
+
+		& h2 {
+			margin: 0;
+			grid-column: title;
+			text-align: center;
+			font-size: var(--fcl-modal-heading-font-size, 1em);
+			font-weight: var(--fcl-modal-heading-font-weight, 600);
+		}
+	}
+}
+
+/* =============== */
+/* Text Classes */
+/* =============== */
+.fcl__text-primary {
+	font-size: 1em;
+	font-weight: 700;
+	margin-block: 0.5em;
+	/* margin: 0; */
+}
+
+.fcl__subhead {
+	opacity: 0.7;
+	font-size: 0.9em;
+	font-weight: 500;
+	text-align: center;
+	margin: 0;
+	margin-bottom: 1.25em;
+	text-wrap: pretty;
+}
+
+/* =============== */
+/* Layout Classes */
+/* =============== */
+
+.fcl__layout-3col {
+	display: grid;
+	grid-template-columns: [full-start] 30px [main-start] 1fr [main-end] 30px[full-end];
+	justify-content: space-around;
+	justify-items: center;
+
+	& > * {
+		grid-column: main;
+	}
+
+	& > .fcl__3col-full {
+		width: 100%;
+		grid-column: full;
+	}
+}
+
+.fcl__layout-1col {
+	width: 100%;
+	display: grid;
+	/* grid-template-columns: 1fr; */
+	justify-items: center;
+}
+
+/* Something here feels messy. need to check on mobile */
+.fcl__layout-3col .fcl__graphic-primary,
+.fcl__layout-1col .fcl__graphic-primary {
+	grid-column: main;
+
+	display: grid;
+	grid-template-areas: 1/1;
+	align-items: center;
+	justify-content: center;
+
+	width: 5em;
+	margin-bottom: 1.75em;
+}
+
+.fcl__layout-1col .fcl__graphic-primary {
+	grid-area: 1/1;
+
+	& > * {
+		grid-area: 1 / 1;
+	}
+
+	& .fcl_graphic-icon {
+		/* background: red; */
+		width: inherit;
+		margin: auto;
+		transform: scale(0.95);
+	}
+}
+
+[data-melt-dialog-content] .fcl__header-icon {
+	height: 30px;
+	width: 30px;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	& > button {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 0;
+		height: 100%;
+		width: 100%;
+
+		border: 1px solid hsla(0, 0%, 100%, 0%);
+		border-radius: 50%;
+		background: transparent;
+		color: var(--fcl-text-color);
+
+		transition:
+			background-color 140ms ease-in,
+			border 140ms ease-in;
+
+		&:hover {
+			border: 1px solid hsla(0, 0%, 100%, 4%);
+			background: hsla(0, 0%, 100%, 6%);
+		}
+	}
+}
+
+/* =============== */
+/* Utility Classes */
+/* =============== */
+
+.justify-center {
+	justify-content: center;
+	text-align: center;
+}
+.justify-between {
+	justify-content: space-between;
+}
+.rounded {
+	border-radius: 50%;
+}
+.error {
+	color: oklch(80% 0.16 8);
+}
+button.address {
+	font-feature-settings: 'tnum', 'zero';
+	transition: opacity 150ms ease-out;
+}
