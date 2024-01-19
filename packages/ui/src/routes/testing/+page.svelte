@@ -15,7 +15,7 @@
 
 <main>
 	<div>
-		<p>is mobile: {isMobile()}</p>
+		<p>is mobprocessile: {isMobile()}</p>
 		<p>chain: {$config.state.chainId}</p>
 		<p>connections: {JSON.stringify($config.state.connections)}</p>
 		<p>current: {$config.state.current}</p>
@@ -31,6 +31,7 @@
 			</ConnectModal>
 		{/if}
 	</div>
+	<ConnectModal config={$config} />
 
 	<!-- 	<button
 		on:click={() => {
@@ -56,7 +57,7 @@
 		width: 100%;
 		height: 100%;
 		color: red;
-		/* //var(--text-color); */
+		/* //var(--fcl-text-color); */
 	}
 	.wagmi {
 		background: green;

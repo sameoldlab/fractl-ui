@@ -71,7 +71,7 @@
 		font-weight: 300;
 		font-family: system-serif, cursive, 'Times New Roman', Times, serif;
 		margin: 0;
-		color: var(--text-color);
+		color: var(--fcl-text-color);
 	}
 	p {
 		opacity: 0.7;
@@ -80,7 +80,7 @@
 	}
 	:root {
 		background: hsl(252, 80%, 2%);
-		color: var(--text-color);
+		color: var(--fcl-text-color);
 	}
 	.links {
 		margin: 1rem;
@@ -90,7 +90,7 @@
 		/* background: red; */
 	}
 	svg {
-		color: var(--text-color);
+		color: var(--fcl-text-color);
 	}
 	main {
 		display: flex;
