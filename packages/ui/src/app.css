@@ -1,22 +1,58 @@
-:root {
-	--dialog-radius: 1em;
-	--fcl-text-color: white;
+.button-85 {
+	padding: 1em 1.75em;
+	border: none;
+	outline: none;
+	background: #111;
+	position: relative;
+	z-index: 0;
+	border-radius: 50em;
+	user-select: none;
+	-webkit-user-select: none;
+	touch-action: manipulation;
+	transition: all 200ms ease-in-out;
 }
 
-button {
-	cursor: pointer;
-	box-sizing: border-box;
-	border: none;
+.button-85:before {
+	content: '';
+	background: linear-gradient(
+		90deg,
+		#eb5d48,
+		#e38843,
+		#f1ef67,
+		#00ffd5,
+		#79b1e9,
+		#e02e96,
+		#eb5d48
+	);
+	position: absolute;
+	top: -2px;
+	left: -2px;
+	background-size: 400%;
+	z-index: -1;
+	width: calc(100% + 4px);
+	height: calc(100% + 4px);
+	animation: glowing-button-85 100s linear infinite;
+	border-radius: 50em;
 }
 
-button[data-melt-dialog-trigger] {
-	border: none;
-	background: transparent;
-	color: var(--fcl-text-color);
-	width: full;
-	box-sizing: border-box;
-	border: none;
-	padding: 1em 2em;
-	font-weight: 600;
-	border-radius: 16px;
+@keyframes glowing-button-85 {
+	0%,
+	100% {
+		background-position: 0 0;
+	}
+	50% {
+		background-position: 400% 0;
+	}
+}
+
+.button-85:after {
+	z-index: -1;
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: #222429;
+	left: 0;
+	top: 0;
+	border-radius: 50em;
 }

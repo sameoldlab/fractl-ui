@@ -1,4 +1,4 @@
-    - [ ] Convert style values to variables
+    - [x] Convert style values to variables
     - [x] Give triggers data attributes that can be targetted directly
     - [x] Write README
     - [ ] Try Mitosis again else try Svelte's web component compiler if not
