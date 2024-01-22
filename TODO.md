@@ -1,18 +1,19 @@
     - [ ] Convert style values to variables
-    - [ ] Give triggers data attributes that can be targetted directly
+    - [x] Give triggers data attributes that can be targetted directly
     - [x] Write README
+    - [ ] Try Mitosis again else try Svelte's web component compiler if not
+    - [ ] abstract to something other than wagmi/evm. CosmWasmSDK
     - [ ] Poast
     - [x] Add icons for Account buttons
-    - [ ] Integrations for WalletConnect and embedded
-    - [ ] Replace WalletConnect Modal with custom QR Code
+    - [x] Integration for WalletConnect
+    - [x] Replace WalletConnect Modal with custom QR Code
+    - [ ] Integration for Embedded Wallet
     - [ ] Setup mock wallet in props
     - [ ] Test new connectors
     - [ ] Convert modal to drawer on mobile
     - [ ] What is a wallet section
     	- [ ] If no injected wallet exists then link to download / resources
 
-    - [ ] Try Mitosis again else try Svelte's web component compiler if not
-    - [ ] abstract to something other than wagmi/evm. CosmWasmSDK
 
     ---
 
@@ -21,7 +22,8 @@
     - [ ] Starkware? Fuel? Solana?
 
     - [ ] Setup frame provider (after 0.7)
-    - [ ] Safe? Coinbase? In-app (Metamask) browsers?
+    - [ ] Safe? Coinbase?
+    	- [x] In-app (Metamask) browsers?
     - [ ] Check: Still need browser wallet specific connectors (coinbase, metamask ) if using 6963?
     - [ ] Catch errors on getBalance and resolver and re-request later if 'HTTP Request failed'
     - [ ] For Mobile: if in-wallet browser is detected (is mobile && eip-6963 provider exists), bypass modal and attempt to request connection directly. Need to detect if provider name matches the browser's user agent or something no avoid Dawn and firefox android(?)

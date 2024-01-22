@@ -40,18 +40,20 @@
 	}
 
 	let triggerEl: HTMLButtonElement
-	const handleTrigger = () => {
+	export const handleTrigger = () => {
 		$open = true
 	}
 	const clearRequest = () => (activeRequest = null)
+	export let btnClass = ''
 </script>
 
 <button
 	aria-haspopup="dialog"
-	data-melt-dialog-trigger=""
+	data-fractl-button
 	aria-expanded={$open ? 'true' : 'false'}
 	on:click={handleTrigger}
 	bind:this={triggerEl}
+	class={btnClass}
 >
 	{triggerText}
 </button>

@@ -41,15 +41,19 @@
 	const handleDisconnect = async (connector) => {
 		await disconnect($config, { connector })
 	}
+	export function handleTrigger() {
+		$open = true
+	}
+	export let btnClass = ''
 </script>
 
 <button
 	aria-haspopup="dialog"
-	data-melt-dialog-trigger=""
+	data-fractl-button
 	aria-expanded={$open ? 'true' : 'false'}
-	class="address"
+	class="address {btnClass}"
 	bind:this={triggerEl}
-	on:click={() => ($open = true)}
+	on:click={handleTrigger}
 >
 	{#if avatar}
 		<img class="avatar rounded" src={avatar} alt="" />
