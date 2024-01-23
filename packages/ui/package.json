@@ -39,17 +39,12 @@
 		"@wagmi/core": "^2.0.1",
 		"viem": "^2.0.1"
 	},
-	"peerDependencies": {
-		"svelte": "^4.0.0"
-	},
 	"devDependencies": {
+		"svelte": "^4.0.0",
 		"@melt-ui/svelte": "^0.67.0",
-		"@sveltejs/adapter-auto": "^3.1.0",
-		"@sveltejs/adapter-vercel": "^4.0.4",
-		"@sveltejs/enhanced-img": "^0.1.7",
+		"@sveltejs/adapter-vercel": "^5.1.0",
 		"@sveltejs/kit": "^2.0.4",
 		"@sveltejs/package": "^2.0.0",
-		"@types/postcss-preset-env": "^8.0.0",
 		"@types/qrcode": "^1.5.5",
 		"@walletconnect/ethereum-provider": "^2.11.0",
 		"postcss-load-config": "^5.0.2",
