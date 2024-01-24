@@ -1,7 +1,7 @@
 import { derived } from 'svelte/store'
 import { getEnsName, getEnsAvatar, getBalance } from '@wagmi/core'
 import { getAccount, type Config } from '@wagmi/core'
-import type { Readable } from 'svelte/motion'
+import type { Readable } from 'svelte/store'
 import { formatUnits } from 'viem'
 
 export const createAccountStore = (

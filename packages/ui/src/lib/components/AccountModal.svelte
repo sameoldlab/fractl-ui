@@ -1,9 +1,9 @@
 <script lang="ts">
-	import '$lib/styles/index.css'
-	import { truncate } from '$lib/utils'
+	import '../styles/index.css'
+	import { truncate } from '../utils'
 	import Zorb from './zorb/Zorb.svelte'
 	import Modal from './Common/Modal.svelte'
-	import accountStore from '$lib/stores/accountStore'
+	import accountStore from '../stores/accountStore'
 
 	import { fly } from 'svelte/transition'
 	import { quadInOut } from 'svelte/easing'

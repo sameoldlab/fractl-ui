@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '$lib/styles/index.css'
+	import '../../styles/index.css'
 	import { createEventDispatcher } from 'svelte'
 	import { createDialog } from '@melt-ui/svelte'
 

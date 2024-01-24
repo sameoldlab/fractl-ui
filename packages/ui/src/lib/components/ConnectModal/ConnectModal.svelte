@@ -1,5 +1,5 @@
 <script lang="ts">
-	import copyEN from '$lib/copy/copy.EN'
+	import copyEN from '../../copy/copy.EN.js'
 	import Modal from '../Common/Modal.svelte'
 	import Scannable from './Scannable.svelte'
 

@@ -1,7 +1,7 @@
 <script lang="ts">
 	// import { type Config } from '@wagmi/core'
-	// import accountStore from '$lib/stores/accountStore'
-	import { truncate } from '$lib/utils'
+	// import accountStore from '../stores/accountStore'
+	import { truncate } from '../utils'
 
 	// export let config: Config
 
