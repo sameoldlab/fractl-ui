@@ -1,5 +1,5 @@
 import ConnectModal from './ConnectModal/ConnectModal.svelte'
-import AccountDialog from './AccountDialog.svelte'
 import AccountModal from './AccountModal.svelte'
+import FractlModal from './FractlModal.svelte'
 
-export { ConnectModal, AccountDialog, AccountModal }
+export { ConnectModal, AccountModal, FractlModal }

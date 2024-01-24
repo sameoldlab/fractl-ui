@@ -9,6 +9,9 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
+		"@fractl-ui/evm": "workspace:^",
+		"@wagmi/core": "^2.0.1",
+		"viem": "^2.0.1",
 		"vue": "^3.3.11"
 	},
 	"devDependencies": {

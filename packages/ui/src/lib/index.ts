@@ -1,3 +1,3 @@
-import { AccountModal, ConnectModal } from './components'
+import { AccountModal, ConnectModal, FractlModal } from './components/index.js'
 
-export { AccountModal, ConnectModal }
+export { FractlModal, AccountModal, ConnectModal }

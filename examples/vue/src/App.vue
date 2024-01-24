@@ -1,5 +1,20 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
+import { FractlModal } from '@fractl-ui/evm'
+
+import { http, createConfig, createStorage } from '@wagmi/core'
+import { mainnet, arbitrum } from '@wagmi/core/chains'
+
+const storage = createStorage({ storage: localStorage })
+const config = createConfig({
+	chains: [mainnet, arbitrum],
+	storage,
+	transports: {
+		[mainnet.id]: http(),
+		[arbitrum.id]: http()
+	}
+})
+console.log(FractlModal)
 </script>
 
 <template>
@@ -11,6 +26,7 @@ import HelloWorld from './components/HelloWorld.vue'
 			<img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
 		</a>
 	</div>
+	<fractl-modal />
 	<HelloWorld msg="Vite + Vue" />
 </template>
 
