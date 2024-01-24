@@ -10,7 +10,7 @@
 		"format": "prettier --write .",
 		"prepare": "husky install",
 		"dev:evm": "pnpm --filter @fractl-ui/evm dev",
-		"build:evm": "pnpm --filter @fractl-ui/evm build",
+		"package": "pnpm --filter @fractl-ui/evm package",
 		"dev:site": "pnpm --filter site dev",
 		"build:site": "pnpm --filter site build"
 	},
