@@ -1,5 +1,5 @@
 <script>
-	import { ConnectModal, AccountModal } from '@fractl-ui/evm'
+	import 'evm-new'
 	import { http, createConfig, createStorage } from '@wagmi/core'
 	// import { injected, walletConnect, mock } from 'wagmi/connectors'
 	import { readable } from 'svelte/store'
@@ -25,10 +25,7 @@
 	// x
 </script>
 
-{#if $config.state.status === 'connected'}
-	<AccountModal {config} btnClass="button-85" />
-{:else}
-	<ConnectModal config={$config} btnClass="button-85">
-		<!-- <svelte:fragment slot="footer"></svelte:fragment> -->
-	</ConnectModal>
-{/if}
+This is a test
+<fractl-modal config={$config} />
+<hr />
+{$config.state.status}
