@@ -9,10 +9,10 @@
 		"lint": "eslint .",
 		"format": "prettier --write .",
 		"prepare": "husky install",
-		"dev:evm": "pnpm --filter @fractl-ui/evm dev",
-		"package": "pnpm --filter @fractl-ui/evm package",
-		"dev:site": "pnpm --filter site dev",
-		"build:site": "pnpm --filter site build"
+		"build": "pnpm -F @fractl-ui/evm build",
+		"build:w": "pnpm -F @fractl-ui/evm build -w",
+		"dev": "pnpm -F svelte dev",
+		"build:site": "pnpm build && pnpm -F svelte build"
 	},
 	"lint-staged": {
 		"**/*.{js,ts,svelte}": [
