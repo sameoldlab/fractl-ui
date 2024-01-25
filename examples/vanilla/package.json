@@ -13,6 +13,6 @@
 		"vite": "^5.0.8"
 	},
 	"dependencies": {
-		"evm-new": "workspace:^"
+		"@fractl-ui/evm": "workspace:^"
 	}
 }

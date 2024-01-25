@@ -118,3 +118,7 @@
 		</div>
 	</div>
 </Modal>
+
+<style>
+	@import url("../styles/index.css");
+</style>

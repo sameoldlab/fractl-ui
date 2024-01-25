@@ -1,7 +1,8 @@
     - [x] Convert style values to variables
     - [x] Give triggers data attributes that can be targetted directly
     - [x] Write README
-    - [ ] Try Mitosis again else try Svelte's web component compiler if not
+    - [x] Try Mitosis again else try Svelte's web component compiler if not
+    - [x] Better web component type generation
     - [ ] abstract to something other than wagmi/evm. CosmWasmSDK
     - [ ] Poast
     - [x] Add icons for Account buttons

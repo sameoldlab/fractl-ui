@@ -1,3 +1,52 @@
+:root {
+	/* Primary button  
+	--fcl-btn-color: green;
+	--fcl-primary-btn-font-size: 1em;
+	--fcl-btn-border-radius: 0.5em;
+	--fcl-btn-background: red;
+	--fcl-btn-box-shadow: ;
+	--fcl-btn-hover-color: orange;
+	--fcl-btn-hover-background: ;
+	--fcl-btn-hover-box-shadow: ;
+	--fcl-btn-active-color: blue;
+	--fcl-btn-active-background: ;
+	--fcl-btn-active-box-shadow: ;
+	*/
+
+	/* Text button  
+	 --fcl-text-btn-font-size: 1em; 
+	 --fcl-text-btn-color: blue;	 
+	 --fcl-text-btn-hover-color: cyan;
+	--fcl-text-btn-active-color: red; 
+	*/
+
+	/* Text Variables
+	--fcl-font-family: cursive;
+	--fcl-modal-heading-font-weight: 600;
+	--fcl-text-color: ;
+	--fcl-text-color-error: ;
+	---
+	--fcl-text-secondary-color: ;
+	--fcl-text-color-success: ;
+	*/
+		/* --fcl-overlay-background: ; 
+	/* --fcl-overlay-backdrop-filter: ; 
+	/* --fcl-body-background: red; 
+	/* --fcl-modal-box-shadow: ; 
+
+	/* Miscallenuous Variables */
+	--fcl-focus-color: tomato;
+	--fcl-body-divider: ; /* var(--fcl-text-color, --fcl-border-color) */
+	--fcl-qr-foreground-color: ;
+	--fcl-qr-background-color: ;
+	--fcl-qr-border-color: ;
+	--fcl-qr-border-radius: ;
+	--fcl-spinner-color: ;
+
+	/* --fcl-border-radius: 1.8em; */
+	/* --fcl-modal-padding: 1.25em; */
+}
+
 .button-85 {
 	padding: 1em 1.75em;
 	border: none;

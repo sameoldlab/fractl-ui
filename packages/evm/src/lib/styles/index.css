@@ -1,56 +1,3 @@
-/* Mirroring from https://docs.family.co/connectkit/theming#theme-variables-variables */
-:root {
-	/* Primary button  
-	--fcl-primary-btn-font-size: 1em;
-	--fcl-btn-border-radius: 0.5em;
-	--fcl-btn-color: green;
-	--fcl-btn-background: red;
-	--fcl-btn-box-shadow: ;
-	--fcl-btn-hover-color: orange;
-	--fcl-btn-hover-background: ;
-	--fcl-btn-hover-box-shadow: ;
-	--fcl-btn-active-color: blue;
-	--fcl-btn-active-background: ;
-	--fcl-btn-active-box-shadow: ;
-	*/
-
-	/* Text button  
-	 --fcl-text-btn-font-size: 1em; 
-	 --fcl-text-btn-color: blue;	 
-	 --fcl-text-btn-hover-color: cyan;
-	--fcl-text-btn-active-color: red; 
-	*/
-
-	/* Text Variables
-	--fcl-font-family: cursive;
-	--fcl-modal-heading-font-weight: 600;
-	--fcl-text-color: ;
-	--fcl-text-color-error: ;
-	---
-	--fcl-text-secondary-color: ;
-	--fcl-text-color-success: ;
-	*/
-
-	/* Miscallenuous Variables */
-	--fcl-focus-color: tomato;
-	--fcl-body-divider: ; /* var(--fcl-text-color, --fcl-border-color) */
-	--fcl-qr-foreground-color: ;
-	--fcl-qr-background-color: ;
-	--fcl-qr-border-color: ;
-	--fcl-qr-border-radius: ;
-	--fcl-spinner-color: ;
-
-	/* --fcl-border-radius: 1.8em; */
-	/* --fcl-modal-padding: 1.25em; */
-}
-
-/* [data-melt-dialog-portalled] {
-	/* --fcl-overlay-background: ; 
-	/* --fcl-overlay-backdrop-filter: ; 
-	/* --fcl-body-background: red; 
-	/* --fcl-modal-box-shadow: ; 
-
-} */
 /* =============== */
 /* Button Classes */
 /* =============== */
@@ -198,13 +145,13 @@ button.fcl__btn-primary svg,
 	);
 
 	/* Targetting Dialog Head Slot */
-	header {
+	& header {
 		display: grid;
 		grid-template-columns: 30px [title-start] 1fr [title-end] 30px;
 		align-items: center;
 		padding-bottom: 1em;
 
-		h2 {
+		& h2 {
 			margin: 0;
 			grid-column: title;
 			text-align: center;
@@ -212,7 +159,7 @@ button.fcl__btn-primary svg,
 			font-weight: var(--fcl-modal-heading-font-weight, 700);
 		}
 	}
-	button {
+	& button {
 		font-family: inherit;
 	}
 }

@@ -1,5 +1,5 @@
 {
-	"name": "evm-new",
+	"name": "@fractl-ui/evm",
 	"version": "0.0.1",
 	"description": "",
 	"keywords": [],
@@ -42,14 +42,14 @@
 		"@sveltejs/vite-plugin-svelte": "^3.0.1",
 		"@tsconfig/svelte": "^5.0.2",
 		"@types/qrcode": "^1.5.5",
-		"@wagmi/core": "^2.5.0",
+		"@wagmi/core": "2.0.1",
 		"@walletconnect/ethereum-provider": "^2.11.0",
 		"qrcode": "^1.5.3",
 		"svelte": "^4.2.9",
 		"svelte-check": "^3.6.3",
 		"tslib": "^2.6.2",
 		"typescript": "^5.3.3",
-		"viem": "^2.5.0",
+		"viem": "2.0.1",
 		"vite": "^5.0.12",
 		"vite-plugin-dts": "^3.7.2"
 	}

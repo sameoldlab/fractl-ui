@@ -15,9 +15,12 @@
 	import type { Config } from '@wagmi/core'
 
 	export let config: Config
+	export let btnClass: string
+	console.log(btnClass);
+	
 
 	const store = readable(config, (set) => {
-		console.log(config)
+		// console.log(config)
 
 		config.subscribe(
 			(state) => state.status,
@@ -28,9 +31,9 @@
 
 {#if $store !== null}
 	{#if $store.state.status === 'connected'}
-		<AccountModal config={store} />
+		<AccountModal config={store} {btnClass}/>
 	{:else}
-		<ConnectModal config={$store}>
+		<ConnectModal config={$store} {btnClass}>
 			<svelte:fragment slot="footer"></svelte:fragment>
 		</ConnectModal>
 	{/if}

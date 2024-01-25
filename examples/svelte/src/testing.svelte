@@ -1,12 +1,11 @@
 <!-- <svelte:options tag="my-app" /> -->
 <script lang="ts">
-	import config from '../../wagmiConfig'
-	import { ConnectModal, AccountModal } from '$lib/components'
+	import 'evm-new'
+	import config from './lib/wagmiConfig'
 	import { onMount } from 'svelte'
 	import { reconnect } from '@wagmi/core'
-	import { isMobile } from '$lib/utils'
+	// import { isMobile } from '$lib/utils'
 
-	$: connected = $config.state.status === 'connected'
 
 	onMount(async () => {
 		reconnect($config, { connectors: $config.connectors })
@@ -15,23 +14,14 @@
 
 <main>
 	<div>
-		<p>is mobprocessile: {isMobile()}</p>
+		<!-- <p>is mobprocessile: {isMobile()}</p> -->
 		<p>chain: {$config.state.chainId}</p>
 		<p>connections: {JSON.stringify($config.state.connections)}</p>
 		<p>current: {$config.state.current}</p>
 		<p>status: {$config.state.status}</p>
 	</div>
 
-	<div class="wagmi">
-		{#if connected}
-			<AccountModal {config} />
-		{:else}
-			<ConnectModal config={$config}>
-				<svelte:fragment slot="footer"></svelte:fragment>
-			</ConnectModal>
-		{/if}
-	</div>
-	<ConnectModal config={$config} />
+	<fractl-modal config={$config} />
 
 	<!-- 	<button
 		on:click={() => {
@@ -39,7 +29,7 @@
 		}}>Show Modal</button
 	>
 	<dialog id="dialog" bind:this={dialogElem}>
-		here goes some bontent
+		here goes some content
 		<button
 			on:click={() => {
 				dialogElem.close()
@@ -50,16 +40,13 @@
 
 <style>
 	:root {
-		background: #000;
+		background: #777;
 	}
 
 	main {
 		width: 100%;
 		height: 100%;
-		color: red;
+		color: aqua;
 		/* //var(--fcl-text-color); */
-	}
-	.wagmi {
-		background: green;
 	}
 </style>

@@ -79,3 +79,6 @@
 		</div>
 	{/if}
 </div>
+<style>
+	@import url("../../styles/index.css");
+</style>
