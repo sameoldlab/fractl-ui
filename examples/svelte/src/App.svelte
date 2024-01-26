@@ -2,7 +2,7 @@
 <script lang="ts">
 	// import config from '../../../../packages/ui.old/src/wagmiConfig'
 	import '@fractl-ui/evm'
-	import config from './lib/wagmiConfig'	
+	import config from './lib/wagmiConfig'
 	import { onMount } from 'svelte'
 	import { reconnect } from '@wagmi/core'
 	import FractlSvg from './assets/fractl.svg'
@@ -20,13 +20,13 @@
 			<img src={FractlSvg} alt="Fractl UI" />
 		</h1>
 		<p>
-			dapp UI Library for Svelte... <span class="whisper">
-				(and eventually Web Components and Mitosis).
+			modular dapp UI library for the EVM <span class="whisper">
+				and (soon) Starknet and Cosmos and Fuel and...
 			</span>
 		</p>
 	</div>
-	
-	<fractl-modal config={$config} btnClass="button-85"/>
+
+	<fractl-modal config={$config} btnClass="button-85" />
 
 	<!-- 
 	{#if connected}
