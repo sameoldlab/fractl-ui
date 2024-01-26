@@ -16,8 +16,7 @@
 
 	export let config: Config
 	export let btnClass: string
-	console.log(btnClass);
-	
+	console.log(btnClass)
 
 	const store = readable(config, (set) => {
 		// console.log(config)
@@ -31,7 +30,7 @@
 
 {#if $store !== null}
 	{#if $store.state.status === 'connected'}
-		<AccountModal config={store} {btnClass}/>
+		<AccountModal config={store} {btnClass} />
 	{:else}
 		<ConnectModal config={$store} {btnClass}>
 			<svelte:fragment slot="footer"></svelte:fragment>

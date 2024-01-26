@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Connector } from '@wagmi/core'
-	import { toString, create} from 'qrcode'
+	import { toString, create } from 'qrcode'
 
 	export let connector: Connector
 	let uri: string = ''
@@ -31,7 +31,6 @@
 			provider.connect()
 		}
 	})
-
 
 	const d = create(
 		'wc:acd628e34857f0739e8c9b3e2deced59028cd4ca1269ee700de6440c2c55139f@2?relay-protocol=irn&symKey=061d1ab73d4ea55fc5a336c2b9a8ed29f7d3433ff4829e4ff0d1eb2a4e98afdb'
@@ -174,8 +173,9 @@
 	// let svg = toString(		'wc:acd628e34857f0739e8c9b3e2deced59028cd4ca1269ee700de6440c2c55139f@2?relay-protocol=irn&symKey=061d1ab73d4ea55fc5a336c2b9a8ed29f7d3433ff4829e4ff0d1eb2a4e98afdb')
 	// console.log(svg);
 	console.log(r)
+</script>
 
-</script><!-- 
+<!-- 
 {#each arr as row}
 		<div class="row">
 			{#each row as element}

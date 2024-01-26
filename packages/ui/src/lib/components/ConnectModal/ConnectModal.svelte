@@ -152,8 +152,7 @@
 </Modal>
 
 <style>
-	@import url("../../styles/index.css");
-
+	@import url('../../styles/index.css');
 
 	.hide {
 		display: none;

@@ -5,7 +5,7 @@ import {
 	normalizeChainId
 } from '@wagmi/core'
 import type { Evaluate, ExactPartial, Omit } from '@wagmi/core/internal'
-import { EthereumProvider } from '@walletconnect/ethereum-provider'
+import { EthereumProvider } from '@walletconnect/ethereum-provider' /* 500kb */
 import {
 	type Address,
 	type ProviderConnectInfo,
