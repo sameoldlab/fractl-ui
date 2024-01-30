@@ -1,0 +1,297 @@
+/* =============== */
+/* Button Classes */
+/* =============== */
+[data-fractl-button] {
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	gap: 0.75em; /* Likely to target avatars, chain logos, token logos, or additional text */
+
+	background-color: var(--fcl-btn-background, transparent);
+	color: var(--fcl-btn-color, #f1f1f1);
+	border: var(--fcl-btn-border, none);
+	border-radius: var(--fcl-btn-border-radius, 1em);
+	font-size: var(--fcl-btn-font-size, 0.9em);
+	font-weight: var(--fcl-btn-font-weight, 600);
+	font-family: var(
+		--fcl-font-family,
+		'Helvetica Neue',
+		Inter,
+		'Arial Nova',
+		system-ui,
+		-apple-system,
+		BlinkMacSystemFont,
+		Oxygen,
+		Ubuntu,
+		Cantarell,
+		'Open Sans',
+		sans-serif
+	);
+}
+
+.fcl__btn-primary {
+	box-sizing: border-box;
+	min-width: 0;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	gap: 0.25em; /* for svg icons*/
+
+	cursor: pointer;
+	padding: 1em 1.25em;
+	transition: background-color 100ms ease-in-out;
+
+	box-shadow: var(--fcl-btn-box-shadow, none);
+
+	background-color: var(--fcl-btn-background, #222429);
+	color: var(--fcl-btn-color, #f1f1f1);
+	border: var(--fcl-btn-border, none);
+	border-radius: var(
+		--fcl-btn-border-radius,
+		calc(var(--fcl-border-radius, 1.8em) - var(--fcl-modal-padding, 1.25em))
+	);
+	font-size: var(--fcl-btn-font-size, 0.9em);
+	font-weight: var(--fcl-btn-font-weight, 500);
+
+	&:hover {
+		background-color: var(--fcl-btn-hover-background, #2f3139);
+		color: var(--fcl-btn-hover-color, --fcl-text-color, #f1f1f1);
+		box-shadow: var(--fcl-btn-hover-box-shadow, none);
+	}
+
+	&:active {
+		scale: 99%;
+		background-color: var(--fcl-btn-active-background, #2f3139);
+		color: var(--fcl-btn-active-color, --fcl-text-color, #f1f1f1);
+		box-shadow: var(--fcl-btn-active-box-shadow, none);
+	}
+}
+/* 	Make a butoon icon class if this gets more complex */
+button[data-melt-dialog-trigger] img,
+button[data-melt-dialog-trigger] svg,
+button.fcl__btn-primary img,
+button.fcl__btn-primary svg,
+.fcl__btn-icon {
+	width: 2em;
+	height: 2em;
+	/* margin-inline: .5em; */
+}
+/*	
+	Styles button as regular text. 
+	Keep specificity at 0,1,0 to allow
+	overides from additonal styles 
+*/
+.fcl__btn-text {
+	background: transparent;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	color: var(--fcl-text-btn-color, inherit);
+	font-size: var(--fcl-text-btn-font-size, 1em);
+	display: flex;
+	gap: 0.25em;
+	align-items: center;
+
+	&:hover {
+		color: var(--fcl-text-btn-hover-color, inherit);
+	}
+
+	&:active {
+		color: var(--fcl-text-btn-active-color, inherit);
+	}
+}
+
+/* =============== */
+/* Dialog Classes */
+/* =============== */
+[data-melt-dialog-overlay] {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+
+	background: var(--fcl-overlay-background, hsla(0 0 0 / 0.43));
+	backdrop-filter: var(--fcl-overlay-backdrop-filter, none);
+}
+
+[data-melt-dialog-content] {
+	display: block;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	min-width: 200px;
+	max-width: 24ch;
+
+	background: var(--fcl-body-background, #141519);
+	color: var(--fcl-text-color, #f1f1f1);
+	box-shadow: var(--fcl-modal-box-shadow, none);
+	border: var(--fcl-modal-border, 1px solid #343939);
+	border-radius: var(--fcl-border-radius, 1.8em);
+	padding: var(--fcl-modal-padding, 1.25em);
+	font-family: var(
+		--fcl-font-family,
+		'Helvetica Neue',
+		Inter,
+		'Arial Nova',
+		system-ui,
+		-apple-system,
+		BlinkMacSystemFont,
+		Oxygen,
+		Ubuntu,
+		Cantarell,
+		'Open Sans',
+		sans-serif
+	);
+
+	/* Targetting Dialog Head Slot */
+	& header {
+		display: grid;
+		grid-template-columns: 30px [title-start] 1fr [title-end] 30px;
+		align-items: center;
+		padding-bottom: 1em;
+
+		& h2 {
+			margin: 0;
+			grid-column: title;
+			text-align: center;
+			font-size: var(--fcl-modal-heading-font-size, 1em);
+			font-weight: var(--fcl-modal-heading-font-weight, 700);
+		}
+	}
+	& button {
+		font-family: inherit;
+	}
+}
+
+/* =============== */
+/* Text Classes */
+/* =============== */
+.fcl__text-primary {
+	font-size: 1em;
+	font-weight: 700;
+	padding-block: 0.5em;
+	margin: 0;
+}
+
+.fcl__subhead {
+	opacity: 0.7; /* hacky... _/(:/)\_ */
+	font-size: 0.9em;
+	font-weight: 400;
+	text-align: center;
+	margin: 0;
+	padding-bottom: 1.25em;
+	text-wrap: pretty;
+}
+
+/* =============== */
+/* Layout Classes */
+/* =============== */
+
+.fcl__layout-3col {
+	display: grid;
+	grid-template-columns: [full-start] 30px [main-start] 1fr [main-end] 30px[full-end];
+	justify-content: space-around;
+	justify-items: center;
+
+	& > * {
+		grid-column: main;
+	}
+
+	& > .fcl__3col-full {
+		width: 100%;
+		grid-column: full;
+	}
+}
+
+.fcl__layout-1col {
+	width: 100%;
+	display: grid;
+	/* grid-template-columns: 1fr; */
+	justify-items: center;
+}
+
+/* Something here feels messy. need to check on mobile */
+.fcl__layout-3col .fcl__graphic-primary,
+.fcl__layout-1col .fcl__graphic-primary {
+	grid-column: main;
+
+	display: grid;
+	grid-template-areas: 1/1;
+	align-items: center;
+	justify-content: center;
+
+	width: 5em;
+	margin-bottom: 1.75em;
+}
+
+.fcl__layout-1col .fcl__graphic-primary {
+	grid-area: 1/1;
+
+	& > * {
+		grid-area: 1 / 1;
+	}
+
+	& .fcl_graphic-icon {
+		/* background: red; */
+		width: 5em;
+		height: 5em;
+		margin: auto;
+		transform: scale(0.95);
+	}
+}
+
+[data-melt-dialog-content] .fcl__header-icon {
+	height: 30px;
+	width: 30px;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	& > button {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 0;
+		height: 100%;
+		width: 100%;
+
+		border: 1px solid hsla(0, 0%, 100%, 0%);
+		border-radius: 50%;
+		background: transparent;
+		color: var(--fcl-text-color);
+
+		transition:
+			background-color 140ms ease-in,
+			border 140ms ease-in;
+
+		&:hover {
+			border: 1px solid hsla(0, 0%, 100%, 4%);
+			background: hsla(0, 0%, 100%, 6%);
+		}
+	}
+}
+
+/* =============== */
+/* Utility Classes */
+/* =============== */
+
+.justify-center {
+	justify-content: center;
+	text-align: center;
+}
+.justify-between {
+	justify-content: space-between;
+}
+.rounded {
+	border-radius: 50%;
+}
+.error {
+	color: var(--fcl-text-color-error, oklch(80% 0.16 8));
+}
+button.address {
+	font-feature-settings: 'tnum', 'zero';
+	transition: opacity 150ms ease-out;
+}

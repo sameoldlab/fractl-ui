@@ -9,12 +9,13 @@
     - [x] Integration for WalletConnect
     - [x] Replace WalletConnect Modal with custom QR Code
     - [ ] Integration for Embedded Wallet
+    - [ ] Deeplink walletConnect links on mobile
     - [ ] Setup mock wallet in props
     - [ ] Test new connectors
     - [ ] Convert modal to drawer on mobile
     - [ ] What is a wallet section
     	- [ ] If no injected wallet exists then link to download / resources
-
+    	- [ ] EVM: If wallet connect is included by default add an option to take it out or auto-detect duplicates and remove
 
     ---
 
