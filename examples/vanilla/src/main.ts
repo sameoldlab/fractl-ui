@@ -1,24 +1,21 @@
 import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+import '@fractl-ui/ui'
+import { addEvmConnection } from '@fractl-ui/evm'
+import { config as wagmiConfig } from './lib/wagmiConfig'
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+// const { status } = config.state
+// $: console.log('APP: ', config.state.status())
+const config = addEvmConnection(wagmiConfig)
+document.querySelector('fractl-modal')!.config = config //addEvmConnection(wagmiConfig)
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+const log = document.querySelector('#logStatus')
+log?.addEventListener('click', () => {
+	console.log(config.state.status)
+})
+// config.state.listen((profile, changed) => {
+//   console.log(`New ${changed}: `, profile[changed])
+// })
+console.log(wagmiConfig.state.current)
+
+// document.querySelector('h1')!.innerHTML = config.state.status
+document.querySelector('h1')!.innerHTML = wagmiConfig.state.status

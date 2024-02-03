@@ -1,16 +1,19 @@
 <!-- <svelte:options tag="my-app" /> -->
 <script lang="ts">
 	// import config from '../../../../packages/ui.old/src/wagmiConfig'
-	import '@fractl-ui/evm'
-	import config from './lib/wagmiConfig'
+	import { addEvmConnection } from '@fractl-ui/evm'
+	import '@fractl-ui/ui'
+	import wagmiConfig from './lib/wagmiConfig'
 	import { onMount } from 'svelte'
 	import { reconnect } from '@wagmi/core'
 	import FractlSvg from './assets/fractl.svg'
 	import './app.css'
 
 	onMount(async () => {
-		reconnect($config, { connectors: $config.connectors })
+		reconnect($wagmiConfig, { connectors: $wagmiConfig.connectors })
 	})
+	const config = addEvmConnection($wagmiConfig)
+	// const { status } = config.state
 </script>
 
 <main>
