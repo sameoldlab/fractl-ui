@@ -1,29 +1,40 @@
 {
-  "name": "@fractl-ui/evm",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "files": [
-    "dist",
-    "index.d.ts"
-  ],
-  "main": "./dist/index.umd.cjs",
-  "module": "./dist/index.js",
-  "types": "./index.d.ts",
-  "exports": {
-    "types": "./index.d.ts",
-    "import": "./dist/index.js",
-    "require": "./dist/index.umd.cjs"
-  },
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build && tsc",
-    "build:watch": "vite build -w"
-  },
-  "devDependencies": {
-    "@wagmi/core": "^2.6.1",
-    "@walletconnect/ethereum-provider": "^2.11.0",
-    "nanostores": "^0.9.5",
-    "viem": "^2.5.0"
-  }
+	"name": "@fractl-ui/evm",
+	"version": "0.0.1",
+	"description": "",
+	"keywords": [],
+	"author": "sameoldlab",
+	"license": "MIT",
+	"homepage": "https://fractl.click/",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/sameoldlab/fractl-ui.git"
+	},
+	"type": "module",
+	"main": "./dist/index.umd.cjs",
+	"module": "./dist/index.js",
+	"types": "./index.d.ts",
+	"files": [
+		"dist"
+	],
+	"exports": {
+		"types": "./dist/index.d.ts",
+		"import": "./dist/index.js",
+		"require": "./dist/index.umd.cjs"
+	},
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build && tsc",
+		"build:watch": "vite build -w"
+	},
+	"peerDependencies": {
+		"@wagmi/core": "^2.0.1",
+		"viem": "^2.0.1"
+	},
+	"devDependencies": {
+		"@wagmi/core": "^2.6.1",
+		"@walletconnect/ethereum-provider": "^2.11.0",
+		"nanostores": "^0.9.5",
+		"viem": "^2.5.0"
+	}
 }
