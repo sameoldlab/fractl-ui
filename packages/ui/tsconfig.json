@@ -18,6 +18,13 @@
 	},
 	"outDir": "dist",
 	"declaration": true,
-	"include": ["src/lib/**/*.ts", "src/lib/**/*.js", "src/lib/**/*.svelte"],
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.js",
+		"src/**/*.svelte",
+		"src/index.ts",
+		"src/utils.ts",
+		"src/vite-env.d.ts"
+	],
 	"references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -8,15 +8,15 @@ export default defineConfig({
 	plugins: [
 		svelte(),
 		dts({
-			entryRoot: 'src/lib',
+			entryRoot: 'src',
 			outDir: 'dist/types'
 		})
 	],
 	build: {
 		sourcemap: true,
 		lib: {
-			entry: resolve(__dirname, './src/lib/index.ts'),
-			name: 'evm-new',
+			entry: resolve(__dirname, './src/index.ts'),
+			name: '@fractl-ui/ui',
 			formats: ['es'],
 			fileName: 'index'
 		},
