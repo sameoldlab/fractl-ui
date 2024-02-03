@@ -10,8 +10,9 @@
 		"check": "svelte-check --tsconfig ./tsconfig.json"
 	},
 	"dependencies": {
-		"@wagmi/core": "^2.0.1",
 		"@fractl-ui/evm": "workspace:^",
+		"@fractl-ui/ui": "workspace:^",
+		"@wagmi/core": "^2.0.1",
 		"viem": "^2.0.1"
 	},
 	"devDependencies": {

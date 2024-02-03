@@ -9,10 +9,13 @@
 		"preview": "vite preview"
 	},
 	"devDependencies": {
+		"@wagmi/core": "^2.6.1",
 		"typescript": "^5.2.2",
+		"viem": "^2.5.0",
 		"vite": "^5.0.8"
 	},
 	"dependencies": {
-		"@fractl-ui/evm": "workspace:^"
+		"@fractl-ui/evm": "workspace:^",
+		"@fractl-ui/ui": "workspace:^"
 	}
 }
