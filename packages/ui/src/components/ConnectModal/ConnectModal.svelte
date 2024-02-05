@@ -1,56 +1,63 @@
 <script lang="ts">
 	import copyEN from '../../copy/copy.EN.js'
-	import Modal from '../Common/Modal.svelte'
+	// import Modal from '../Common/Modal.svelte'
 	import Scannable from './Scannable.svelte'
 
 	import { fly } from 'svelte/transition'
-	import { writable } from 'svelte/store'
+	import { writable, type Readable } from 'svelte/store'
 	import { quadInOut } from 'svelte/easing'
-	import { connect, reconnect } from '@wagmi/core'
-	import type { Config, Connector } from '@wagmi/core'
+	import type { ConfigDisconnected, Connector } from '../../types.js'
 
-	export let config: Config
+	type Props = {
+		config: ConfigDisconnected
+		state
+		btnClass?: string
+		triggerText?: string
+	}
+	let {config, state, btnClass, triggerText = "Connect Wallet"} = $props<Props>()
+	const { connectors } = config
+		
 	// export let demo = true
-	export const triggerText = 'Connect Wallet'
+	// export const triggerText = 'Connect Wallet'
 	// export let showModal: boolean
 
 	// export let inputWatch = true
 	// export let accountStatus: string
 	// export let chainStatus
 	// export let showBalance: string
-	const open = writable(false)
-
-	$: if (config.state.status === 'connected') $open = false
 	// export let customTrigger = false
+	let open = $state(false)
 
-	let activeRequest: null | Connector = null //config.connectors[3]
-	$: title = !activeRequest ? 'Connect Wallet' : `${activeRequest.name}`
+	$effect(()=>{ if (config.state.status === 'connected') open = false})
+
+	let activeRequest = $state<null | Connector>(null) //config.connectors[3]
+	// const title = $derived(!activeRequest ? 'Connect Wallet' : `${activeRequest.name}`)
 
 	const handleConnect = async (connector: Connector) => {
-		await reconnect(config, { connectors: [connector] })
-
+		await config.reconnect([connector])
+		
 		try {
-			connect(config, { connector })
+			console.log('config.state: ', config.state.status)
 			activeRequest = connector
+			await config.connect( connector )
 		} catch (error) {
-			console.info('caught: ', error)
+			console.error('caught: ', error)
 		}
 
-		console.log('config.state: ', config.state)
+		console.log('config.state: ', config.state.status)
 	}
 
-	let triggerEl: HTMLButtonElement
+	let triggerEl: HTMLButtonElement = $state()
 	export const handleTrigger = () => {
-		$open = true
+		open = true
 	}
 	const clearRequest = () => (activeRequest = null)
-	export let btnClass = ''
 </script>
 
 <button
 	aria-haspopup="dialog"
 	data-fractl-button
-	aria-expanded={$open ? 'true' : 'false'}
+	aria-expanded={open ? 'true' : 'false'}
 	on:click={handleTrigger}
 	bind:this={triggerEl}
 	class={btnClass}
@@ -58,7 +65,7 @@
 	{triggerText}
 </button>
 
-<Modal
+<!-- <Modal
 	titleText={title}
 	role="alertdialog"
 	focusTarget={triggerEl}
@@ -66,8 +73,8 @@
 	on:close={clearRequest}
 	transition={(e) =>
 		fly(e, { duration: 100, y: 40, opacity: 0, easing: quadInOut })}
->
-	<button slot="icon-left" class:hide={!activeRequest} on:click={clearRequest}>
+> -->
+	<button class:hide={!activeRequest} on:click={clearRequest}>
 		<svg
 			width="18"
 			height="18"
@@ -127,7 +134,7 @@
 			{/if}
 		{:else}
 			<div class="connectors">
-				{#each config.connectors.toReversed() as connector}
+				{#each connectors.toReversed() as connector}
 					<button
 						on:click={() => handleConnect(connector)}
 						data-uid={connector.uid}
@@ -149,7 +156,7 @@
 			<slot name="footer" />
 		{/if}
 	</div>
-</Modal>
+<!-- </Modal> -->
 
 <style>
 	@import url('../../styles/index.css');
