@@ -5,19 +5,19 @@ import { MapStore } from 'nanostores'
  * enforce pattern across libs.
  */
 
-export type AccountDataError = MapStore<{
+export type AccountDataError = {
 	account: undefined
 	balance: undefined
 	nameService: {
 		name: undefined
 		avatar: undefined
 	}
-}>
+}
 
-export type AccountDataResponse = MapStore<{
+export type AccountDataResponse = {
 	account: {
 		address: `0x${string}`
-		addresses: [`0x${string}`, ...`0x${string}`[]]
+		addresses: readonly [`0x${string}`, ...`0x${string}`[]]
 	}
 	balance: Promise<{
 		formatted: string
@@ -36,7 +36,7 @@ export type AccountDataResponse = MapStore<{
 				avatar: string | null
 		  }
 	>
-}>
+}
 
 export type AccountData = AccountDataError | AccountDataResponse
 
@@ -52,15 +52,11 @@ export type Config =
 	| {
 			state: MapStore<{
 				activeRequest?: Connector
-				current: {
-					accounts: readonly string[]
-					chainId: number
-					connector
-				}
+				current: undefined
 				status: 'connecting' | 'disconnected' | 'reconnecting'
 			}>
 			connectors: readonly Connector[]
-			accountData: AccountDataError
+			accountData: MapStore<AccountDataError>
 			connect: (connector: Connector) => Promise<object> /* fix later */
 			reconnect: (
 				config: Config,
@@ -71,15 +67,11 @@ export type Config =
 	| {
 			state: MapStore<{
 				activeRequest?: Connector
-				current: {
-					accounts: readonly string[]
-					chainId: number
-					connector
-				}
+				current: Connection
 				status: 'connected'
 			}>
 			connectors: readonly Connector[]
-			accountData: AccountDataResponse
+			accountData: MapStore<AccountDataResponse>
 			connect: (connector: Connector) => Promise<object> /* fix later */
 			reconnect: (
 				config: Config,

@@ -29,13 +29,7 @@
 		"build": "vite build ",
 		"preview": "vite preview",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
-		"prepublishOnly": "npm run package",
-		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write ."
-	},
-	"peerDependencies": {
-		"@wagmi/core": "^2.0.1",
-		"viem": "^2.0.1"
+		"prepublishOnly": "npm run package"
 	},
 	"devDependencies": {
 		"@melt-ui/svelte": "^0.67.0",

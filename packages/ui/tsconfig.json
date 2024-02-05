@@ -14,10 +14,10 @@
 		 */
 		"allowJs": true,
 		"checkJs": true,
-		"isolatedModules": true
+		"isolatedModules": true,
+		"outDir": "dist",
+		"declaration": true
 	},
-	"outDir": "dist",
-	"declaration": true,
 	"include": [
 		"src/**/*.ts",
 		"src/**/*.js",

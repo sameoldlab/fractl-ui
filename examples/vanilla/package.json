@@ -16,6 +16,7 @@
 	},
 	"dependencies": {
 		"@fractl-ui/evm": "workspace:^",
+		"@fractl-ui/starknet": "workspace:^",
 		"@fractl-ui/ui": "workspace:^"
 	}
 }

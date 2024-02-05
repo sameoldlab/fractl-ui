@@ -16,7 +16,7 @@ export default defineConfig({
 		sourcemap: true,
 		lib: {
 			entry: resolve(__dirname, './src/lib/index.ts'),
-			name: 'evm-new',
+			name: '@fractl-ui/starknet', //should be able to convert to some general cairo version
 			formats: ['es'],
 			fileName: 'index'
 		},
