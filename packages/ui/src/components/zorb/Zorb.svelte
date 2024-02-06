@@ -1,7 +1,9 @@
 <script lang="ts">
-	import { gradientForAddress } from './lib'
+	import { gradientForAddress } from './lib.js'
 	export let size = '100%'
 	export let address = '0x0000000000000000000000000000000000000000'
+	let classNames = ''
+	export { classNames as class }
 
 	$: gradientInfo = gradientForAddress(address)
 </script>
@@ -11,7 +13,7 @@
 	height={size}
 	xmlns="http://www.w3.org/2000/svg"
 	viewBox="0 0 100 100"
-	class="avatar fcl__graphic-primary"
+	class="avatar {classNames}"
 >
 	<title><slot /></title>
 	<defs>
@@ -34,3 +36,7 @@
 		<ellipse fill="url(#gzr)" cx="45" cy="45" rx="45" ry="45"></ellipse>
 	</g>
 </svg>
+
+<style lang="postcss">
+	@import url('../../styles/index.css');
+</style>

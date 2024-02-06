@@ -1,98 +1,79 @@
 <script lang="ts">
 	import copyEN from '../../copy/copy.EN.js'
-	// import Modal from '../Common/Modal.svelte'
+	import Modal from '../Common/Modal.svelte'
 	import Scannable from './Scannable.svelte'
-
-	import { fly } from 'svelte/transition'
-	import { writable, type Readable } from 'svelte/store'
-	import { quadInOut } from 'svelte/easing'
 	import type { ConfigDisconnected, Connector } from '../../types.js'
 
-	type Props = {
-		config: ConfigDisconnected
-		state
-		btnClass?: string
-		triggerText?: string
-	}
-	let {config, state, btnClass, triggerText = "Connect Wallet"} = $props<Props>()
-	const { connectors } = config
-		
-	// export let demo = true
-	// export const triggerText = 'Connect Wallet'
-	// export let showModal: boolean
+	export let config: ConfigDisconnected
+	export let state
+	export let btnClass = ''
+	export let triggerText = 'Connect Wallet'
 
+	let open: () => void
+	let close: () => void
+
+	// export let demo = true
 	// export let inputWatch = true
 	// export let accountStatus: string
 	// export let chainStatus
 	// export let showBalance: string
-	// export let customTrigger = false
-	let open = $state(false)
+	$: if (state.status === 'connected') close()
 
-	$effect(()=>{ if (config.state.status === 'connected') open = false})
-
-	let activeRequest = $state<null | Connector>(null) //config.connectors[3]
-	// const title = $derived(!activeRequest ? 'Connect Wallet' : `${activeRequest.name}`)
+	let activeRequest: Connector | null = null //config.connectors[3]
+	$: title = !activeRequest ? 'Connect Wallet' : activeRequest.name
 
 	const handleConnect = async (connector: Connector) => {
 		await config.reconnect([connector])
-		
+
 		try {
-			console.log('config.state: ', config.state.status)
+			console.log('config.state: ', state.status)
 			activeRequest = connector
-			await config.connect( connector )
+			await config.connect(connector)
 		} catch (error) {
 			console.error('caught: ', error)
 		}
 
-		console.log('config.state: ', config.state.status)
-	}
-
-	let triggerEl: HTMLButtonElement = $state()
-	export const handleTrigger = () => {
-		open = true
+		console.log('config.state: ', state.status)
 	}
 	const clearRequest = () => (activeRequest = null)
 </script>
 
+<!-- aria-expanded={open ? 'true' : 'false'} -->
 <button
 	aria-haspopup="dialog"
-	data-fractl-button
-	aria-expanded={open ? 'true' : 'false'}
-	on:click={handleTrigger}
-	bind:this={triggerEl}
+	data-fractl-trigger
+	on:click={open}
 	class={btnClass}
 >
 	{triggerText}
 </button>
 
-<!-- <Modal
-	titleText={title}
-	role="alertdialog"
-	focusTarget={triggerEl}
-	{open}
-	on:close={clearRequest}
-	transition={(e) =>
-		fly(e, { duration: 100, y: 40, opacity: 0, easing: quadInOut })}
-> -->
-	<button class:hide={!activeRequest} on:click={clearRequest}>
-		<svg
-			width="18"
-			height="18"
-			viewBox="0 0 18 18"
-			fill="none"
-			xmlns="http://www.w3.org/2000/svg"
-			aria-hidden="true"
-			focusable="false"
+<Modal titleText={title} bind:open bind:close customTrigger>
+	<svelte:fragment slot="icon-left">
+		<button
+			class:hide={!activeRequest}
+			on:click={clearRequest}
+			class="fcl__header-btn"
 		>
-			<path
-				d="M12 3L5.5 9.5L12 16"
-				stroke="currentcolor"
-				stroke-width="2"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-			/>
-		</svg>
-	</button>
+			<svg
+				width="18"
+				height="18"
+				viewBox="0 0 18 18"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+				aria-hidden="true"
+				focusable="false"
+			>
+				<path
+					d="M12 3L5.5 9.5L12 16"
+					stroke="currentcolor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				/>
+			</svg>
+		</button>
+	</svelte:fragment>
 
 	<div class="fcl__layout-1col">
 		{#if activeRequest}
@@ -114,7 +95,7 @@
 					/>
 				</div>
 
-				{#if config.state.status === 'connecting'}
+				{#if state.status === 'connecting'}
 					<h3 class="fcl__text-primary">Requesting Connection</h3>
 					<p class="fcl__subhead">
 						{copyEN(activeRequest.name).connecting[activeRequest.type]}
@@ -134,7 +115,7 @@
 			{/if}
 		{:else}
 			<div class="connectors">
-				{#each connectors.toReversed() as connector}
+				{#each config.connectors.toReversed() as connector}
 					<button
 						on:click={() => handleConnect(connector)}
 						data-uid={connector.uid}
@@ -156,6 +137,8 @@
 			<slot name="footer" />
 		{/if}
 	</div>
+</Modal>
+
 <!-- </Modal> -->
 
 <style>
