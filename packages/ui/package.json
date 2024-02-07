@@ -31,7 +31,7 @@
 		"build": "vite build ",
 		"preview": "vite preview",
 		"check": "svelte-check --tsconfig ./tsconfig.json",
-		"prepublishOnly": "npm run package"
+		"prepublishOnly": "pnpm check"
 	},
 	"devDependencies": {
 		"@melt-ui/svelte": "^0.67.0",
