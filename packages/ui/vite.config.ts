@@ -13,11 +13,10 @@ export default defineConfig({
 		})
 	],
 	build: {
-		sourcemap: true,
 		lib: {
 			entry: resolve(__dirname, './src/index.ts'),
 			name: '@fractl-ui/ui',
-			formats: ['es'],
+			formats: ['es', 'cjs'],
 			fileName: 'index'
 		},
 		target: 'esnext'
