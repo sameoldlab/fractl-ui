@@ -48,7 +48,13 @@
 	{triggerText}
 </button>
 
-<Modal titleText={title} bind:open bind:close customTrigger>
+<Modal
+	titleText={title}
+	bind:open
+	bind:close
+	inlineSize={activeRequest ? 260 : 240}
+	customTrigger
+>
 	<svelte:fragment slot="icon-left">
 		<button
 			class:hide={!activeRequest}
@@ -81,7 +87,7 @@
 				<!-- <Injected connector={activeRequest}></Injected> -->
 				<div class="fcl__graphic-primary">
 					<!-- prettier-ignore -->
-					<svg class:hide={config.state.status !== 'connecting'} class="spin" width="108" height="108" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" > 
+					<svg class:hide={state.status !== 'connecting' && state.status !== 'reconnecting'} class="spin" width="108" height="108" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" > 
 						<path d="M98 50C98 23.4903 76.5097 2 50 2" stroke="url(#a)" stroke-width="4" stroke-linecap="round" /> 
 						<defs> 
 							<radialGradient id="radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(100 50) rotate(-90) scale(47 47)" > <stop stop-color="currentColor" /> <stop offset="1" stop-color="currentColor" stop-opacity="0" /> </radialGradient> 
@@ -95,7 +101,7 @@
 					/>
 				</div>
 
-				{#if state.status === 'connecting'}
+				{#if state.status === 'connecting' || state.status === 'reconnecting'}
 					<h3 class="fcl__text-primary">Requesting Connection</h3>
 					<p class="fcl__subhead">
 						{copyEN(activeRequest.name).connecting[activeRequest.type]}
@@ -107,7 +113,7 @@
 					</p>
 					<button
 						on:click={() => handleConnect(activeRequest)}
-						class="fcl__btn-primary justify-center">Retry</button
+						class="fcl__btn-primary justify-center mt-1">Retry</button
 					>
 				{/if}
 			{:else if activeRequest.type === 'walletConnect'}
@@ -124,11 +130,9 @@
 						{connector.name}
 						<!-- {connector.type} -->
 						{#if connector.icon}
-							<img
-								class="logo rounded"
-								src={connector.icon}
-								alt={connector.name}
-							/>
+							<!-- Button is already labbeled by it's inner text making the image alt text repetitive -->
+							<!-- svelte-ignore a11y-missing-attribute -->
+							<img aria-hidden class="logo rounded" src={connector.icon} />
 						{/if}
 					</button>
 				{/each}

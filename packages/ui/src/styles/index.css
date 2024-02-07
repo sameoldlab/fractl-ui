@@ -1,7 +1,7 @@
 /* =============== */
 /* Button Classes */
 /* =============== */
-[data-fractl-button] {
+[data-fractl-trigger] {
 	box-sizing: border-box;
 	display: flex;
 	align-items: center;
@@ -39,9 +39,25 @@
 
 	cursor: pointer;
 	padding: 1em 1.25em;
-	transition: background-color 100ms ease-in-out;
+	transition:
+		background-color 64ms ease-in-out,
+		box-shadow 64ms ease-in-out;
+	background-clip: padding-box;
 
-	box-shadow: var(--fcl-btn-box-shadow, none);
+	box-shadow: var(
+		--fcl-btn-box-shadow,
+		0px 0px 0px 1px rgb(0 0 0 / 0.5),
+		0px 1px 0px -1px rgb(0 0 0 / 0.5),
+		0px 1px 1px -1px rgb(0 0 0 / 0.5),
+		0px 3px 6px -3px rgb(0 0 0 / 0.5),
+		0px 0px 0px 1px hsl(0, 0%, 70%, 0.02) inset,
+		0px 1px 1px hsl(0, 0%, 80%, 0.04) inset
+	);
+
+	text-shadow:
+		1px 1px 1px rgb(0 0 0 / 0.5),
+		0px 1px 1px -1px rgb(0 0 0 / 0.5),
+		0px 3px 6px -3px rgb(0 0 0 / 0.5);
 
 	background-color: var(--fcl-btn-background, #222429);
 	color: var(--fcl-btn-color, #f1f1f1);
@@ -51,24 +67,40 @@
 		calc(var(--fcl-border-radius, 1.8em) - var(--fcl-modal-padding, 1.25em))
 	);
 	font-size: var(--fcl-btn-font-size, 0.9em);
-	font-weight: var(--fcl-btn-font-weight, 500);
+	font-weight: var(--fcl-btn-font-weight, 600);
 
 	&:hover {
 		background-color: var(--fcl-btn-hover-background, #2f3139);
 		color: var(--fcl-btn-hover-color, --fcl-text-color, #f1f1f1);
-		box-shadow: var(--fcl-btn-hover-box-shadow, none);
+		box-shadow: var(
+			--fcl-btn-box-shadow,
+			0px 0px 0px 1px rgb(0 0 0 / 0.5),
+			0px 1px 0px -1px rgb(0 0 0 / 0.5),
+			0px 1px 1px -1px rgb(0 0 0 / 0.5),
+			0px 3px 6px -3px rgb(0 0 0 / 0.5),
+			0px 0px 0px 0.5px hsl(0, 0%, 70%, 0.02) inset,
+			0px 2px 5px hsl(0, 0%, 80%, 0.04) inset
+		);
 	}
 
 	&:active {
 		scale: 99%;
 		background-color: var(--fcl-btn-active-background, #2f3139);
 		color: var(--fcl-btn-active-color, --fcl-text-color, #f1f1f1);
-		box-shadow: var(--fcl-btn-active-box-shadow, none);
+		box-shadow: var(
+			--fcl-btn-box-shadow,
+			0px 0px 0px 1px rgb(0 0 0 / 0.6),
+			0px 1px 0px -1px rgb(0 0 0 / 0.6),
+			0px 1px 1px -1px rgb(0 0 0 / 0.6),
+			0px 3px 6px -3px rgb(0 0 0 / 0.6),
+			0px 0px 1px 1px rgb(0 0 0 / 0.5) inset,
+			0px 1px 1px rgb(0 0 0 / 0.5) inset
+		);
 	}
 }
 /* 	Make a butoon icon class if this gets more complex */
-button[data-melt-dialog-trigger] img,
-button[data-melt-dialog-trigger] svg,
+button[data-fractl-trigger] img,
+button[data-fractl-trigger] svg,
 button.fcl__btn-primary img,
 button.fcl__btn-primary svg,
 .fcl__btn-icon {
@@ -101,86 +133,23 @@ button.fcl__btn-primary svg,
 }
 
 /* =============== */
-/* Dialog Classes */
-/* =============== */
-[data-melt-dialog-overlay] {
-	position: fixed;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-
-	background: var(--fcl-overlay-background, hsla(0 0 0 / 0.43));
-	backdrop-filter: var(--fcl-overlay-backdrop-filter, none);
-}
-
-[data-melt-dialog-content] {
-	display: block;
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	min-width: 200px;
-	max-width: 24ch;
-
-	background: var(--fcl-body-background, #141519);
-	color: var(--fcl-text-color, #f1f1f1);
-	box-shadow: var(--fcl-modal-box-shadow, none);
-	border: var(--fcl-modal-border, 1px solid #343939);
-	border-radius: var(--fcl-border-radius, 1.8em);
-	padding: var(--fcl-modal-padding, 1.25em);
-	font-family: var(
-		--fcl-font-family,
-		'Helvetica Neue',
-		Inter,
-		'Arial Nova',
-		system-ui,
-		-apple-system,
-		BlinkMacSystemFont,
-		Oxygen,
-		Ubuntu,
-		Cantarell,
-		'Open Sans',
-		sans-serif
-	);
-
-	/* Targetting Dialog Head Slot */
-	& header {
-		display: grid;
-		grid-template-columns: 30px [title-start] 1fr [title-end] 30px;
-		align-items: center;
-		padding-bottom: 1em;
-
-		& h2 {
-			margin: 0;
-			grid-column: title;
-			text-align: center;
-			font-size: var(--fcl-modal-heading-font-size, 1em);
-			font-weight: var(--fcl-modal-heading-font-weight, 700);
-		}
-	}
-	& button {
-		font-family: inherit;
-	}
-}
-
-/* =============== */
 /* Text Classes */
 /* =============== */
 .fcl__text-primary {
-	/* font-size: .9em; */
+	font-size: 1em;
 	font-weight: 700;
-	padding-block: 0.5em;
-	/* margin: 0; */
+	margin: 0;
+	padding-block-start: 1.25em;
+	padding-block-end: 0.25em;
 }
 
 .fcl__subhead {
 	opacity: 0.7; /* hacky... _/(:/)\_ */
-	font-size: 1em;
+	font-size: 0.9em;
 	font-weight: 400;
 	text-align: center;
 	margin: 0;
-	padding-bottom: 1.25em;
+	/* padding-bottom: 1.25em; */
 	text-wrap: pretty;
 }
 
@@ -212,17 +181,15 @@ button.fcl__btn-primary svg,
 }
 
 /* Something here feels messy. need to check on mobile */
-.fcl__layout-3col .fcl__graphic-primary,
-.fcl__layout-1col .fcl__graphic-primary {
+.fcl__graphic-primary {
 	grid-column: main;
 
 	display: grid;
-	grid-template-areas: 1/1;
+	/* grid-template-areas: 1/1; */
 	align-items: center;
 	justify-content: center;
 
-	width: 5em;
-	margin-bottom: 1.75em;
+	width: 5.5em;
 }
 
 .fcl__layout-1col .fcl__graphic-primary {
@@ -240,38 +207,36 @@ button.fcl__btn-primary svg,
 	}
 }
 
-[data-melt-dialog-content] .fcl__header-icon {
+.fcl__header-icon {
 	height: 30px;
 	width: 30px;
-	cursor: pointer;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+.fcl__header-btn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	padding: 0;
+	height: 100%;
+	width: 100%;
 
-	& > button {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		padding: 0;
-		height: 100%;
-		width: 100%;
+	border: 1px solid hsla(0, 0%, 100%, 0%);
+	border-radius: 50%;
+	background: transparent;
+	color: var(--fcl-text-color);
 
-		border: 1px solid hsla(0, 0%, 100%, 0%);
-		border-radius: 50%;
-		background: transparent;
-		color: var(--fcl-text-color);
+	transition:
+		background-color 140ms ease-in,
+		border 140ms ease-in;
 
-		transition:
-			background-color 140ms ease-in,
-			border 140ms ease-in;
-
-		&:hover {
-			border: 1px solid hsla(0, 0%, 100%, 4%);
-			background: hsla(0, 0%, 100%, 6%);
-		}
+	&:hover {
+		border: 1px solid hsla(0, 0%, 100%, 4%);
+		background: hsla(0, 0%, 100%, 6%);
 	}
 }
-
 /* =============== */
 /* Utility Classes */
 /* =============== */
@@ -292,4 +257,7 @@ button.fcl__btn-primary svg,
 button.address {
 	font-feature-settings: 'tnum', 'zero';
 	transition: opacity 150ms ease-out;
+}
+.mt-1 {
+	margin-top: 1em;
 }
