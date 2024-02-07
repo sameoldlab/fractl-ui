@@ -3,10 +3,14 @@
     - [x] Write README
     - [x] Try Mitosis again else try Svelte's web component compiler if not
     - [x] Better web component type generation
-    - [ ] abstract to something other than wagmi/evm. CosmWasmSDK
+    - [ ] abstract to something other than wagmi/evm: Starknet / CosmWasmSDK
+    - [x] Publish UI to npm
+    - [ ] Publish cores to npm
     - [ ] Poast
     - [x] Add icons for Account buttons
-    - [x] Integration for WalletConnect
+    - [x] EVM: Integration for WalletConnect
+    - [ ] Stark: Integration for WalletConnect
+    - [ ] Integration for Starknet Mobile Wallets
     - [x] Replace WalletConnect Modal with custom QR Code
     - [ ] Integration for Embedded Wallet
     - [ ] Deeplink walletConnect links on mobile
@@ -16,19 +20,21 @@
     - [ ] What is a wallet section
     	- [ ] If no injected wallet exists then link to download / resources
     	- [ ] EVM: If wallet connect is included by default add an option to take it out or auto-detect duplicates and remove
+    		- [ ] composable cores
 
     ---
 
-    - [ ] Publish to npm
     - [ ] Decent website
-    - [ ] Starkware? Fuel? Solana?
+    - [ ] Fuel? Solana?
 
     - [ ] Setup frame provider (after 0.7)
     - [ ] Safe? Coinbase?
+    - [ ] Deeplink Coinbase Wallet on mobile
     	- [x] In-app (Metamask) browsers?
-    - [ ] Check: Still need browser wallet specific connectors (coinbase, metamask ) if using 6963?
-    - [ ] Catch errors on getBalance and resolver and re-request later if 'HTTP Request failed'
-    - [ ] For Mobile: if in-wallet browser is detected (is mobile && eip-6963 provider exists), bypass modal and attempt to request connection directly. Need to detect if provider name matches the browser's user agent or something no avoid Dawn and firefox android(?)
+    - [ ] Check: Still need browser wallet specific connectors (coinbase, metamask ) if using 6963? A: Metamask covered, Safe is WC, Coinbase not
+    - [ ] EVM: Catch errors on getBalance and resolver and re-request later if 'HTTP Request failed'
+    - [ ] all cores: auto-update balance on interval (add option to disable)
+    - [ ] For Mobile: if in-wallet browser is detected (is mobile && eip-6963 provider exists), bypass modal and attempt to request connection directly. Need to detect if provider name matches the browser's user agent or something to avoid Dawn and firefox android(?)
     - [ ] Find out why onOpenChange runs twice when closing in Modal.svelte
     - [ ] Additional resolver options: lens? oldest PFP NFT?
     - [ ] Additional Components: Switch chains, Swap (multichain), dropdown for Account details
