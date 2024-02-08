@@ -1,0 +1,29 @@
+{
+	"name": "@fractl-ui/types",
+	"version": "0.1.0",
+	"private": true,
+	"description": "",
+	"author": "sameoldlab",
+	"license": "MIT",
+	"homepage": "https://fractl.click/",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/sameoldlab/fractl-ui.git"
+	},
+	"type": "module",
+	"types": "./types.d.ts",
+	"files": [
+		"dist"
+	],
+	"exports": {
+		"types": "./dist/types.d.ts"
+	},
+	"scripts": {
+		"build": "tsc",
+		"build:watch": "tsc -w"
+	},
+	"devDependencies": {
+		"nanostores": "^0.9.5",
+		"svelte": "^4.2.9"
+	}
+}

@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"strict": true,
+		"target": "ESNext",
+		"useDefineForClassFields": true,
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"resolveJsonModule": true,
+
+		"skipLibCheck": true,
+		"allowJs": false,
+
+		"outDir": "dist",
+		"declaration": true,
+		"declarationDir": "dist",
+		"emitDeclarationOnly": true,
+		"isolatedModules": true,
+	},
+	"include": ["src"],
+}

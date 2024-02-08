@@ -1,3 +1,4 @@
+import type {AccountData, Config } from '@fractl-ui/types'
 import {
 	connect,
 	reconnect,
@@ -10,8 +11,6 @@ import {
 	getEnsAvatar,
 	GetEnsNameReturnType
 } from '@wagmi/core'
-import { AccountData, Config } from './types.js'
-import { map } from 'nanostores'
 import { formatUnits } from 'viem/utils'
 import { GetEnsAvatarReturnType } from 'viem/actions'
 

@@ -134,6 +134,9 @@ importers:
 
   packages/evm:
     devDependencies:
+      '@fractl-ui/types':
+        specifier: workspace:^
+        version: link:../types
       '@wagmi/core':
         specifier: ^2.6.1
         version: 2.6.1(react@18.2.0)(typescript@5.3.3)(viem@2.5.0)
@@ -153,6 +156,9 @@ importers:
         specifier: ^0.9.5
         version: 0.9.5
     devDependencies:
+      '@fractl-ui/types':
+        specifier: workspace:^
+        version: link:../types
       '@melt-ui/svelte':
         specifier: ^0.67.0
         version: 0.67.0(svelte@4.2.9)
@@ -193,8 +199,23 @@ importers:
         specifier: ^3.7.2
         version: 3.7.2(typescript@5.3.3)(vite@5.0.12)
 
+  packages/types:
+    devDependencies:
+      '@fractl-ui/types':
+        specifier: workspace:^
+        version: 'link:'
+      nanostores:
+        specifier: ^0.9.5
+        version: 0.9.5
+      svelte:
+        specifier: ^4.2.9
+        version: 4.2.9
+
   packages/ui:
     devDependencies:
+      '@fractl-ui/types':
+        specifier: workspace:^
+        version: link:../types
       '@melt-ui/svelte':
         specifier: ^0.67.0
         version: 0.67.0(svelte@4.2.9)

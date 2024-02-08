@@ -19,14 +19,14 @@ export type AccountDataResponse = {
 		address: `0x${string}`
 		addresses: readonly [`0x${string}`, ...`0x${string}`[]]
 	}
-	balance: Promise<{
+	balance: {
 		formatted: string
 		decimals: number
 		symbol: string
 		value: bigint
-	}>
+	}
 
-	nameService: Promise<
+	nameService:
 		| {
 				name: null
 				avatar: null
@@ -35,7 +35,6 @@ export type AccountDataResponse = {
 				name: string
 				avatar: string | null
 		  }
-	>
 }
 
 export type AccountData = AccountDataError | AccountDataResponse
@@ -67,7 +66,7 @@ export type Config =
 	| {
 			state: MapStore<{
 				activeRequest?: Connector
-				current: Connection
+				current: object
 				status: 'connected'
 			}>
 			connectors: readonly Connector[]
