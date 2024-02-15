@@ -1,127 +1,170 @@
 import SN, {
 	type StarknetWindowObject,
-	type WalletProvider
+	type ConnectedStarknetWindowObject,
 } from 'get-starknet-core'
-import { atom, computed, onSet } from 'nanostores'
+import { map } from 'nanostores'
+import type { AccountData, Config } from '@fractl-ui/types'
+import { RpcProvider, defaultProvider } from 'starknet'
+
+// const ETH_ADDR = "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7"
+// const provider = new RpcProvider({ sequencer: { baseUrl:"http://127.0.0.1:5050"  } })
+
+
 /* 
 	TODO: Test with metamask snap
 	Integrate Walletconnect
 */
-export const createStarknetConnection = () => {
-	const wallets = {
-		preAuthorized: [] as StarknetWindowObject[],
-		lastConnected: undefined,
-		available: [] as StarknetWindowObject[],
-		installable: [] as WalletProvider[]
-	}
-	// const preauthedWallets: StarknetWindowObject[] = []
-	// const discoveryWallets: StarknetWindowObject[] = []
-	// const availableWallets: StarknetWindowObject[] = []
+type StarknetConnectProps = {
+	starknetVersion?: 'v4' | 'v5' | undefined
+	/**
+	 * Defaults to a list of preauthorized or available wallets
+	 */
+	connectors: StarknetWindowObject[]
+	/* opt to include install link when no wallet is available */
+	/**
+	 * If `true` reconnects to the first available connected wallet in `connectors`
+	 */
+	autoconnect: boolean
 
-	SN.getPreAuthorizedWallets().then((res) => wallets.preAuthorized.push(...res))
-	SN.getLastConnectedWallet().then((res) => (wallets.lastConnected = res))
-	SN.getDiscoveryWallets().then((res) => wallets.installable.push(...res))
-	SN.getAvailableWallets().then((res) => {
-		res.map((v) => {
-			if (v.id === 'braavos' || v.id === 'argentX') v.type = 'injected'
+	provider: RpcProvider
+}
 
-			return v
+export const addStarknetConnection = async ({
+	starknetVersion,
+	connectors,
+	autoconnect,
+	provider
+}: StarknetConnectProps = {
+	starknetVersion: 'v5',
+	connectors: [],
+	autoconnect: false,
+	provider: defaultProvider
+}): Promise<Config> => {
+
+	/* Check if user passed in any connectors. If empty get connectors from preauthorized wallets. */
+	if (connectors.length === 0) {
+		// SN.getDiscoveryWallets().then((res) => connectors.installable.push(...res))
+		// SN.getPreAuthorizedWallets().then((res) => connectors.push(...res))
+		connectors.push(...await SN.getPreAuthorizedWallets())
+		const available = await SN.getAvailableWallets()
+		connectors.push(...available.filter((a)=> !connectors.includes(a)))
+
+		connectors.map((a) => {
+			if (a.id === 'braavos' || a.id === 'argentX') a.type = 'injected'
+			return a
 		})
-		wallets.installable.push(...res)
-		wallets.available.push(...res)
+	}
+
+	// SN.getLastConnectedWallet().then((res) => (lastConnected = res))
+
+	const state = map<{
+		activeRequest?: StarknetWindowObject | undefined
+		current: ConnectedStarknetWindowObject | undefined
+		status: 'connecting' | 'disconnected' | 'reconnecting' | 'connected'
+	}>({
+		activeRequest: undefined,
+		current: undefined,
+		status: 'disconnected'
 	})
 
-	const current = atom<StarknetWindowObject>(null)
-	const setCurrent = (connectors: StarknetWindowObject[]) => {
+	/* Update status */
+	state.subscribe(($s) => {
+		if ($s.activeRequest) return state.setKey('status', 'connecting')
+		if ($s.current) return state.setKey('status', 'connected')
+		state.setKey('status', 'disconnected')
+	})
+	// state.setKey('activeRequest', connectors.available[0])
+
+	const setCurrent = (connector: StarknetWindowObject) =>
+		connector.isConnected
+			? state.setKey('current', connector)
+			: Error(`${connector.name} is not connected`)
+
+	if (autoconnect) {
 		for (let i = 0; i <= connectors.length; i++) {
-			if (connectors[i]?.isConnected) return current.set(connectors[i])
-		}
-		return current.set(null)
-	}
-	setCurrent(wallets.available)
-
-	const stateStore = () => {
-		const activeRequest = atom<StarknetWindowObject>(null)
-
-		const status = computed(
-			[current, activeRequest],
-			($current, $activeRequest) => {
-				return $activeRequest
-					? 'connecting'
-					: $current
-						? 'connected'
-						: 'disconnected'
-			}
-		)
-
-		onSet(activeRequest, () => {
-			console.log('setting current...')
-			console.log(wallets.available)
-
-			setCurrent(wallets.available)
-			console.log(current.get())
-		})
-
-		return {
-			activeRequest,
-			get current() {
-				return {
-					subscribe: current.subscribe,
-					get: current.get
-				}
-			},
-			get status() {
-				return status
+			if (connectors[i]?.isConnected) {
+				state.setKey('current', connectors[i])
+				setCurrent(connectors[i])
 			}
 		}
 	}
 
-	const state = stateStore()
+	/* Manage Account Data */
+	const accountData = map<AccountData>({
+		account: undefined,
+		balance: undefined,
+		nameService: {
+			name: undefined,
+			avatar: undefined
+		}
+	})
 
-	const connect = (
-		wallet: StarknetWindowObject = wallets.available[0],
-		options?:
-			| {
-					starknetVersion?: 'v4' | 'v5' | undefined
-			  }
-			| undefined
-	) => {
-		console.log(wallet)
+	state.subscribe(($s, changedKey) => changedKey === 'status' && updateAccount($s.status, $s.current))
 
-		state.activeRequest.set(wallet)
-		console.log('activeRequest: ', state.activeRequest.get())
-		console.log('current: ', state.current.get())
-		console.log('status: ', state.status.get())
+	async function updateAccount(
+		status: 'connected' | 'connecting' | 'disconnected' | 'reconnecting',
+		current: ConnectedStarknetWindowObject
+	) {
+		if (status !== 'connected') {
+			accountData.setKey('account', undefined)
+			accountData.setKey('balance', undefined)
+			accountData.setKey('nameService', { name: undefined, avatar: undefined })
+			return
+		}
+		
+		const account = {address: current.selectedAddress}
+		accountData.setKey('account', account)
 
-		if (state.status.get() === 'connected')
-			return console.log('already connected')
+		try {
+			// const eth = new Contract(undefined, ETH_ADDR, defaultProvider)
+			// const balance = await eth.balanceOf(account.address)
 
-		return SN.enable(wallet, options)
+			accountData.setKey('balance', {
+				value: "todo",
+				symbol: "ETH",
+			})
+
+			// console.log(accountData.get())
+		} catch (error) {
+			// console.log(accountData.get())
+			console.error('fetch error', error)
+		}
+	}
+
+	const connect =  async (connector: StarknetWindowObject = connectors[0]) => {
+		/* Connect and reconnect are effectively the same thing as this does not keep a history of existing connections */
+		// if (connector?.isConnected) throw Error('already connected')
+		state.setKey('activeRequest', connector)
+
+		return SN.enable(connector, { starknetVersion })
 			.catch((e) => Error(e))
-			.then((res) => res)
+			.then((res) =>  res)
 			.finally(() => {
-				state.activeRequest.set(null)
-				console.log('activeRequest: ', state.activeRequest.get())
-				console.log('current: ', state.current.get())
-				console.log('status: ', state.status.get())
+				state.setKey('activeRequest', undefined)
+				setCurrent(connector)
 			})
 	}
 
-	const data = {
+	return {
 		state: {
-			...state,
-			get activeRequest() {
-				return state.activeRequest.get
-			}
+			subscribe: state.subscribe,
 		},
-		connectors: wallets.available,
+		accountData: {
+			subscribe: accountData.subscribe,
+		},
+		get connectors() {
+			return connectors
+		},
 		connect,
+		reconnect: async (connectors: StarknetWindowObject[]) =>
+			await connectors.forEach(async (c) => await connect(c)),
 		disconnect: async (
 			opts?: { clearLastWallet: boolean | undefined } | undefined
 		) => {
-			await SN.disconnect(opts)
-			setCurrent(wallets.available)
+			await SN.disconnect({clearLastWallet: true})
+			state.setKey('current', undefined)
+			console.log(state.get());
+			
 		}
 	}
-	return data
 }
