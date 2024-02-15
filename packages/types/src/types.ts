@@ -1,9 +1,12 @@
-import { MapStore } from 'nanostores'
+import type { MapStore } from 'nanostores'
+// import type { Readable } from 'svelte/store'
 /* Map store fits same interface as a
  * Svelte Writable with additional listen
  * function. Need separate type package to
  * enforce pattern across libs.
  */
+
+type Store<T extends object> = MapStore<T>['subscribe']
 
 export type AccountDataError = {
 	account: undefined
@@ -39,42 +42,45 @@ export type AccountDataResponse = {
 
 export type AccountData = AccountDataError | AccountDataResponse
 
-export type Connector = {
+export interface Connector {
 	name: string
 	id: string
 	icon?: string
 	type: string
-	/* Some other things connect uses to to connect */
+	[propName: string]: unknown
+	/* Some other things Config.connect() uses to connect */
 }
 
-export type Config =
-	| {
-			state: MapStore<{
-				activeRequest?: Connector
-				current: undefined
-				status: 'connecting' | 'disconnected' | 'reconnecting'
-			}>
-			connectors: readonly Connector[]
-			accountData: MapStore<AccountDataError>
-			connect: (connector: Connector) => Promise<object> /* fix later */
-			reconnect: (
-				config: Config,
-				{ connectors }: { connectors: Connector[] }
-			) => Promise<void>
-			disconnect: () => Promise<void>
-	  }
-	| {
-			state: MapStore<{
-				activeRequest?: Connector
-				current: object
-				status: 'connected'
-			}>
-			connectors: readonly Connector[]
-			accountData: MapStore<AccountDataResponse>
-			connect: (connector: Connector) => Promise<object> /* fix later */
-			reconnect: (
-				config: Config,
-				{ connectors }: { connectors: Connector[] }
-			) => Promise<void>
-			disconnect: () => Promise<void>
-	  }
+export type ConfigDisconnected = {
+	state: Store<{
+		activeRequest?: Connector
+		current: undefined
+		status: 'connecting' | 'disconnected' | 'reconnecting'
+	}>
+	connectors: readonly Connector[]
+	accountData: Store<AccountDataError>
+	connect: (connector: Connector) => Promise<object> /* fix later */
+	reconnect: (
+		config: Config,
+		{ connectors }: { connectors: Connector[] }
+	) => Promise<void>
+	disconnect: () => Promise<void>
+}
+
+export type ConfigConnected = {
+	state: Store<{
+		activeRequest?: Connector
+		current: Connector
+		status: 'connected'
+	}>
+	connectors: readonly Connector[]
+	accountData: Store<AccountDataResponse>
+	connect: (connector: Connector) => Promise<object> /* fix later */
+	reconnect: (
+		config: Config,
+		{ connectors }: { connectors: Connector[] }
+	) => Promise<void>
+	disconnect: () => Promise<void>
+}
+
+export type Config = ConfigDisconnected | ConfigConnected
