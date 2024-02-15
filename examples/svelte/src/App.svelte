@@ -8,16 +8,22 @@
 	import { reconnect } from '@wagmi/core'
 	import FractlSvg from './assets/fractl.svg'
 	import './app.css'
+	// import { addStarknetConnection } frLom '@fractl-ui/starknet'
 
 	onMount(async () => {
 		reconnect($wagmiConfig, { connectors: $wagmiConfig.connectors })
 	})
+	// const config = addStarknetConnection()
 	const config = addEvmConnection($wagmiConfig)
 	// const { status } = config.state
 </script>
 
+<header>
+	<fractl-modal {config} btnClass="button-85"/>
+
+</header>
 <main>
-	<div>
+	<div class="hero">
 		<h1>
 			<!-- Fractl-ui -->
 			<img src={FractlSvg} alt="Fractl UI" />
@@ -29,8 +35,7 @@
 		</p>
 	</div>
 
-	<fractl-modal config={$config} btnClass="button-85" />
-
+	<fractl-modal {config} btnClass="button-85" />
 	<!-- 
 	{#if connected}
 		<AccountDialog config={$config}></AccountDialog>
@@ -55,7 +60,12 @@
 </footer>
 
 <style>
-	div {
+	header {
+		display: flex;
+		flex-direction: row;
+		justify-content: end;
+	}
+	.hero {
 		align-items: center;
 		display: flex;
 		flex-direction: column;
@@ -75,7 +85,7 @@
 		font-weight: 500;
 	}
 	:root {
-		background: hsl(252, 80%, 2%);
+		background: hsl(0, 0%, 25%);
 		color: aliceblue;
 	}
 	.links {

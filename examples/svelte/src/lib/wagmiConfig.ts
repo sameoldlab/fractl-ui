@@ -5,7 +5,7 @@ import { readable } from 'svelte/store'
 
 const storage = createStorage({ storage: localStorage })
 
-const config = createConfig({
+export const config = createConfig({
 	chains: [mainnet, arbitrum],
 	storage,
 	transports: {
