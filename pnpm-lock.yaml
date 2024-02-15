@@ -201,9 +201,6 @@ importers:
 
   packages/types:
     devDependencies:
-      '@fractl-ui/types':
-        specifier: workspace:^
-        version: 'link:'
       nanostores:
         specifier: ^0.9.5
         version: 0.9.5
