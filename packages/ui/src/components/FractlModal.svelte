@@ -16,25 +16,35 @@
 	import { quintOut } from 'svelte/easing'
 
 	export let btnClass: string
-	export let config: Config
+	export let config: Promise<Config>
 
-	const { state, accountData } = config
-	$: isConnected = $state.status === 'connected'
+	let state, accountData
+	config.then((c) => {
+		state = c.state
+		accountData = c.accountData
+	})
+
+	$: isConnected = $state?.status === 'connected'
 </script>
 
-{#key isConnected}
-	<div in:blur={{ duration: 128, easing: quintOut }} out:blur={{ duration: 8 }}>
-		{#if $state.status !== 'connected'}
-			<ConnectModal
-				state={$state}
-				{config}
-				{btnClass}
-				triggerText="Connect Wallet"
-			>
-				<svelte:fragment slot="footer"></svelte:fragment>
-			</ConnectModal>
-		{:else}
-			<AccountModal accountData={$accountData} {config} {btnClass} />
-		{/if}
-	</div>
-{/key}
+{#await config then config}
+	{#key isConnected}
+		<div
+			in:blur={{ duration: 1208, easing: quintOut }}
+			out:blur={{ duration: 8 }}
+		>
+			{#if isConnected}
+				<AccountModal accountData={$accountData} {config} {btnClass} />
+			{:else}
+				<ConnectModal
+					state={$state}
+					{config}
+					{btnClass}
+					triggerText="Connect Wallet"
+				>
+					<svelte:fragment slot="footer"></svelte:fragment>
+				</ConnectModal>
+			{/if}
+		</div>
+	{/key}
+{/await}
