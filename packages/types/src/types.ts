@@ -58,11 +58,8 @@ export type ConfigDisconnected = {
 	connectors: readonly Connector[]
 	accountData: Store<AccountDataError>
 	connect: (connector: Connector) => Promise<object> /* fix later */
-	reconnect: (
-		config: Config,
-		{ connectors }: { connectors: Connector[] }
-	) => Promise<void>
-	disconnect: () => Promise<void>
+	reconnect: (connectors: Connector[]) => Promise<void>
+	disconnect: (connector?: Connector) => Promise<void>
 }
 
 export type ConfigConnected = {
@@ -74,11 +71,8 @@ export type ConfigConnected = {
 	connectors: readonly Connector[]
 	accountData: Store<AccountDataResponse>
 	connect: (connector: Connector) => Promise<object> /* fix later */
-	reconnect: (
-		config: Config,
-		{ connectors }: { connectors: Connector[] }
-	) => Promise<void>
-	disconnect: () => Promise<void>
+	reconnect: (connectors: Connector[]) => Promise<void>
+	disconnect: (connector?: Connector) => Promise<void>
 }
 
 export type Config = ConfigDisconnected | ConfigConnected
