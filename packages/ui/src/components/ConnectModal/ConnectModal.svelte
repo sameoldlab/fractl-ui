@@ -2,7 +2,7 @@
 	import copyEN from '../../copy/copy.EN.js'
 	import Modal from '../Common/Modal.svelte'
 	import Scannable from './Scannable.svelte'
-	import type { ConfigDisconnected, Connector } from '../../types.js'
+	import type { ConfigDisconnected, Connector } from '@fractl-ui/types'
 
 	export let config: ConfigDisconnected
 	export let state

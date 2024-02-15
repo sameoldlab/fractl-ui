@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { truncate } from '../utils.js'
-	import type { AccountData, ConfigConnected, Connector } from '../types.js'
+	import type {
+		AccountData,
+		ConfigConnected,
+		Connector
+	} from '@fractl-ui/types'
 	import Zorb from './zorb/Zorb.svelte'
 	import Modal from './Common/Modal.svelte'
 
