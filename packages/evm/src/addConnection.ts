@@ -1,52 +1,26 @@
-import type {AccountData, Config } from '@fractl-ui/types'
+import type { AccountData, AccountDataResponse, Config } from '@fractl-ui/types'
 import {
 	connect,
 	reconnect,
 	disconnect,
-	type Config as wagmiConfig,
-	Connector,
 	getAccount,
 	getBalance,
 	getEnsName,
 	getEnsAvatar,
-	GetEnsNameReturnType
+	type Connector,
+	type Config as wagmiConfig,
+	type GetEnsNameReturnType,
+	type GetEnsAvatarReturnType
 } from '@wagmi/core'
 import { formatUnits } from 'viem/utils'
-import { GetEnsAvatarReturnType } from 'viem/actions'
-
-export const store = <T>(initialValue: T) => {
-	let value = initialValue
-	const subscriptions = new Set<(value: T) => void>()
-
-	const subscribe = (subscription: (value: T) => void) => {
-		subscription(value)
-		subscriptions.add(subscription)
-		return () => subscriptions.delete(subscription)
-	}
-
-	const alertSubscriptions = () => {
-		subscriptions.forEach((subscription) => {
-			subscription(value)
-		})
-	}
-
-	const set = (newValue: T) => {
-		value = newValue
-		alertSubscriptions()
-	}
-
-	return {
-		subscribe,
-		set
-	}
-}
+import { map } from 'nanostores'
 /**
  * Provides connection details to fractl-modal passed into it's config parameter
  */
-export const addEvmConnection = (
+export const addEvmConnection = async (
 	config: wagmiConfig,
 	{ resolver } = { resolver: 'ENS' }
-): Config => {
+): Promise<Config> => {
 	const state = map({
 		current: config.state.connections.get(config.state.current),
 		status: config.state.status
@@ -73,11 +47,13 @@ export const addEvmConnection = (
 		}
 	)
 
-	async function updateAccount(status: "connected" | "connecting" | "disconnected" | "reconnecting") {
-		console.info('config is ', status);
+	async function updateAccount(
+		status: 'connected' | 'connecting' | 'disconnected' | 'reconnecting'
+	) {
 		if (status !== 'connected') {
-			
-			/* Todo: invalidate account when state changed FROM connected */
+			accountData.setKey('account', undefined)
+			accountData.setKey('balance', undefined)
+			accountData.setKey('nameService', { name: undefined, avatar: undefined })
 			return
 		}
 
@@ -95,8 +71,7 @@ export const addEvmConnection = (
 			}
 			accountData.setKey('balance', balance)
 
-			let name: GetEnsNameReturnType,
-				avatar: GetEnsAvatarReturnType
+			let name: GetEnsNameReturnType, avatar: GetEnsAvatarReturnType
 
 			switch (resolver) {
 				default:
@@ -130,11 +105,15 @@ export const addEvmConnection = (
 		},
 		connect: async (connector: Connector) => {
 			const { accounts, chainId } = await connect(config, { connector })
-			accountData.setKey('account', accounts?.[0])
+			accountData.setKey('account', {
+				address: accounts?.[0],
+				addresses: accounts
+			})
 			return { accounts, chainId }
 		},
-		reconnect: async (params) => await reconnect(config, { ...params }),
-		disconnect: async (connector = undefined) =>
-			await disconnect(config, { connector })
+		reconnect: async (connectors: Connector[]) =>
+			await reconnect(config, { connectors }),
+		disconnect: async (connector?: Connector) =>
+			disconnect(config, { connector: connector })
 	}
 }
