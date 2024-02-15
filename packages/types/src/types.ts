@@ -23,10 +23,8 @@ export type AccountDataResponse = {
 		addresses: readonly [`0x${string}`, ...`0x${string}`[]]
 	}
 	balance: {
-		formatted: string
-		decimals: number
+		value: string
 		symbol: string
-		value: bigint
 	}
 
 	nameService:

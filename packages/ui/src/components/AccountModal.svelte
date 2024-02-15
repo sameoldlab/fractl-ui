@@ -15,7 +15,7 @@
 	$: address = accountData.account?.address
 	$: name = accountData.nameService.name
 	$: avatar = accountData.nameService.avatar
-	$: balance = accountData.balance?.formatted
+	$: balance = accountData.balance?.value
 	$: symbol = accountData.balance?.symbol
 
 	let open: () => void

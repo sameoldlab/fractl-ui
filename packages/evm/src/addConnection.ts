@@ -88,10 +88,10 @@ export const addEvmConnection = (
 		const address = account.address!
 
 		try {
-			let balance = await getBalance(config, { address })
-			balance = {
-				...balance,
-				formatted: formatUnits(balance.value, balance.decimals)
+			const _balance = await getBalance(config, { address })
+			const balance: AccountDataResponse['balance'] = {
+				symbol: _balance.symbol,
+				value: formatUnits(_balance.value, _balance.decimals)
 			}
 			accountData.setKey('balance', balance)
 
