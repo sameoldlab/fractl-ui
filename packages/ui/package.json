@@ -1,6 +1,6 @@
 {
 	"name": "@fractl-ui/ui",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "",
 	"keywords": [],
 	"author": "sameoldlab",
@@ -30,8 +30,7 @@
 		"dev": "vite",
 		"build": "vite build ",
 		"preview": "vite preview",
-		"check": "svelte-check --tsconfig ./tsconfig.json",
-		"prepublishOnly": "pnpm check"
+		"check": "svelte-check --tsconfig ./tsconfig.json"
 	},
 	"devDependencies": {
 		"@fractl-ui/types": "workspace:^",
