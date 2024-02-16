@@ -24,7 +24,7 @@
 	},
 	"scripts": {
 		"dev": "vite",
-		"build": "vite build && tsc",
+		"build": "vite build",
 		"build:watch": "vite build -w"
 	},
 	"peerDependencies": {
@@ -36,6 +36,7 @@
 		"@wagmi/core": "^2.6.1",
 		"@walletconnect/ethereum-provider": "^2.11.0",
 		"nanostores": "^0.9.5",
-		"viem": "^2.5.0"
+		"viem": "^2.5.0",
+		"vite-plugin-dts": "^3.7.2"
 	}
 }

@@ -149,49 +149,24 @@ importers:
       viem:
         specifier: ^2.5.0
         version: 2.5.0(typescript@5.3.3)
+      vite-plugin-dts:
+        specifier: ^3.7.2
+        version: 3.7.2(typescript@5.3.3)(vite@5.0.11)
 
   packages/starknet:
-    dependencies:
-      nanostores:
-        specifier: ^0.9.5
-        version: 0.9.5
     devDependencies:
       '@fractl-ui/types':
         specifier: workspace:^
         version: link:../types
-      '@melt-ui/svelte':
-        specifier: ^0.67.0
-        version: 0.67.0(svelte@4.2.9)
-      '@sveltejs/vite-plugin-svelte':
-        specifier: ^3.0.1
-        version: 3.0.1(svelte@4.2.9)(vite@5.0.12)
-      '@tsconfig/svelte':
-        specifier: ^5.0.2
-        version: 5.0.2
-      '@types/qrcode':
-        specifier: ^1.5.5
-        version: 1.5.5
       get-starknet-core:
         specifier: ^3.2.0
         version: 3.2.0(starknet@5.24.3)
-      qrcode:
-        specifier: ^1.5.3
-        version: 1.5.3
+      nanostores:
+        specifier: ^0.9.5
+        version: 0.9.5
       starknet:
         specifier: ^5.24.3
         version: 5.24.3
-      svelte:
-        specifier: ^4.2.9
-        version: 4.2.9
-      svelte-check:
-        specifier: ^3.6.3
-        version: 3.6.3(postcss@8.4.33)(svelte@4.2.9)
-      tslib:
-        specifier: ^2.6.2
-        version: 2.6.2
-      typescript:
-        specifier: ^5.3.3
-        version: 5.3.3
       vite:
         specifier: ^5.0.12
         version: 5.0.12
@@ -4458,6 +4433,7 @@ packages:
   /nanostores@0.9.5:
     resolution: {integrity: sha512-Z+p+g8E7yzaWwOe5gEUB2Ox0rCEeXWYIZWmYvw/ajNYX8DlXdMvMDj8DWfM/subqPAcsf8l8Td4iAwO1DeIIRQ==}
     engines: {node: ^16.0.0 || ^18.0.0 || >=20.0.0}
+    dev: true
 
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
@@ -6021,6 +5997,30 @@ packages:
       - bufferutil
       - utf-8-validate
       - zod
+
+  /vite-plugin-dts@3.7.2(typescript@5.3.3)(vite@5.0.11):
+    resolution: {integrity: sha512-kg//1nDA01b8rufJf4TsvYN8LMkdwv0oBYpiQi6nRwpHyue+wTlhrBiqgipdFpMnW1oOYv6ywmzE5B0vg6vSEA==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    peerDependencies:
+      typescript: '*'
+      vite: '*'
+    peerDependenciesMeta:
+      vite:
+        optional: true
+    dependencies:
+      '@microsoft/api-extractor': 7.39.0
+      '@rollup/pluginutils': 5.1.0
+      '@vue/language-core': 1.8.27(typescript@5.3.3)
+      debug: 4.3.4
+      kolorist: 1.8.0
+      typescript: 5.3.3
+      vite: 5.0.11
+      vue-tsc: 1.8.27(typescript@5.3.3)
+    transitivePeerDependencies:
+      - '@types/node'
+      - rollup
+      - supports-color
+    dev: true
 
   /vite-plugin-dts@3.7.2(typescript@5.3.3)(vite@5.0.12):
     resolution: {integrity: sha512-kg//1nDA01b8rufJf4TsvYN8LMkdwv0oBYpiQi6nRwpHyue+wTlhrBiqgipdFpMnW1oOYv6ywmzE5B0vg6vSEA==}
