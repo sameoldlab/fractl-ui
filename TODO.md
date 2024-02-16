@@ -3,9 +3,9 @@
     - [x] Write README
     - [x] Try Mitosis again else try Svelte's web component compiler if not
     - [x] Better web component type generation
-    - [ ] abstract to something other than wagmi/evm: Starknet / CosmWasmSDK
+    - [50%] abstract to something other than wagmi/evm: ~~Starknet~~ / CosmWasmSDK
     - [x] Publish UI to npm
-    - [ ] Publish cores to npm
+    - [x] Publish cores to npm
     - [ ] Poast
     - [x] Add icons for Account buttons
     - [x] EVM: Integration for WalletConnect
@@ -20,7 +20,7 @@
     - [ ] What is a wallet section
     	- [ ] If no injected wallet exists then link to download / resources
     	- [ ] EVM: If wallet connect is included by default add an option to take it out or auto-detect duplicates and remove
-    		- [ ] composable cores
+    	- [ ] composable cores
 
     ---
 
@@ -35,6 +35,6 @@
     - [ ] EVM: Catch errors on getBalance and resolver and re-request later if 'HTTP Request failed'
     - [ ] all cores: auto-update balance on interval (add option to disable)
     - [ ] For Mobile: if in-wallet browser is detected (is mobile && eip-6963 provider exists), bypass modal and attempt to request connection directly. Need to detect if provider name matches the browser's user agent or something to avoid Dawn and firefox android(?)
-    - [ ] Find out why onOpenChange runs twice when closing in Modal.svelte
+    - [N/A] Find out why onOpenChange runs twice when closing in Modal.svelte
     - [ ] Additional resolver options: lens? oldest PFP NFT?
     - [ ] Additional Components: Switch chains, Swap (multichain), dropdown for Account details
