@@ -12,6 +12,7 @@
 	},
 	"type": "module",
 	"main": "./dist/index.index.js",
+	"module": "./dist/index.js",
 	"types": "./dist/types/index.d.ts",
 	"files": [
 		"dist",
@@ -21,16 +22,14 @@
 	"exports": {
 		".": {
 			"types": "./dist/types/index.d.ts",
-			"import": "./dist/index.js"
+			"import": "./dist/index.js",
+			"require": "./dist/index.umd.cjs"
 		}
 	},
 	"scripts": {
-		"dev": "vite",
 		"build": "vite build ",
-		"preview": "vite preview",
-		"check": "svelte-check --tsconfig ./tsconfig.json",
-		"prepublishOnly": "npm run package",
-		"lint": "prettier --check . && eslint .",
+		"prepublishOnly": "pnpm format && pnpm lint",
+		"lint": "eslint .",
 		"format": "prettier --write ."
 	},
 	"peerDependencies": {
@@ -38,21 +37,10 @@
 	},
 	"devDependencies": {
 		"@fractl-ui/types": "workspace:^",
-		"@melt-ui/svelte": "^0.67.0",
-		"@sveltejs/vite-plugin-svelte": "^3.0.1",
-		"@tsconfig/svelte": "^5.0.2",
-		"@types/qrcode": "^1.5.5",
 		"get-starknet-core": "^3.2.0",
-		"qrcode": "^1.5.3",
+		"nanostores": "^0.9.5",
 		"starknet": "^5.24.3",
-		"svelte": "^4.2.9",
-		"svelte-check": "^3.6.3",
-		"tslib": "^2.6.2",
-		"typescript": "^5.3.3",
 		"vite": "^5.0.12",
 		"vite-plugin-dts": "^3.7.2"
-	},
-	"dependencies": {
-		"nanostores": "^0.9.5"
 	}
 }
