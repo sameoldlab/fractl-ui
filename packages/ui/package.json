@@ -27,9 +27,8 @@
 		}
 	},
 	"scripts": {
-		"dev": "vite",
+		"dev": "vite build -w",
 		"build": "vite build ",
-		"preview": "vite preview",
 		"check": "svelte-check --tsconfig ./tsconfig.json"
 	},
 	"devDependencies": {

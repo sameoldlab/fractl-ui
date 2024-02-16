@@ -1,18 +1,15 @@
 {
 	"name": "fractl-ui",
-	"version": "0.0.0",
 	"description": "",
 	"private": true,
 	"author": "sameoldlab",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
 		"lint": "eslint .",
 		"format": "prettier --write .",
 		"prepare": "husky install",
 		"build": "pnpm -F @fractl-ui/evm build",
-		"build:w": "pnpm -F @fractl-ui/evm build -w",
-		"dev": "pnpm -F svelte dev",
-		"build:site": "pnpm build && pnpm -F svelte build"
+		"dev": "pnpm -F @fractl-ui/\\* -F svelte --parallel dev",
+		"build:site": "pnpm --F @fractl-ui/\\* -F svelte build"
 	},
 	"lint-staged": {
 		"**/*.{js,ts,svelte}": [

@@ -1,8 +1,10 @@
 {
 	"name": "@fractl-ui/starknet",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "",
-	"keywords": [],
+	"keywords": [
+		"starknet"
+	],
 	"author": "sameoldlab",
 	"license": "MIT",
 	"homepage": "https://fractl.click/",
@@ -27,7 +29,8 @@
 		}
 	},
 	"scripts": {
-		"build": "vite build ",
+		"dev": "vite build -w",
+		"build": "vite build",
 		"prepublishOnly": "pnpm format && pnpm lint",
 		"lint": "eslint .",
 		"format": "prettier --write ."

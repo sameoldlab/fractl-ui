@@ -19,8 +19,8 @@
 		"types": "./dist/types.d.ts"
 	},
 	"scripts": {
-		"build": "tsc",
-		"build:watch": "tsc -w"
+		"dev": "tsc -w",
+		"build": "tsc"
 	},
 	"devDependencies": {
 		"nanostores": "^0.9.5",
