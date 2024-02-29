@@ -1,12 +1,8 @@
 import type { MapStore } from 'nanostores'
-// import type { Readable } from 'svelte/store'
-/* Map store fits same interface as a
- * Svelte Writable with additional listen
- * function. Need separate type package to
- * enforce pattern across libs.
- */
 
-type Store<T extends object> = MapStore<T>['subscribe']
+type Store<T extends object> = {
+	subscribe: MapStore<T>['subscribe']
+}
 
 export type AccountDataError = {
 	account: undefined
@@ -19,8 +15,8 @@ export type AccountDataError = {
 
 export type AccountDataResponse = {
 	account: {
-		address: `0x${string}`
-		addresses: readonly [`0x${string}`, ...`0x${string}`[]]
+		address: string
+		addresses: string[]
 	}
 	balance: {
 		value: string
@@ -40,39 +36,43 @@ export type AccountDataResponse = {
 
 export type AccountData = AccountDataError | AccountDataResponse
 
-export interface Connector {
+/* export type Connector<C> = {
 	name: string
-	id: string
+	type: string 
 	icon?: string
-	type: string
-	[propName: string]: unknown
-	/* Some other things Config.connect() uses to connect */
+	// Some other things Config.connect() uses to connect 
+} & ({[Key in keyof C]: C[Key]}) */
+export type StateConnected<Connector> = {
+	activeRequest?: undefined
+	current: Connector
+	status: 'connected'
 }
 
-export type ConfigDisconnected = {
-	state: Store<{
-		activeRequest?: Connector
-		current: undefined
-		status: 'connecting' | 'disconnected' | 'reconnecting'
-	}>
-	connectors: readonly Connector[]
+export type StateDisconnected<Connector> = {
+	activeRequest?: Connector | undefined
+	current: undefined
+	status: 'connecting' | 'disconnected' | 'reconnecting'
+}
+export type State<C> = StateConnected<C> | StateDisconnected<C>
+export type ConfigDisconnected<Connector> = {
+	state: Store<StateDisconnected<Connector>>
 	accountData: Store<AccountDataError>
-	connect: (connector: Connector) => Promise<object> /* fix later */
-	reconnect: (connectors: Connector[]) => Promise<void>
-	disconnect: (connector?: Connector) => Promise<void>
 }
 
-export type ConfigConnected = {
-	state: Store<{
-		activeRequest?: Connector
-		current: Connector
-		status: 'connected'
-	}>
-	connectors: readonly Connector[]
+export type ConfigConnected<Connector> = {
+	state: Store<StateConnected<Connector>>
 	accountData: Store<AccountDataResponse>
-	connect: (connector: Connector) => Promise<object> /* fix later */
-	reconnect: (connectors: Connector[]) => Promise<void>
-	disconnect: (connector?: Connector) => Promise<void>
 }
 
-export type Config = ConfigDisconnected | ConfigConnected
+export type Config<Connector> = {
+	connectors: readonly Connector[]
+	connect: (connector: Connector) => Promise<object> /* fix later */
+	/**
+	 * Checks if a connector in the list is already connected
+	 * then sets the first one found as the current Connector
+	 * @param {Connector[]} connectors list of Connectors for the given library
+	 * @returns
+	 */
+	reconnect: (connectors: Connector[]) => Promise<void>
+	disconnect: (connector?: Connector, opts?: object) => Promise<void>
+} & (ConfigDisconnected<Connector> | ConfigConnected<Connector>)
