@@ -1,0 +1,38 @@
+{
+	"name": "@fractl-ui/fuel",
+	"version": "0.0.1",
+	"description": "",
+	"keywords": [],
+	"author": "sameoldlab",
+	"license": "MIT",
+	"homepage": "https://fractl.click/",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/sameoldlab/fractl-ui.git"
+	},
+	"type": "module",
+	"main": "./dist/index.umd.cjs",
+	"module": "./dist/index.js",
+	"types": "./index.d.ts",
+	"files": [
+		"dist"
+	],
+	"exports": {
+		"types": "./dist/index.d.ts",
+		"import": "./dist/index.js",
+		"require": "./dist/index.umd.cjs"
+	},
+	"scripts": {
+		"dev": "vite build -w",
+		"build": "vite build"
+	},
+	"devDependencies": {
+		"@fractl-ui/types": "workspace:^",
+		"@fuel-wallet/playwright-utils": "^0.15.2",
+		"@fuel-wallet/sdk": "^0.15.2",
+		"fuels": "^0.74.0",
+		"nanostores": "^0.9.5",
+		"playwright": "^1.41.2",
+		"vite-plugin-dts": "^3.7.2"
+	}
+}
