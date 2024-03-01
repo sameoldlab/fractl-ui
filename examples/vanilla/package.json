@@ -9,6 +9,7 @@
 		"preview": "vite preview"
 	},
 	"devDependencies": {
+		"@fractl-ui/fuel": "workspace:^",
 		"@wagmi/core": "^2.6.1",
 		"typescript": "^5.2.2",
 		"viem": "^2.5.0",
