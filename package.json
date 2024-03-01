@@ -8,7 +8,8 @@
 		"format": "prettier --write .",
 		"prepare": "husky install",
 		"build": "pnpm -F @fractl-ui/evm build",
-		"dev": "pnpm -F @fractl-ui/\\* -F svelte --parallel dev",
+		"dev:site": "pnpm -F svelte dev",
+		"dev:pkg": "pnpm -F @fractl-ui/\\* --parallel dev",
 		"build:site": "pnpm --F @fractl-ui/\\* -F svelte build"
 	},
 	"lint-staged": {
