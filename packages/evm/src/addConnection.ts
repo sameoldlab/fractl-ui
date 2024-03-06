@@ -14,13 +14,16 @@ import {
 } from '@wagmi/core'
 import { formatUnits } from 'viem/utils'
 import { map } from 'nanostores'
+
+type WagmiConfig = Config<Connector>
+
 /**
  * Provides connection details to fractl-modal passed into it's config parameter
  */
 export const addEvmConnection = async (
 	config: wagmiConfig,
 	{ resolver } = { resolver: 'ENS' }
-): Promise<Config> => {
+): Promise<WagmiConfig> => {
 	const state = map({
 		current: config.state.connections.get(config.state.current),
 		status: config.state.status
@@ -98,8 +101,8 @@ export const addEvmConnection = async (
 	}
 
 	return {
-		state,
-		accountData,
+		state: { subscribe: state.subscribe },
+		accountData: { subscribe: accountData.subscribe },
 		get connectors() {
 			return config.connectors
 		},
