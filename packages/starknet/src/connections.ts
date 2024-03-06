@@ -4,11 +4,13 @@ import SN, {
 } from 'get-starknet-core'
 import { map } from 'nanostores'
 import type { AccountData, Config } from '@fractl-ui/types'
-import { RpcProvider, defaultProvider } from 'starknet'
+import { RpcProvider, defaultProvider, Contract, constants } from 'starknet'
+import { formatUnits } from './utils/formatUnits.js'
+import ethABI from './abi/ethABI.js'
 
-// const ETH_ADDR = "0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7"
-// const provider = new RpcProvider({ sequencer: { baseUrl:"http://127.0.0.1:5050"  } })
-
+const ETH_ADDR =
+	'0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7'
+const DECIMALS = 18
 
 /* 
 	TODO: Test with metamask snap
@@ -27,20 +29,30 @@ type StarknetConnectProps = {
 	autoconnect: boolean
 
 	provider: RpcProvider
+	resolver: 'STARKNET_ID'
+	clearLastWallet?: boolean | undefined 
 }
 
-export const addStarknetConnection = async ({
-	starknetVersion,
-	connectors,
-	autoconnect,
-	provider
-}: StarknetConnectProps = {
-	starknetVersion: 'v5',
-	connectors: [],
-	autoconnect: false,
-	provider: defaultProvider
-}): Promise<Config> => {
 
+export const addStarknetConnection = async (
+	{
+		starknetVersion,
+		connectors,
+		autoconnect,
+		provider,
+		resolver,
+		clearLastWallet
+	}: StarknetConnectProps = {
+		starknetVersion: 'v5',
+		connectors: [],
+		autoconnect: false,
+		provider: new RpcProvider({
+			nodeUrl: constants.RPC_MAINNET_NODES[0],
+			retries: 2
+		}),
+		resolver: 'STARKNET_ID'
+	}
+): Promise<Config> => {
 	/* Check if user passed in any connectors. If empty get connectors from preauthorized wallets. */
 	if (connectors.length === 0) {
 		// SN.getDiscoveryWallets().then((res) => connectors.installable.push(...res))
@@ -116,13 +128,29 @@ export const addStarknetConnection = async ({
 		accountData.setKey('account', account)
 
 		try {
-			// const eth = new Contract(undefined, ETH_ADDR, defaultProvider)
-			// const balance = await eth.balanceOf(account.address)
+			const eth = new Contract(ethABI, ETH_ADDR, defaultProvider)
+			const balance = await eth.balanceOf(account.address)
 
 			accountData.setKey('balance', {
-				value: "todo",
-				symbol: "ETH",
+				value: formatUnits(balance, DECIMALS),
+				symbol: 'ETH'
 			})
+
+			let name, avatar
+
+			switch (resolver) {
+				default:
+					name = await provider.getStarkName(account.address)
+					avatar = null
+				/* name &&
+						(await getEnsAvatar(config, {
+							name,
+							blockTag: 'finalized'
+						})) */
+			}
+
+			// accountData.setKey('account', account)
+			accountData.setKey('nameService', { name, avatar })
 
 			// console.log(accountData.get())
 		} catch (error) {
