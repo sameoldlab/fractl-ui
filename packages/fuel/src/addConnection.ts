@@ -12,6 +12,7 @@ import { map, MapStore } from 'nanostores'
 type FuelConnectionProps = {
 	config?: FuelConfig
 	providerUrl: string
+	autoconnect: boolean
 }
 type FuelConnectionObj = Config<FuelConnector>
 
@@ -19,7 +20,8 @@ type FuelConnectionObj = Config<FuelConnector>
  * Provides connection details to fractl-modal passed into it's config parameter
  */
 export const addFuel = async (
-	{ config, providerUrl }: FuelConnectionProps = {
+	{ config, providerUrl, autoconnect }: FuelConnectionProps = {
+		autoconnect: true,
 		providerUrl: 'https://beta-5.fuel.network/graphql'
 	}
 ): Promise<FuelConnectionObj> => {
@@ -33,6 +35,15 @@ export const addFuel = async (
 		current: undefined,
 		status: 'disconnected'
 	}) satisfies MapStore<State<FuelConnector>>
+	/* Update current connector on page load and then listen for changes */
+	if (autoconnect) {
+		fuel.isConnected().then((connected) => {
+			if (connected) {
+				const connector = fuel.currentConnector()
+				connector && state.setKey('current', connector)
+			} else console.log('disconnected')
+		})
+	}
 
 	fuel.on(fuel.events.currentConnector, (connector) =>
 		state.setKey('current', connector)
