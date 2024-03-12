@@ -13,7 +13,7 @@ export default defineConfig({
 		sourcemap: true,
 		lib: {
 			entry: resolve(__dirname, './src/index.ts'),
-			name: '@fractl-ui/cosmos',
+			name: '@fractl-ui/fuel',
 			fileName: 'index'
 		}
 	}
