@@ -1,50 +1,95 @@
+[data-theme='kandinsky'] {
+	--fore-1: hsl(0, 0%, 0%);
+	--fore-2: white;
+	--fore-3: white;
+
+	--back-1: hsl(0, 0%, 100%);
+	--back-2: black;
+	--back-3: black;
+}
+
+[data-theme='dark'] {
+	--fore-1: aliceblue;
+	--fore-2: white;
+	--fore-3: white;
+
+	--back-1: hsl(255, 72%, 3%);
+	--back-2: black;
+	--back-3: black;
+}
+
+[data-theme='deadpool'] {
+	--fore-1: hsl(9, 61%, 82%);
+	--fore-2: white;
+	--fore-3: white;
+
+	--back-1: hsl(0, 88%, 30%);
+	--back-2: black;
+	--back-3: black;
+}
+
 :root {
-	/* Primary button  
-	--fcl-btn-color: green;
-	--fcl-primary-btn-font-size: 1em;
+	background: var(--back-1);
+	color: var(--fore-1);
+	transition: background-color 800ms ease-out;
+}
+
+/* 
+:root {
 	--fcl-btn-border-radius: 0.5em;
-	--fcl-btn-background: red;
+	--fcl-btn-font-size: 1em;
+	--fcl-btn-color: var(--fore-1);
+	
+	--fcl-btn-background: var(--back-2);
 	--fcl-btn-box-shadow: ;
-	--fcl-btn-hover-color: orange;
+	
+	--fcl-btn-hover-color: var(--fore-2);
 	--fcl-btn-hover-background: ;
 	--fcl-btn-hover-box-shadow: ;
+	
 	--fcl-btn-active-color: blue;
 	--fcl-btn-active-background: ;
 	--fcl-btn-active-box-shadow: ;
-	*/
+	
+	
+	--fcl-text-btn-font-size: 1em; 
+	--fcl-text-btn-color: blue;	 
+	--fcl-text-btn-hover-color: cyan;
+	--fcl-text-btn-active-color: red;  
 
-	/* Text button  
-	 --fcl-text-btn-font-size: 1em; 
-	 --fcl-text-btn-color: blue;	 
-	 --fcl-text-btn-hover-color: cyan;
-	--fcl-text-btn-active-color: red; 
-	*/
+	 Text Variables
+	 --fcl-font-family: cursive;
+	 --fcl-modal-heading-font-weight: 600;
+	 --fcl-text-color-error: ;
+	
+	 --fcl-text-secondary-color: ;
+	 --fcl-text-color-success: ;
+	
+	 --fcl-body-background: red; 
+	
+	 Miscallenuous Variables
+	 --fcl-focus-color: tomato;
+	 --fcl-body-divider: ; var(--fcl-text-colo--fcl-border-color)
+	 --fcl-qr-foreground-color: ;
+	 --fcl-qr-background-color: ;
+	 --fcl-qr-border-color: ;
+	 --fcl-qr-border-radius: ;
+	 --fcl-spinner-color: ;
+	
+	 --fcl-border-radius: 1.8em;
+	 --fcl-modal-padding: 1.25em;
+	 --fcl-overlay-background: hsla(0, 93%, 11%, 0.477); 
+	 --fcl-overlay-backdrop-filter: blur(12px);
+	
+	 --fcl-body-background: var(--back-1); 
+	 --fcl-text-color: yellow;
+	 --fcl-font-family: cursive;
+	 --fcl-modal-box-shadow: ; 
+}*/
 
-	/* Text Variables
-	--fcl-font-family: cursive;
-	--fcl-modal-heading-font-weight: 600;
-	--fcl-text-color: ;
-	--fcl-text-color-error: ;
-	---
-	--fcl-text-secondary-color: ;
-	--fcl-text-color-success: ;
-	*/
-		/* --fcl-overlay-background: ; 
-	/* --fcl-overlay-backdrop-filter: ; 
-	/* --fcl-body-background: red; 
-	/* --fcl-modal-box-shadow: ; 
-
-	/* Miscallenuous Variables */
-	--fcl-focus-color: tomato;
-	--fcl-body-divider: ; /* var(--fcl-text-color, --fcl-border-color) */
-	--fcl-qr-foreground-color: ;
-	--fcl-qr-background-color: ;
-	--fcl-qr-border-color: ;
-	--fcl-qr-border-radius: ;
-	--fcl-spinner-color: ;
-
-	/* --fcl-border-radius: 1.8em; */
-	/* --fcl-modal-padding: 1.25em; */
+.fcl__btn-primary {
+	--fcl-primary-btn-font-size: 1em;
+	--fcl-btn-border-radius: 0.5em;
 }
 
 .button-85 {

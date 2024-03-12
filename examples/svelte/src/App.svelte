@@ -26,7 +26,7 @@
 	<div class="hero">
 		<h1>
 			<!-- Fractl-ui -->
-			<img src={FractlSvg} alt="Fractl UI" />
+			<img src={FractlSvg} alt="Fractl" />
 		</h1>
 		<p>
 			modular dapp UI library for the EVM <span class="whisper">
@@ -36,6 +36,20 @@
 	</div>
 
 	<fractl-modal {config} btnClass="button-85" />
+	<div>
+		<label for="theme"> <h2>Pick or make your theme</h2> </label>
+		<select
+			name="theme"
+			id="theme"
+			bind:value={theme}
+			on:select={() => console.log(theme)}
+		>
+			<option value="dark"> Soft Dark </option>
+			<option value="kandinsky"> Kandinsky </option>
+			<option value="deadpool"> Deadpool </option>
+			<option value="midnight"> Midnight </option>
+		</select>
+	</div>
 	<!-- 
 	{#if connected}
 		<AccountDialog config={$config}></AccountDialog>
