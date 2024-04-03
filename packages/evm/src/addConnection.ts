@@ -30,11 +30,11 @@ export const addEvmConnection = async (
 	})
 
 	const accountData = map<AccountData>({
-		account: undefined,
-		balance: undefined,
+		account: null,
+		balance: null,
 		nameService: {
-			name: undefined,
-			avatar: undefined
+			name: null,
+			avatar: null
 		}
 	})
 
@@ -54,8 +54,8 @@ export const addEvmConnection = async (
 		status: 'connected' | 'connecting' | 'disconnected' | 'reconnecting'
 	) {
 		if (status !== 'connected') {
-			accountData.setKey('account', undefined)
-			accountData.setKey('balance', undefined)
+			accountData.setKey('account', null)
+			accountData.setKey('balance', null)
 			accountData.setKey('nameService', { name: undefined, avatar: undefined })
 			return
 		}

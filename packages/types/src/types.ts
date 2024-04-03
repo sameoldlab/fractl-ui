@@ -5,11 +5,11 @@ type Store<T extends object> = {
 }
 
 export type AccountDataError = {
-	account: undefined
-	balance: undefined
+	account: null
+	balance: null
 	nameService: {
-		name: undefined
-		avatar: undefined
+		name: null
+		avatar: null
 	}
 }
 
@@ -43,14 +43,14 @@ export type AccountData = AccountDataError | AccountDataResponse
 	// Some other things Config.connect() uses to connect 
 } & ({[Key in keyof C]: C[Key]}) */
 export type StateConnected<Connector> = {
-	activeRequest?: undefined
+	activeRequest?: null
 	current: Connector
 	status: 'connected'
 }
 
 export type StateDisconnected<Connector> = {
-	activeRequest?: Connector | undefined
-	current: undefined
+	activeRequest?: Connector | null
+	current: null
 	status: 'connecting' | 'disconnected' | 'reconnecting'
 }
 export type State<C> = StateConnected<C> | StateDisconnected<C>
@@ -66,12 +66,12 @@ export type ConfigConnected<Connector> = {
 
 export type Config<Connector> = {
 	connectors: readonly Connector[]
-	connect: (connector: Connector) => Promise<object> /* fix later */
+	connect: (connector: Connector) => Promise<unknown> /* fix later */
 	/**
 	 * Checks if a connector in the list is already connected
 	 * then sets the first one found as the current Connector
 	 * @param {Connector[]} connectors list of Connectors for the given library
-	 * @returns
+	 * @returns 
 	 */
 	reconnect: (connectors: Connector[]) => Promise<void>
 	disconnect: (connector?: Connector, opts?: object) => Promise<void>
