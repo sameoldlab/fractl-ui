@@ -26,14 +26,15 @@
 		"url": "git+https://github.com/sameoldlab/fractl-ui.git"
 	},
 	"devDependencies": {
+		"@changesets/cli": "^2.27.1",
 		"@typescript-eslint/eslint-plugin": "^6.16.0",
 		"eslint": "^8.56.0",
+		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.35.1",
 		"husky": "^8.0.3",
 		"lint-staged": "^15.2.0",
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
-		"eslint-config-prettier": "^9.1.0",
 		"tslib": "^2.6.2",
 		"typescript": "^5.3.3",
 		"vite": "^5.0.10"
