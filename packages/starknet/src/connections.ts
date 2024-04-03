@@ -1,6 +1,6 @@
 import SN, {
 	type StarknetWindowObject,
-	type ConnectedStarknetWindowObject,
+	type ConnectedStarknetWindowObject
 } from 'get-starknet-core'
 import { map } from 'nanostores'
 import type { AccountData, Config } from '@fractl-ui/types'
@@ -17,7 +17,7 @@ const DECIMALS = 18
 	Integrate Walletconnect
 */
 type StarknetConnectProps = {
-	starknetVersion?: 'v4' | 'v5' | undefined
+	starknetVersion?: 'v4' | 'v5' | null
 	/**
 	 * Defaults to a list of preauthorized or available wallets
 	 */
@@ -30,9 +30,8 @@ type StarknetConnectProps = {
 
 	provider: RpcProvider
 	resolver: 'STARKNET_ID'
-	clearLastWallet?: boolean | undefined 
+	clearLastWallet?: boolean | null
 }
-
 
 export const addStarknetConnection = async (
 	{
@@ -57,9 +56,9 @@ export const addStarknetConnection = async (
 	if (connectors.length === 0) {
 		// SN.getDiscoveryWallets().then((res) => connectors.installable.push(...res))
 		// SN.getPreAuthorizedWallets().then((res) => connectors.push(...res))
-		connectors.push(...await SN.getPreAuthorizedWallets())
+		connectors.push(...(await SN.getPreAuthorizedWallets()))
 		const available = await SN.getAvailableWallets()
-		connectors.push(...available.filter((a)=> !connectors.includes(a)))
+		connectors.push(...available.filter((a) => !connectors.includes(a)))
 
 		connectors.map((a) => {
 			if (a.id === 'braavos' || a.id === 'argentX') a.type = 'injected'
@@ -70,12 +69,12 @@ export const addStarknetConnection = async (
 	// SN.getLastConnectedWallet().then((res) => (lastConnected = res))
 
 	const state = map<{
-		activeRequest?: StarknetWindowObject | undefined
-		current: ConnectedStarknetWindowObject | undefined
+		activeRequest?: StarknetWindowObject | null
+		current: ConnectedStarknetWindowObject | null
 		status: 'connecting' | 'disconnected' | 'reconnecting' | 'connected'
 	}>({
-		activeRequest: undefined,
-		current: undefined,
+		activeRequest: null,
+		current: null,
 		status: 'disconnected'
 	})
 
@@ -93,38 +92,44 @@ export const addStarknetConnection = async (
 			: Error(`${connector.name} is not connected`)
 
 	if (autoconnect) {
-		for (let i = 0; i <= connectors.length; i++) {
-			if (connectors[i]?.isConnected) {
-				state.setKey('current', connectors[i])
-				setCurrent(connectors[i])
+		for (const connector of connectors) {
+			if (connector.isConnected) {
+				state.setKey('current', connector)
+				setCurrent(connector)
 			}
 		}
 	}
 
 	/* Manage Account Data */
 	const accountData = map<AccountData>({
-		account: undefined,
-		balance: undefined,
+		account: null,
+		balance: null,
 		nameService: {
-			name: undefined,
-			avatar: undefined
+			name: null,
+			avatar: null
 		}
 	})
 
-	state.subscribe(($s, changedKey) => changedKey === 'status' && updateAccount($s.status, $s.current))
+	state.subscribe(
+		($s, changedKey) =>
+			changedKey === 'status' && updateAccount($s.status, $s.current)
+	)
 
 	async function updateAccount(
 		status: 'connected' | 'connecting' | 'disconnected' | 'reconnecting',
-		current: ConnectedStarknetWindowObject
+		current: ConnectedStarknetWindowObject | null
 	) {
-		if (status !== 'connected') {
-			accountData.setKey('account', undefined)
-			accountData.setKey('balance', undefined)
-			accountData.setKey('nameService', { name: undefined, avatar: undefined })
+		if (status !== 'connected' || !current) {
+			accountData.setKey('account', null)
+			accountData.setKey('balance', null)
+			accountData.setKey('nameService', { name: null, avatar: null })
 			return
 		}
-		
-		const account = {address: current.selectedAddress}
+
+		const account = {
+			address: current.selectedAddress as `0x${string}`,
+			addresses: [current.selectedAddress] as `0x${string}`[]
+		}
 		accountData.setKey('account', account)
 
 		try {
@@ -159,40 +164,37 @@ export const addStarknetConnection = async (
 		}
 	}
 
-	const connect =  async (connector: StarknetWindowObject = connectors[0]) => {
+	const connect = async (connector = connectors[0]) => {
 		/* Connect and reconnect are effectively the same thing as this does not keep a history of existing connections */
 		// if (connector?.isConnected) throw Error('already connected')
 		state.setKey('activeRequest', connector)
 
 		return SN.enable(connector, { starknetVersion })
 			.catch((e) => Error(e))
-			.then((res) =>  res)
+			.then((res) => res)
 			.finally(() => {
-				state.setKey('activeRequest', undefined)
+				state.setKey('activeRequest', null)
 				setCurrent(connector)
 			})
 	}
 
 	return {
 		state: {
-			subscribe: state.subscribe,
+			subscribe: state.subscribe
 		},
 		accountData: {
-			subscribe: accountData.subscribe,
+			subscribe: accountData.subscribe
 		},
 		get connectors() {
 			return connectors
 		},
 		connect,
-		reconnect: async (connectors: StarknetWindowObject[]) =>
+		reconnect: async (connectors) =>
 			await connectors.forEach(async (c) => await connect(c)),
-		disconnect: async (
-			opts?: { clearLastWallet: boolean | undefined } | undefined
-		) => {
-			await SN.disconnect({clearLastWallet: true})
-			state.setKey('current', undefined)
-			console.log(state.get());
-			
+		disconnect: async () => {
+			await SN.disconnect({ clearLastWallet })
+			state.setKey('current', null)
+			console.log(state.get())
 		}
 	}
 }
