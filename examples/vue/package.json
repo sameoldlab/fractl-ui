@@ -10,7 +10,7 @@
 	},
 	"dependencies": {
 		"@fractl-ui/evm": "workspace:^",
-		"@fractl-ui/ui": "workspace:^",
+		"fractl-ui": "workspace:^",
 		"@wagmi/core": "^2.6.1",
 		"viem": "^2.5.0",
 		"vue": "^3.4.15"

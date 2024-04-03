@@ -12,7 +12,7 @@
 	"devDependencies": {
 		"@fractl-ui/evm": "workspace:^",
 		"@fractl-ui/starknet": "workspace:^",
-		"@fractl-ui/ui": "workspace:^",
+		"fractl-ui": "workspace:^",
 		"@sveltejs/vite-plugin-svelte": "^3.0.2",
 		"@tsconfig/svelte": "^5.0.2",
 		"@wagmi/core": "^2.6.5",
