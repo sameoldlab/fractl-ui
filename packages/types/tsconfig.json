@@ -15,6 +15,9 @@
 		"declarationDir": "dist",
 		"emitDeclarationOnly": true,
 		"isolatedModules": true,
+
+		"composite": true,
+		"declarationMap": true,
 	},
 	"include": ["src"],
 }
