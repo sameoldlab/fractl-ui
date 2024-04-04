@@ -1,5 +1,5 @@
 import './style.css'
-import '@fractl-ui/ui'
+import 'fractl-ui'
 import { addEvmConnection } from '@fractl-ui/evm'
 import { config as wagmiConfig } from './lib/wagmiConfig'
 import { reconnect } from '@wagmi/core'
