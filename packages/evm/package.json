@@ -11,16 +11,16 @@
 		"url": "git+https://github.com/sameoldlab/fractl-ui.git"
 	},
 	"type": "module",
-	"main": "./dist/index.umd.cjs",
 	"module": "./dist/index.js",
-	"types": "./index.d.ts",
-	"files": [
-		"dist"
-	],
+	"types": "./dist/index.d.ts",
+	"main": "./dist/index.umd.cjs",
+	"files": ["dist"],
 	"exports": {
-		"types": "./dist/index.d.ts",
-		"import": "./dist/index.js",
-		"require": "./dist/index.umd.cjs"
+		".": {
+			"require": "./dist/index.umd.cjs",
+			"import": "./dist/index.js",
+			"types": "./dist/index.d.ts"
+		}
 	},
 	"scripts": {
 		"dev": "vite build -w",
