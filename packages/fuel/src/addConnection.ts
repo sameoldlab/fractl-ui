@@ -5,9 +5,9 @@ import type {
 	Config,
 	State
 } from '@fractl-ui/types'
-import { Fuel, FuelConfig, FuelConnector } from '@fuel-wallet/sdk'
+import { Fuel, type FuelConfig, FuelConnector } from '@fuel-wallet/sdk'
 import { BN, Provider, Wallet } from 'fuels'
-import { map, MapStore } from 'nanostores'
+import { map, type MapStore } from 'nanostores'
 
 type FuelConnectionProps = {
 	config?: FuelConfig
@@ -143,7 +143,7 @@ export const addFuel = async (
 			if (current) {
 				connectors.includes(current)
 
-				connectors.forEach((connector) => {
+				connectors.forEach(async (connector) => {
 					await fuel.selectConnector(connector.name)
 					fuel.connect()
 				})
