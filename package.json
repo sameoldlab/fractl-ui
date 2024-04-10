@@ -1,5 +1,5 @@
 {
-	"name": "fractl-ui",
+	"name": "fractl-mono",
 	"description": "",
 	"private": true,
 	"author": "sameoldlab",
@@ -7,9 +7,11 @@
 		"lint": "eslint .",
 		"format": "prettier --write .",
 		"prepare": "husky install",
-		"build": "pnpm -F @fractl-ui/evm build",
+		"build": "pnpm -F='./packages/*' --parallel build",
+		"check": "pnpm format && pnpm lint",
 		"dev:site": "pnpm -F x-svelte dev",
-		"dev:pkg": "pnpm -F fractl-ui -F='@fractl-ui/*' --parallel dev",
+		"dev:pkg": "pnpm -F='./packages/*' --parallel dev",
+		"build:site": "pnpm -F fractl-ui -F='@fractl-ui/*' -F x-svelte build",
 		"ci:publish": "pnpm publish -r --access=public"
 	},
 	"lint-staged": {
