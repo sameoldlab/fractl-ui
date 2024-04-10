@@ -2,7 +2,7 @@
 <script lang="ts">
 	// import config from '../../../../packages/ui.old/src/wagmiConfig'
 	import { addEvmConnection } from '@fractl-ui/evm'
-	import '@fractl-ui/ui'
+	import 'fractl-ui'
 	import wagmiConfig from './lib/wagmiConfig'
 	import { onMount } from 'svelte'
 	import { reconnect } from '@wagmi/core'

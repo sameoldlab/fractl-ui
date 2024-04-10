@@ -1,5 +1,5 @@
 {
-	"name": "fractl-ui",
+	"name": "fractl-mono",
 	"description": "",
 	"private": true,
 	"author": "sameoldlab",
@@ -7,10 +7,12 @@
 		"lint": "eslint .",
 		"format": "prettier --write .",
 		"prepare": "husky install",
-		"build": "pnpm -F @fractl-ui/evm build",
-		"dev:site": "pnpm -F svelte dev",
-		"dev:pkg": "pnpm -F @fractl-ui/\\* --parallel dev",
-		"build:site": "pnpm --F site build"
+		"build": "pnpm -F='./packages/*' --parallel build",
+		"check": "pnpm format && pnpm lint",
+		"dev:site": "pnpm -F x-svelte dev",
+		"dev:pkg": "pnpm -F='./packages/*' --parallel dev",
+		"build:site": "pnpm --F site build",
+		"ci:publish": "pnpm publish -r --access=public"
 	},
 	"lint-staged": {
 		"**/*.{js,ts,svelte}": [
@@ -26,14 +28,15 @@
 		"url": "git+https://github.com/sameoldlab/fractl-ui.git"
 	},
 	"devDependencies": {
+		"@changesets/cli": "^2.27.1",
 		"@typescript-eslint/eslint-plugin": "^6.16.0",
 		"eslint": "^8.56.0",
+		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.35.1",
 		"husky": "^8.0.3",
 		"lint-staged": "^15.2.0",
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
-		"eslint-config-prettier": "^9.1.0",
 		"tslib": "^2.6.2",
 		"typescript": "^5.3.3",
 		"vite": "^5.0.10"

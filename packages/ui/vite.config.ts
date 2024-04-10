@@ -15,10 +15,12 @@ export default defineConfig({
 	build: {
 		lib: {
 			entry: resolve(__dirname, './src/index.ts'),
-			name: '@fractl-ui/ui',
-			formats: ['es', 'cjs'],
+			name: 'fractl-ui',
+			formats: ['es'],
 			fileName: 'index'
 		},
-		target: 'esnext'
+		target: 'esnext',
+		sourcemap: true,
+		// minify: false
 	}
 })

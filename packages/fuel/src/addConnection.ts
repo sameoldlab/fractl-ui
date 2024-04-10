@@ -5,9 +5,9 @@ import type {
 	Config,
 	State
 } from '@fractl-ui/types'
-import { Fuel, FuelConfig, FuelConnector } from '@fuel-wallet/sdk'
+import { Fuel, type FuelConfig, FuelConnector } from '@fuel-wallet/sdk'
 import { BN, Provider, Wallet } from 'fuels'
-import { map, MapStore } from 'nanostores'
+import { map, type MapStore } from 'nanostores'
 
 type FuelConnectionProps = {
 	config?: FuelConfig
@@ -31,8 +31,8 @@ export const addFuel = async (
 	fuel.on(fuel.events.connectors, (c) => (connectors = c))
 
 	const state = map({
-		activeRequest: undefined,
-		current: undefined,
+		activeRequest: null,
+		current: null,
 		status: 'disconnected'
 	}) satisfies MapStore<State<FuelConnector>>
 	/* Update current connector on page load and then listen for changes */
@@ -58,11 +58,11 @@ export const addFuel = async (
 	})
 
 	const noAcc: AccountDataError = {
-		account: undefined,
-		balance: undefined,
+		account: null,
+		balance: null,
 		nameService: {
-			name: undefined,
-			avatar: undefined
+			name: null,
+			avatar: null
 		}
 	}
 
@@ -124,7 +124,7 @@ export const addFuel = async (
 			/* throw error if selectConnector fails  */
 
 			const connectionSuccess = await fuel.connect()
-			state.setKey('activeRequest', undefined)
+			state.setKey('activeRequest', null)
 			return connectionSuccess
 		},
 		/*
@@ -132,7 +132,7 @@ export const addFuel = async (
 		 This means reconnecting is not automatic if the user disconnects. But connections 
 		 will persist across reloads without saving to local storage. 
 
-		 Disconnecting could be faked by setting state.current to undefined,
+		 Disconnecting could be faked by setting state.current to null,
 		 this would match closer with how most other packages work, but be further 
 		 from how developers used to fuel expect it to work, i.e. connection state 
 		 between fuels and @fractl-ui/fuel would be inconsistent.  
@@ -143,7 +143,7 @@ export const addFuel = async (
 			if (current) {
 				connectors.includes(current)
 
-				connectors.forEach((connector) => {
+				connectors.forEach(async (connector) => {
 					await fuel.selectConnector(connector.name)
 					fuel.connect()
 				})
