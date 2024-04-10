@@ -10,7 +10,7 @@
 		"build": "pnpm -F @fractl-ui/evm build",
 		"dev:site": "pnpm -F svelte dev",
 		"dev:pkg": "pnpm -F @fractl-ui/\\* --parallel dev",
-		"build:site": "pnpm --F @fractl-ui/\\* -F svelte build"
+		"build:site": "pnpm --F site build"
 	},
 	"lint-staged": {
 		"**/*.{js,ts,svelte}": [
