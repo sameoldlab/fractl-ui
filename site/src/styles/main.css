@@ -1,0 +1,39 @@
+:root {
+	--sl-content-width: 50rem;
+	--sl-text-5xl: 3.5rem;
+
+	/* Dark mode colors. */
+	--sl-color-accent-low: oklch(25% 0.056 70);
+	--sl-color-accent: oklch(50% 0.11 70);
+	--sl-color-accent-high: oklch(82% 0.12 70);
+	--sl-color-white: oklch(100% 0 0);
+	--sl-color-gray-1: oklch(94.84% 0.001 197.14);
+	--sl-color-gray-2: oklch(81.41% 0 0);
+	--sl-color-gray-3: oklch(63.68% 0 0);
+	--sl-color-gray-5: oklch(46.04% 0 0);
+	--sl-color-gray-4: oklch(34.07% 0 0);
+	--sl-color-gray-6: oklch(25.38% 0.004 308.29);
+	--sl-color-black: oklch(15.18% 0.003 325.67);
+
+	--sl-color-bg-nav: oklch(15.18% 0.003 325.67 / 85%);
+	--sl-color-bg-sidebar: var(--sl-color-black);
+}
+
+/* Light mode colors. */
+
+:root[data-theme='light'] {
+	--sl-color-accent-low: oklch(68% 0.065 70);
+	--sl-color-accent: oklch(60% 0.16 70);
+	--sl-color-accent-high: oklch(32% 0.069 70);
+	--sl-color-white: oklch(20.9% 0 0);
+	--sl-color-gray-1: oklch(27.27% 0 0);
+	--sl-color-gray-2: oklch(34.07% 0 0);
+	--sl-color-gray-3: oklch(46.04% 0 0);
+	--sl-color-gray-4: oklch(63.68% 0 0);
+	--sl-color-gray-5: oklch(81.41% 0 0);
+	--sl-color-gray-6: oklch(94.84% 0.001 197.14);
+	--sl-color-gray-7: oklch(97.31% 0 0);
+	--sl-color-black: oklch(100% 0 0);
+
+	--sl-color-bg-nav: oklch(100% 0 0 / 85%);
+}
