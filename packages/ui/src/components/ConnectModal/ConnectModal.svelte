@@ -81,25 +81,7 @@
 		</button>
 	</svelte:fragment>
 
-	<div class="fcl__layout-1col">
-		{#if activeRequest}
-			{#if activeRequest.type === 'injected'}
-				<!-- <Injected connector={activeRequest}></Injected> -->
-				<div class="fcl__graphic-primary">
-					<!-- prettier-ignore -->
-					<svg class:hide={state.status !== 'connecting' && state.status !== 'reconnecting'} class="spin" width="108" height="108" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" > 
-						<path d="M98 50C98 23.4903 76.5097 2 50 2" stroke="url(#a)" stroke-width="4" stroke-linecap="round" /> 
-						<defs> 
-							<radialGradient id="radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(100 50) rotate(-90) scale(47 47)" > <stop stop-color="currentColor" /> <stop offset="1" stop-color="currentColor" stop-opacity="0" /> </radialGradient> 
-							<linearGradient x1="8.042%" y1="0%" x2="65.682%" y2="23.865%" id="a" > <stop stop-color="currentColor" stop-opacity="0" offset="0%" /> <stop stop-color="currentColor" stop-opacity=".631" offset="63.146%" /> <stop stop-color="currentColor" offset="100%" /> </linearGradient>
-						 </defs> 
-					</svg>
-					<img
-						class="fcl_graphic-icon rounded"
-						src={activeRequest.icon}
-						alt={activeRequest.name}
-					/>
-				</div>
+	<div class="fcl__layout-1col scrollable">
 
 				{#if state.status === 'connecting' || state.status === 'reconnecting'}
 					<h3 class="fcl__text-primary">Requesting Connection</h3>
@@ -141,13 +123,47 @@
 			<slot name="footer" />
 		{/if}
 	</div>
+	<footer>
+		<button class="fcl__btn-text fcl__text-tertiary">What is a wallet? </button>
+		<slot name="footer" />
+	</footer>
 </Modal>
 
 <!-- </Modal> -->
 
 <style>
-	@import url('../../styles/index.css');
+	.scrollable {
+		overflow-y: auto;
+		/* height: calc(60px*4); */
 
+		&::-webkit-scrollbar {
+			inline-size: 0.5em;
+		}
+
+		&::-webkit-scrollbar-track,
+		&::-webkit-scrollbar-button {
+			background: var(--fcl-body-background);
+		}
+		&::-webkit-scrollbar-thumb {
+			background: var(--fcl-text-color, #222429);
+			border: 0.2em solid transparent;
+			border-radius: calc(var(--fcl-border-radius, 50em) / 8);
+			&:hover {
+				background-color: var(--fcl-btn-hover-background, #2f3139);
+			}
+		}
+	}
+	footer {
+		display: grid;
+		align-items: center;
+		justify-content: center;
+		padding: 0.725em 0 0.5em;
+	}
+	.fcl__text-tertiary {
+		font-size: 0.9em;
+		color: var(--fcl-text-tertiatry-color, oklch(61.42% 0.18 264.03));
+		font-weight: 600;
+	}
 	.hide {
 		display: none;
 		opacity: 0;
@@ -167,9 +183,11 @@
 	}
 
 	.connectors {
+		box-sizing: border-box;
 		display: grid;
 		width: 100%;
 		gap: 0.5em;
+		padding: 0 var(--inner-padding);
 	}
 	.connector.mock {
 		background: hsla(76, 20%, 15%, 1);

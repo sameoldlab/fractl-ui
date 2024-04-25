@@ -89,7 +89,6 @@
 			</button>
 		</div>
 	</header>
-
 	<div class="fcl__dialog-content">
 		<slot />
 	</div>
@@ -101,7 +100,6 @@
 
 <style>
 	@import url('../../styles/index.css');
-
 	dialog:not([open]) {
 		pointer-events: none;
 		opacity: 0;
@@ -180,9 +178,11 @@
 				font-weight: var(--fcl-modal-heading-font-weight, 700);
 			}
 		}
+		/* 
 		& .fcl__dialog-content {
-			padding: var(--inner-padding);
+			padding: var(--inner-padding); 
 		}
+		*/
 	}
 	/* 	@media (max-width: 500px) {
 		dialog {
