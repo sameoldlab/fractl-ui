@@ -36,12 +36,12 @@ export type AccountDataResponse = {
 
 export type AccountData = AccountDataError | AccountDataResponse
 
-/* export type Connector<C> = {
+export type Connector<T = object> = {
 	name: string
-	type: string 
+	type: string
 	icon?: string
-	// Some other things Config.connect() uses to connect 
-} & ({[Key in keyof C]: C[Key]}) */
+} & T
+
 export type StateConnected<Connector> = {
 	activeRequest?: null
 	current: Connector
@@ -53,26 +53,30 @@ export type StateDisconnected<Connector> = {
 	current: null
 	status: 'connecting' | 'disconnected' | 'reconnecting'
 }
+
 export type State<C> = StateConnected<C> | StateDisconnected<C>
+
 export type ConfigDisconnected<Connector> = {
 	state: Store<StateDisconnected<Connector>>
 	accountData: Store<AccountDataError>
 }
 
-export type ConfigConnected<Connector> = {
-	state: Store<StateConnected<Connector>>
+export type ConfigConnected<C extends Connector> = {
+	state: Store<StateConnected<C>>
 	accountData: Store<AccountDataResponse>
 }
 
-export type Config<Connector> = {
-	connectors: readonly Connector[]
-	connect: (connector: Connector) => Promise<unknown> /* fix later */
+export type Config<C extends Connector> = {
+	connectors: readonly C[]
+	connect: (connector: C) => Promise<unknown> /* fix later */
 	/**
 	 * Checks if a connector in the list is already connected
 	 * then sets the first one found as the current Connector
-	 * @param {Connector[]} connectors list of Connectors for the given library
-	 * @returns 
+	 * @param {C[]} connectors list of Connectors for the given library
+	 * @returns
 	 */
-	reconnect: (connectors: Connector[]) => Promise<void>
-	disconnect: (connector?: Connector, opts?: object) => Promise<void>
-} & (ConfigDisconnected<Connector> | ConfigConnected<Connector>)
+	reconnect: (connectors: C[]) => Promise<void>
+	disconnect: (connector?: C, opts?: object) => Promise<void>
+} & (ConfigDisconnected<C> | ConfigConnected<C>)
+
+export {}
