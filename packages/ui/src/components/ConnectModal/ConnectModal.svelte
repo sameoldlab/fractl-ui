@@ -1,33 +1,43 @@
 <script lang="ts">
-	import copyEN from '../../copy/copy.EN.js'
+	import '../../styles/index.css'
 	import Modal from '../Common/Modal.svelte'
 	import Scannable from './Scannable.svelte'
-	import type { ConfigDisconnected, Connector } from '@fractl-ui/types'
+	import Injected from './Injected.svelte'
+	import type { Config, Connector, State } from '@fractl-ui/types'
+	import { setPage, getPage } from './context.js'
+	import { derived } from 'svelte/store'
 
-	export let config: ConfigDisconnected
-	export let state
+	export let config: Config<Connector<unknown>>
+	export let state: State<unknown>
 	export let btnClass = ''
 	export let triggerText = 'Connect Wallet'
 
 	let open: () => void
 	let close: () => void
 
-	// export let demo = true
-	// export let inputWatch = true
-	// export let accountStatus: string
-	// export let chainStatus
-	// export let showBalance: string
+	setPage()
+	const page = getPage()
+
 	$: if (state.status === 'connected') close()
 
-	let activeRequest: Connector | null = null //config.connectors[3]
-	$: title = !activeRequest ? 'Connect Wallet' : activeRequest.name
+	const activeRequest = derived(page, ($page) => {
+		if (typeof $page === 'object' && $page.connecting) return $page.connecting
+		return null
+	})
+
+	const title = derived(page, ($page) => {
+		if ($page === 'main') return 'Connect Wallet'
+		if ($page === 'explainer') return 'Connect Wallet'
+
+		return $page.connecting.name || 'Connect Wallet'
+	})
 
 	const handleConnect = async (connector: Connector) => {
 		await config.reconnect([connector])
 
 		try {
 			console.log('config.state: ', state.status)
-			activeRequest = connector
+			$page = { connecting: connector }
 			await config.connect(connector)
 		} catch (error) {
 			console.error('caught: ', error)
@@ -35,7 +45,7 @@
 
 		console.log('config.state: ', state.status)
 	}
-	const clearRequest = () => (activeRequest = null)
+	const returnHome = () => ($page = 'main')
 </script>
 
 <!-- aria-expanded={open ? 'true' : 'false'} -->
@@ -49,16 +59,16 @@
 </button>
 
 <Modal
-	titleText={title}
+	titleText={$title}
 	bind:open
 	bind:close
-	inlineSize={activeRequest ? 260 : 240}
+	inlineSize={$activeRequest ? 260 : 240}
 	customTrigger
 >
 	<svelte:fragment slot="icon-left">
 		<button
-			class:hide={!activeRequest}
-			on:click={clearRequest}
+			class:hide={$page === 'main'}
+			on:click={returnHome}
 			class="fcl__header-btn"
 		>
 			<svg
@@ -82,31 +92,12 @@
 	</svelte:fragment>
 
 	<div class="fcl__layout-1col scrollable">
-
-				{#if state.status === 'connecting' || state.status === 'reconnecting'}
-					<h3 class="fcl__text-primary">Requesting Connection</h3>
-					<p class="fcl__subhead">
-						{copyEN(activeRequest.name).connecting[activeRequest.type]}
-					</p>
-				{:else}
-					<h3 class="fcl__text-primary error">Connection Declined</h3>
-					<p class="fcl__subhead">
-						{copyEN(activeRequest.name).rejected[activeRequest.type]}
-					</p>
-					<button
-						on:click={() => handleConnect(activeRequest)}
-						class="fcl__btn-primary justify-center mt-1">Retry</button
-					>
-				{/if}
-			{:else if activeRequest.type === 'walletConnect'}
-				<Scannable connector={activeRequest} />
-			{/if}
-		{:else}
+		{#if $page === 'main'}
 			<div class="connectors">
-				{#each config.connectors.toReversed() as connector}
+				{#each config.connectors as connector}
 					<button
 						on:click={() => handleConnect(connector)}
-						data-uid={connector.uid}
+						data-uid={connector.name}
 						class="fcl__btn-primary connector justify-between {connector.type}"
 					>
 						{connector.name}
@@ -119,12 +110,18 @@
 					</button>
 				{/each}
 			</div>
-
-			<slot name="footer" />
+		{:else if $page === 'explainer'}
+			<plc />
+		{:else if $page.connecting.type === 'injected'}
+			<Injected {state} {config} />
+		{:else if $page.connecting.type === 'walletConnect'}
+			<Scannable />
 		{/if}
 	</div>
 	<footer>
-		<button class="fcl__btn-text fcl__text-tertiary">What is a wallet? </button>
+		<button class="fcl__btn-text fcl__text-tertiary" on:click={() => {}}
+			>What is a wallet?
+		</button>
 		<slot name="footer" />
 	</footer>
 </Modal>
@@ -132,6 +129,7 @@
 <!-- </Modal> -->
 
 <style>
+	/* @import url('../../styles/index.css'); */
 	.scrollable {
 		overflow-y: auto;
 		/* height: calc(60px*4); */
