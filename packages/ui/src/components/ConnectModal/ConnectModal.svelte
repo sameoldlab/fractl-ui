@@ -129,27 +129,12 @@
 <!-- </Modal> -->
 
 <style>
-	/* @import url('../../styles/index.css'); */
+	@import url('../../styles/index.css');
 	.scrollable {
 		overflow-y: auto;
-		/* height: calc(60px*4); */
-
-		&::-webkit-scrollbar {
-			inline-size: 0.5em;
-		}
-
-		&::-webkit-scrollbar-track,
-		&::-webkit-scrollbar-button {
-			background: var(--fcl-body-background);
-		}
-		&::-webkit-scrollbar-thumb {
-			background: var(--fcl-text-color, #222429);
-			border: 0.2em solid transparent;
-			border-radius: calc(var(--fcl-border-radius, 50em) / 8);
-			&:hover {
-				background-color: var(--fcl-btn-hover-background, #2f3139);
-			}
-		}
+		max-height: calc(60px * 4);
+		min-height: 0;
+		scrollbar-gutter: stable both-edges;
 	}
 	footer {
 		display: grid;
