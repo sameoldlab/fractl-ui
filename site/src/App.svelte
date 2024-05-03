@@ -1,126 +1,168 @@
-<!-- <svelte:options tag="my-app" /> -->
 <script lang="ts">
-	// import config from '../../../../packages/ui.old/src/wagmiConfig'
-	import { addEvmConnection } from '@fractl-ui/evm'
-	import 'fractl-ui'
-	import wagmiConfig from './lib/wagmiConfig'
-	import { onMount } from 'svelte'
-	import { reconnect } from '@wagmi/core'
+	// import { spring } from 'svelte/motion'
+	// import './app.css'
 	import FractlSvg from './assets/fractl.svg'
-	import './app.css'
-	// import { addStarknetConnection } frLom '@fractl-ui/starknet'
+	import Code from './lib/code.svelte'
+	import Select from './lib/select.svelte'
 
-	onMount(async () => {
-		reconnect($wagmiConfig, { connectors: $wagmiConfig.connectors })
-	})
-	// const config = addStarknetConnection()
-	const config = addEvmConnection($wagmiConfig)
-	// const { status } = config.state
+	let theme: string,
+		ecosystem = 'evm',
+		top = true
+
+	let h1Height
 </script>
 
-<header>
-	<fractl-modal {config} btnClass="button-85"/>
-
-</header>
-<main>
-	<div class="hero">
-		<h1>
-			<!-- Fractl-ui -->
+<svelte:window />
+<div class="grid">
+	<header>
+		<div>
+			<!-- Fractl -->
+		</div>
+		<div class="desktop">
+			<span>[0] component: connect</span>
+			<span>[1] theme: {theme}</span>
+			<Select label="theme" options={['dark', 'kandinsky', 'vesper']} />
+			<span>[2] ecosystem: {ecosystem}</span>
+		</div>
+	</header>
+	<main>
+		<h1
+			class:header={!top}
+			bind:clientHeight={h1Height}
+			style="--height: {h1Height}px;"
+		>
 			<img src={FractlSvg} alt="Fractl" />
 		</h1>
 		<p>
-			modular dapp UI library for the EVM <span class="whisper">
-				and (soon) Starknet and Cosmos and Fuel and...
-			</span>
+			Finally, a "dapp" UI library for the sharding roadmap. Use anywhere. With
+			anything.
 		</p>
-	</div>
-
-	<fractl-modal {config} btnClass="button-85" />
-	<div>
-		<label for="theme"> <h2>Pick or make your theme</h2> </label>
-		<select
-			name="theme"
-			id="theme"
-			bind:value={theme}
-			on:select={() => console.log(theme)}
-		>
-			<option value="dark"> Soft Dark </option>
-			<option value="kandinsky"> Kandinsky </option>
-			<option value="deadpool"> Deadpool </option>
-			<option value="midnight"> Midnight </option>
-		</select>
-	</div>
-	<!-- 
-	{#if connected}
-		<AccountDialog config={$config}></AccountDialog>
-	{/if} -->
-</main>
-<footer class="links">
-	<a href="https://github.com/sameoldlab/fractl-ui">
-		<svg
-			height="20"
-			aria-hidden="true"
-			viewBox="0 0 16 16"
-			fill="currentcolor"
-			version="1.1"
-			width="20"
-			data-view-component="true"
-		>
-			<path
-				d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"
-			></path>
-		</svg>
-	</a>
-</footer>
+		<div class="hero"></div>
+		<!-- prettier-ignore-->
+		<Code
+			>pnpm add fractl-ui @fractl-ui/evm \
+@fractl-ui/fuel @fractl-ui/starkware
+		</Code>
+	</main>
+	<!-- 	<footer class="links">
+		<a href="https://github.com/sameoldlab/fractl-ui">
+			<svg
+				height="20"
+				aria-hidden="true"
+				viewBox="0 0 16 16"
+				fill="currentcolor"
+				version="1.1"
+				width="20"
+				data-view-component="true"
+			>
+				<path
+					d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"
+				></path>
+			</svg>
+		</a>
+	</footer> -->
+</div>
 
 <style>
-	header {
-		display: flex;
-		flex-direction: row;
-		justify-content: end;
-	}
-	.hero {
-		align-items: center;
-		display: flex;
-		flex-direction: column;
-		gap: 0.15rem;
-		max-width: 40ch;
-		margin: 0 auto;
-		text-align: center;
-	}
-	h1 {
-		font-weight: 300;
-		font-family: system-serif, cursive, 'Times New Roman', Times, serif;
-		margin: 0;
-	}
-	p {
-		opacity: 0.8;
-		font-size: 1em;
-		font-weight: 500;
+	* {
+		box-sizing: border-box;
+		min-width: 0;
 	}
 	:root {
-		background: hsl(0, 0%, 25%);
 		color: aliceblue;
+		background: #555;
+		background: hsl(0, 0%, 15%);
+		background: oklch(20%, 0.004, 144);
+		color: #bbb;
 	}
-	.links {
-		margin: 1rem;
-		position: fixed;
-		bottom: 0;
+	:global(body) {
+		margin: 0;
+	}
+	.grid {
+		display: grid;
+		padding-inline: 1rem;
+	}
+	header {
+		font-family: 'Courier New', Courier, monospace;
+		font-size: 85%;
+		position: sticky;
+		top: 0;
+		z-index: 10;
+		display: flex;
+		background: hsl(0, 0%, 15%);
+		background: oklch(20%, 0.004, 144);
+		flex-direction: row;
+		justify-content: space-between;
+		container-type: inline-size;
+		container-name: header;
+		padding-block: 1em;
 
-		& a {
-			color: inherit;
+		& div {
+			gap: 1rem;
+			display: none;
+			opacity: 0;
+			transition: all 1600ms allow-discrete ease-in-out;
+		}
+	}
+	@container header (min-width: 620px) {
+		header > div {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			opacity: 1;
+		}
+	}
+
+	h1 {
+		box-sizing: border-box;
+		margin: 0;
+		transform-origin: top left;
+	}
+	@media (prefers-reduced-motion: no-preference) {
+		@supports (animation-timeline: view()) {
+			h1 {
+				animation: to-header linear forwards;
+				animation-timeline: view();
+				animation-range-start: 93vh;
+				animation-range-end: calc(93vh + var(--height));
+				position: sticky;
+				top: 1em;
+				opacity: 1;
+				scale: 1;
+				z-index: 11;
+			}
+		}
+	}
+	@keyframes to-header {
+		to {
+			scale: 0.1;
+			opacity: 0;
 		}
 	}
 
 	main {
-		display: flex;
-		padding: 10vh 10vw;
-		flex-direction: column;
-		gap: 3em;
-		align-items: center;
+		padding-block-start: 3em;
+		margin-block-end: 300em;
 	}
-	.whisper {
-		opacity: 0.5;
-		font-style: italic;
+	.hero {
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+		/* width: 100%; */
+		margin-inline: auto;
+		& p {
+			margin: 0;
+			opacity: 0.8;
+			font-size: 1em;
+			font-weight: 500;
+		}
+	}
+
+	main {
+		/* display: flex; */
+		/* padding: 10vh 10vw; */
+		/* flex-direction: column; */
+		gap: 3em;
+		/* align-items: center; */
 	}
 </style>
