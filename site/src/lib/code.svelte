@@ -1,25 +1,43 @@
-<pre>
-<code
-		><span class="path">lab/untitled-v3</span>
+<script lang="ts">
+	export let clipboard = ''
+	let copied = false
+</script>
+
+<button
+	on:click={() => {
+		if (clipboard === '') return
+		navigator.clipboard.writeText(clipboard).then(() => {
+			copied = true
+			setTimeout(() => {
+				copied = false
+			}, 500)
+		})
+	}}
+	class:copied
+>
+	<pre><code
+			><span class="path">lab/untitled-v3</span>
 <span class="rsa">&rsaquo;</span> <slot /></code
-	>
-</pre>
+		></pre>
+</button>
 
 <style>
-	pre {
+	button {
+		padding: 0;
+		margin: 0;
+		border: none;
+		background: transparent;
+		font-size: inherit;
+		color: inherit;
+		width: 100%;
+		text-align: inherit;
+
+		padding: 0.25em 1em;
+		border: 2px solid rgba(76 76 76 / 0.4);
+
 		--base-color: #17171755;
 		background: var(--base-color);
 		border-radius: 0.5em;
-		border: 1px solid rgba(76, 76, 76, 0.4);
-		--tw-shadow-color: rgba(29, 29, 29, 0.687);
-		/* 		box-shadow:
-			inset 0 0.25px 0 rgba(255, 255, 255, 0.1),
-			0px 1px 0px -1px var(--tw-shadow-color),
-			0px 1px 1px -1px var(--tw-shadow-color),
-			0px 1px 2px -1px var(--tw-shadow-color),
-			0px 2px 4px -2px var(--tw-shadow-color),
-			0px 3px 6px -3px var(--tw-shadow-color); */
-		padding: 1em;
 
 		--shadow-color: 0deg 0% 0%;
 		--shadow-elevation-low: inset 0 0.25px 0 rgba(255, 255, 255, 0.1),
@@ -38,7 +56,8 @@
 
 		transition:
 			box-shadow 100ms cubic-bezier(0.47, 0, 0.745, 0.715),
-			background-color 100ms cubic-bezier(0.47, 0, 0.745, 0.715);
+			background-color 100ms cubic-bezier(0.47, 0, 0.745, 0.715),
+			border-color 300ms ease-in-out;
 
 		&:hover {
 			box-shadow: var(--shadow-elevation-medium);
@@ -46,12 +65,20 @@
 			background-color: color(from var(--base-color) 20%);
 			cursor: copy;
 		}
+
+		&:focus-visible {
+			outline: 2px solid rgba(153 205 50 / 0.4);
+		}
 	}
+	.copied {
+		border-color: rgb(153 205 50);
+	}
+
 	span {
 		font-weight: 600;
-		color: yellowgreen;
+		color: rgb(153 205 50);
 	}
 	code {
-		font-size: 1rem;
+		font-size: 0.9rem;
 	}
 </style>
