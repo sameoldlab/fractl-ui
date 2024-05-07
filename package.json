@@ -12,7 +12,7 @@
 		"dev:site": "pnpm -F x-svelte dev",
 		"dev:pkg": "pnpm -F='./packages/*' --parallel dev",
 		"build:site": "pnpm -F fractl-ui -F='@fractl-ui/*' -F x-svelte build",
-		"ci:publish": "pnpm publish -r --access=public"
+		"ci:publish": "pnpm build && pnpm publish -r --access=public"
 	},
 	"lint-staged": {
 		"**/*.{js,ts,svelte}": [
