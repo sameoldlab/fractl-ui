@@ -1,5 +1,7 @@
 # fractl-ui
 
+## 0.3.2
+
 ## 0.3.0
 
 ### Minor Changes
