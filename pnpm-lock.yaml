@@ -265,14 +265,14 @@ importers:
   site:
     devDependencies:
       '@fractl-ui/evm':
-        specifier: workspace:^
-        version: link:../packages/evm
+        specifier: 0.3.3
+        version: 0.3.3(@wagmi/core@2.6.15)(viem@2.9.8)
       '@fractl-ui/fuel':
-        specifier: workspace:^
-        version: link:../packages/fuel
+        specifier: 0.3.3
+        version: 0.3.3
       '@fractl-ui/starknet':
-        specifier: workspace:^
-        version: link:../packages/starknet
+        specifier: 0.3.2
+        version: 0.3.2(starknet@5.24.3)
       '@sveltejs/adapter-auto':
         specifier: ^3.2.0
         version: 3.2.0(@sveltejs/kit@2.5.0)
@@ -286,8 +286,8 @@ importers:
         specifier: ^2.6.5
         version: 2.6.15(react@18.2.0)(typescript@5.3.3)(viem@2.9.8)
       fractl-ui:
-        specifier: workspace:^
-        version: link:../packages/ui
+        specifier: 0.3.2
+        version: 0.3.2
       svelte:
         specifier: ^4.2.12
         version: 4.2.15
@@ -1607,6 +1607,28 @@ packages:
 
   /@floating-ui/utils@0.2.1:
     resolution: {integrity: sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==}
+    dev: true
+
+  /@fractl-ui/evm@0.3.3(@wagmi/core@2.6.15)(viem@2.9.8):
+    resolution: {integrity: sha512-Rc2NJxKknjj/nkQSvxIuWCVvZvKxa9E2mlKgQhIAizTH9Q35mvyPxCDYd8X7jg0K/iA7DXxhyWBGBKaIwJTA1Q==}
+    peerDependencies:
+      '@wagmi/core': ^2.0.1
+      viem: ^2.0.1
+    dependencies:
+      '@wagmi/core': 2.6.15(react@18.2.0)(typescript@5.3.3)(viem@2.9.8)
+      viem: 2.9.8(typescript@5.3.3)
+    dev: true
+
+  /@fractl-ui/fuel@0.3.3:
+    resolution: {integrity: sha512-tk7bM+yeq81UCfWqfjthebIIKEcZxPXFZyJPSocQb0FrB4wFApA6o2LC6BBvEkW3/8SPgwVo2/zBke/gaTRwQw==}
+    dev: true
+
+  /@fractl-ui/starknet@0.3.2(starknet@5.24.3):
+    resolution: {integrity: sha512-6XV28FYVXv+xLCeNZbQk1F7Kqls9+Swfy4QCU+NZ8DT7Bf4QPZ4uJttoyuM5XfE4CS8/oDVusRPV5KeTQ5KYPQ==}
+    peerDependencies:
+      starknet: ^5.24.3
+    dependencies:
+      starknet: 5.24.3
     dev: true
 
   /@fuel-ts/abi-coder@0.73.0:
@@ -5893,6 +5915,10 @@ packages:
 
   /fraction.js@4.3.7:
     resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
+    dev: true
+
+  /fractl-ui@0.3.2:
+    resolution: {integrity: sha512-kCmzOrVCaW28VeW0GI+2OFz116b9hBIMscSir5D2HHHmVCvYcO0r3pu4pZ8H2+MUYwIRlXuxcxoXHZQInjCXrw==}
     dev: true
 
   /fs-extra@7.0.1:
