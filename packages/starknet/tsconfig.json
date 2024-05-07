@@ -1,4 +1,13 @@
 {
+	"compilerOptions": {
+		// "target": "ESNext",
+		"outDir": "dist",
+		"rootDir": "src",
+		"declaration": true,
+		"declarationMap": true,
+
+		"noEmit": false
+	},
 	"extends": "../tsconfig.json",
 	"include": ["src"]
 }
