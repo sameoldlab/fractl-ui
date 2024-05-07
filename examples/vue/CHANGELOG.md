@@ -1,5 +1,12 @@
 # x-vue
 
+## 0.3.4
+
+### Patch Changes
+
+- fractl-ui@0.3.4
+- @fractl-ui/evm@0.3.4
+
 ## 0.3.3
 
 ### Patch Changes
