@@ -1,5 +1,11 @@
 # @fractl-ui/starknet
 
+## 0.3.4
+
+### Patch Changes
+
+- 0d06b34: basically the same. types might be nicer, it should build with tsc now
+
 ## 0.3.3
 
 ## 0.3.2
