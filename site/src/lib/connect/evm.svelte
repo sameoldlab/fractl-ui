@@ -4,6 +4,7 @@
 	import wagmiConfig from './wagmiConfig'
 	import { reconnect } from '@wagmi/core'
 	import { onMount } from 'svelte'
+	import './connect.css'
 
 	onMount(async () => {
 		reconnect($wagmiConfig, { connectors: $wagmiConfig.connectors })
