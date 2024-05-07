@@ -4,25 +4,39 @@
 	import FractlSvg from './assets/fractl.svg'
 	import Code from './lib/code.svelte'
 	import Select from './lib/select.svelte'
+	import Evm from './lib/connect/evm.svelte'
+	import Starknet from './lib/connect/starknet.svelte'
 
-	let theme: string,
-		ecosystem = 'evm',
-		top = true
+	const opts = {
+		theme: ['dark'],
+		ecosystem: ['evm', 'starknet']
+	}
 
-	let h1Height
+	let theme = opts.theme[0],
+		ecosystem = opts.ecosystem[0],
+		h1Height: number
+
+	function handleBinds(event: KeyboardEvent) {
+		console.log(event.key)
+		if (event.key === 't') {
+			theme = theme === 'dark' ? 'kandinsky' : 'dark'
+		} else if (event.key === 'e') {
+			ecosystem = ecosystem === 'evm' ? 'starknet' : 'evm'
+		}
+	}
 </script>
 
-<svelte:window />
+<svelte:window on:keypress={handleBinds} />
 <div class="grid">
 	<header>
 		<div>
 			<!-- Fractl -->
 		</div>
 		<div class="desktop">
-			<span>[0] component: connect</span>
-			<span>[1] theme: {theme}</span>
+			<span><span class="bind">T</span>heme:{theme}</span>
+			<span><span class="bind">E</span>cosystem:{ecosystem}</span>
 			<Select label="theme" options={['dark', 'kandinsky', 'vesper']} />
-			<span>[2] ecosystem: {ecosystem}</span>
+			<span><span class="bind">C</span>omponent: connect</span>
 		</div>
 	</header>
 	<main>
@@ -39,10 +53,18 @@
 		</p>
 		<div class="hero"></div>
 		<!-- prettier-ignore-->
-		<Code
+		<Code clipboard="pnpm add fractl-ui @fractl-ui/evm @fractl-ui/fuel @fractl-ui/starkware"
 			>pnpm add fractl-ui @fractl-ui/evm \
-@fractl-ui/fuel @fractl-ui/starkware
+@fractl-ui/fuel @fractl-ui/starknet
 		</Code>
+
+		<div class="preview">
+			{#if ecosystem === 'evm'}
+				<Evm class="connect" />
+			{:else if ecosystem === 'starkware'}
+				<Starknet class="connect" />
+			{/if}
+		</div>
 	</main>
 	<!-- 	<footer class="links">
 		<a href="https://github.com/sameoldlab/fractl-ui">
@@ -69,11 +91,11 @@
 		min-width: 0;
 	}
 	:root {
-		color: aliceblue;
-		background: #555;
-		background: hsl(0, 0%, 15%);
+		--text: #bbb;
+		--bg: hsl(0, 0%, 15%);
+		background: var(--bg);
 		background: oklch(20%, 0.004, 144);
-		color: #bbb;
+		color: var(--text);
 	}
 	:global(body) {
 		margin: 0;
@@ -98,15 +120,22 @@
 		padding-block: 1em;
 
 		& div {
-			gap: 1rem;
 			display: none;
 			opacity: 0;
-			transition: all 1600ms allow-discrete ease-in-out;
+			transition: opacity 1600ms allow-discrete ease-in-out;
 		}
+	}
+	.bind {
+		/* padding-inline: .25em; */
+		font-weight: 600;
+		background-color: var(--text);
+		color: var(--bg);
+		opacity: 0.8;
 	}
 	@container header (min-width: 620px) {
 		header > div {
 			display: flex;
+			gap: 0.5rem;
 			flex-direction: row;
 			flex-wrap: wrap;
 			opacity: 1;
@@ -157,12 +186,21 @@
 			font-weight: 500;
 		}
 	}
-
-	main {
-		/* display: flex; */
-		/* padding: 10vh 10vw; */
-		/* flex-direction: column; */
-		gap: 3em;
-		/* align-items: center; */
+	.preview {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-block: 1em;
+		width: min(1000px, 100%);
+		border: 2px solid rgba(76 76 76 / 0.4);
+		border-radius: 0.5em;
+		background: radial-gradient(
+			circle,
+			rgba(76 76 76 / 0.4) 12%,
+			transparent 14%
+		);
+		background-size: 1.5em 1.5em;
+		/* opacity: 0.2; */
+		aspect-ratio: 3 / 1;
 	}
 </style>
