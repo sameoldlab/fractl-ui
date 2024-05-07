@@ -1,5 +1,11 @@
 # fractl-ui
 
+## 0.3.3
+
+### Patch Changes
+
+- b25768b: Build before publishing
+
 ## 0.3.2
 
 ## 0.3.0
