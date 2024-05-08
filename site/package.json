@@ -10,10 +10,10 @@
 		"check": "svelte-check --tsconfig ./tsconfig.json"
 	},
 	"devDependencies": {
-		"@fractl-ui/evm": "0.3.3",
-		"@fractl-ui/starknet": "0.3.2",
-		"@fractl-ui/fuel": "0.3.3",
-		"fractl-ui": "0.3.2",
+		"@fractl-ui/evm": "0.3.4",
+		"@fractl-ui/starknet": "0.3.4",
+		"@fractl-ui/fuel": "0.3.4",
+		"fractl-ui": "0.3.4",
 		"@sveltejs/vite-plugin-svelte": "^3.0.2",
 		"@tsconfig/svelte": "^5.0.2",
 		"@wagmi/core": "^2.6.5",
