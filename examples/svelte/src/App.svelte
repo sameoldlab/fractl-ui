@@ -19,8 +19,7 @@
 </script>
 
 <header>
-	<fractl-modal {config} btnClass="button-85"/>
-
+	<fractl-modal {config} btnClass="button-85" />
 </header>
 <main>
 	<div class="hero">
@@ -36,20 +35,7 @@
 	</div>
 
 	<fractl-modal {config} btnClass="button-85" />
-	<div>
-		<label for="theme"> <h2>Pick or make your theme</h2> </label>
-		<select
-			name="theme"
-			id="theme"
-			bind:value={theme}
-			on:select={() => console.log(theme)}
-		>
-			<option value="dark"> Soft Dark </option>
-			<option value="kandinsky"> Kandinsky </option>
-			<option value="deadpool"> Deadpool </option>
-			<option value="midnight"> Midnight </option>
-		</select>
-	</div>
+
 	<!-- 
 	{#if connected}
 		<AccountDialog config={$config}></AccountDialog>
