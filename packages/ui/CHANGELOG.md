@@ -1,5 +1,13 @@
 # fractl-ui
 
+## 0.3.5
+
+### Patch Changes
+
+- 1ef8fc8: export types
+
+## 0.3.4
+
 ## 0.3.3
 
 ### Patch Changes

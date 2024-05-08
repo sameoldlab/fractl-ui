@@ -1,6 +1,6 @@
 {
 	"name": "@fractl-ui/types",
-	"version": "0.3.3",
+	"version": "0.3.5",
 	"private": true,
 	"description": "",
 	"author": "sameoldlab",
@@ -13,10 +13,10 @@
 	"type": "module",
 	"types": "./types.d.ts",
 	"files": [
-		"dist"
+		"src"
 	],
 	"exports": {
-		"types": "./dist/types.d.ts"
+		"types": "./src/types.d.ts"
 	},
 	"scripts": {
 		"dev": "tsc -w",

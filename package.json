@@ -8,7 +8,7 @@
 		"format": "prettier --write .",
 		"prepare": "husky install",
 		"build": "pnpm -F='./packages/*' --parallel build",
-		"check": "pnpm format && pnpm lint",
+		"check": "pnpm -r --no-bail check",
 		"dev:site": "pnpm -F x-svelte dev",
 		"dev:pkg": "pnpm -F='./packages/*' --parallel dev",
 		"build:site": "pnpm -F fractl-ui -F='@fractl-ui/*' -F x-svelte build",

@@ -1,4 +1,12 @@
 {
 	"extends": "../tsconfig.json",
+	"compilerOptions": {
+		// don't "fix". `get-starknet-core` will not work with module NodeNext
+		"moduleResolution": "Bundler",
+		"module": "ESNext",
+
+		"outDir": "dist",
+		"rootDir": "src"
+	},
 	"include": ["src"]
 }
