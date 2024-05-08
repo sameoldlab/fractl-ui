@@ -19,14 +19,13 @@
 </script>
 
 <header>
-	<fractl-modal {config} btnClass="button-85"/>
-
+	<fractl-modal {config} btnClass="button-85" />
 </header>
 <main>
 	<div class="hero">
 		<h1>
 			<!-- Fractl-ui -->
-			<img src={FractlSvg} alt="Fractl UI" />
+			<img src={FractlSvg} alt="Fractl" />
 		</h1>
 		<p>
 			modular dapp UI library for the EVM <span class="whisper">
@@ -36,6 +35,7 @@
 	</div>
 
 	<fractl-modal {config} btnClass="button-85" />
+
 	<!-- 
 	{#if connected}
 		<AccountDialog config={$config}></AccountDialog>
