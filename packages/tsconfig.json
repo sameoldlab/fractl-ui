@@ -10,11 +10,12 @@
 		"allowJs": false,
 
 		"target": "ESNext",
-
+		"declaration": true,
+		"declarationMap": true,
 		// Run tsc before commits and packaging, but build and _bundle with Vite
-		"moduleResolution": "Bundler",
-		"module": "ESNext",
-		"noEmit": true,
+		"moduleResolution": "NodeNext",
+		"module": "NodeNext",
+		"noEmit": false,
 
 		"isolatedModules": true,
 

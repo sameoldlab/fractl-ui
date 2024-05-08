@@ -15,6 +15,10 @@ export default defineConfig({
 			entry: resolve(__dirname, './src/index.ts'),
 			name: '@fractl-ui/fuel',
 			fileName: 'index'
+		},
+		rollupOptions: {
+			treeshake: true,
+			external: ['fuels']
 		}
 	}
 })

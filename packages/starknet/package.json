@@ -15,7 +15,6 @@
 	"type": "module",
 	"module": "./dist/index.js",
 	"types": "./dist/index.d.ts",
-	"main": "./dist/index.umd.cjs",
 	"files": [
 		"dist"
 	],
@@ -27,10 +26,8 @@
 	},
 	"scripts": {
 		"dev": "vite build -w",
-		"build": "tsc",
-		"prepublishOnly": "pnpm format && pnpm lint",
-		"lint": "eslint .",
-		"format": "prettier --write ."
+		"build": "rm -rf dist && tsc",
+		"check": "tsc --noEmit"
 	},
 	"peerDependencies": {
 		"starknet": "^5.24.3"
