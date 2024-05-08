@@ -9,7 +9,7 @@ export default defineConfig({
 		svelte(),
 		dts({
 			entryRoot: 'src',
-			outDir: 'dist/types'
+			outDir: 'dist'
 		})
 	],
 	build: {
@@ -20,7 +20,7 @@ export default defineConfig({
 			fileName: 'index'
 		},
 		target: 'esnext',
-		sourcemap: true,
+		sourcemap: true
 		// minify: false
 	}
 })
