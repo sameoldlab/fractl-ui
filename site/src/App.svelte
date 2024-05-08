@@ -60,7 +60,7 @@
 		<div
 			style="
 			display: flex; 
-			gap: 1em;
+			gap: .25em;
 			font-family: Arial, Helvetica, sans-serif;
 			font-weight: 500;
 			padding-block-start: 1.75em;
@@ -70,12 +70,14 @@
 		>
 			<button
 				class="menu-option btn-reset"
+				class:selected={ecosystem === 'evm'}
 				on:click={() => {
 					ecosystem = 'evm'
 				}}>EVM</button
 			>
 			<button
 				class="menu-option btn-reset"
+				class:selected={ecosystem === 'starknet'}
 				on:click={() => {
 					ecosystem = 'starknet'
 				}}>Starknet</button
@@ -235,7 +237,29 @@
 		padding: 0;
 	}
 	.menu-option {
-		font-weight: 600;
+		cursor: pointer;
 		font-size: 96%;
+		opacity: 0.7;
+		padding: 0.5em 1em;
+		transition: background 200ms ease;
+		position: relative;
+		border-radius: 8px;
+	}
+	.menu-option.selected {
+		font-weight: 600;
+		opacity: 1;
+	}
+	.menu-option.selected::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		transform: translateY(0.6em);
+		border-bottom: 2px solid white;
+	}
+	.menu-option:hover {
+		background: rgba(76 76 76 / 0.4);
+		opacity: 1;
 	}
 </style>
