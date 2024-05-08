@@ -38,7 +38,7 @@ export type AccountData = AccountDataError | AccountDataResponse
 
 export type Connector<T = object> = {
 	name: string
-	type: string
+	type?: string
 	icon?: string
 } & T
 
