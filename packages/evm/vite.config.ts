@@ -15,6 +15,16 @@ export default defineConfig({
 			entry: resolve(__dirname, './src/index.ts'),
 			name: '@fractl-ui/evm',
 			fileName: 'index'
+		},
+		rollupOptions: {
+			treeshake: true,
+			external: ['@walletconnect/ethereum-provider', '@wagmi/core', 'viem'],
+			output: {
+				globals: {
+					'@wagmi/core': 'wagmi',
+					'@walletconnect/ethereum-provider': 'walletconnect-ethereum-provider'
+				}
+			}
 		}
 	}
 })

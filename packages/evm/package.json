@@ -26,18 +26,21 @@
 	},
 	"scripts": {
 		"dev": "vite build -w",
-		"build": "vite build"
+		"build": "vite build",
+		"check": "tsc --noEmit"
 	},
 	"peerDependencies": {
 		"@wagmi/core": "^2.0.1",
 		"viem": "^2.0.1"
 	},
-	"devDependencies": {
-		"@fractl-ui/types": "workspace:^",
+	"dependencies": {
 		"@wagmi/core": "^2.6.1",
 		"@walletconnect/ethereum-provider": "^2.11.0",
 		"nanostores": "^0.9.5",
-		"viem": "^2.5.0",
+		"viem": "^2.5.0"
+	},
+	"devDependencies": {
+		"@fractl-ui/types": "workspace:^",
 		"vite-plugin-dts": "^3.7.2"
 	}
 }
