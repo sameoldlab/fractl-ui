@@ -32,11 +32,13 @@
 	"peerDependencies": {
 		"starknet": "^5.24.3"
 	},
+	"dependencies": {
+		"get-starknet-core": "^3.2.0",
+		"starknet": "^5.24.3",
+		"nanostores": "^0.9.5"
+	},
 	"devDependencies": {
 		"@fractl-ui/types": "workspace:^",
-		"get-starknet-core": "^3.2.0",
-		"nanostores": "^0.9.5",
-		"starknet": "^5.24.3",
 		"vite": "^5.0.12",
 		"vite-plugin-dts": "^3.7.2"
 	}
