@@ -98,6 +98,7 @@ export const addFuel = async (
 		try {
 			/* If using getBalance instead (singular) need to programatically get base asset ID */
 			wallet.getBalances().then((data) => {
+				if (data === undefined || data[0] === undefined) return
 				const balance: AccountDataResponse['balance'] = {
 					symbol: data[0].assetId,
 					value: `${new BN(data[0].amount).toNumber()}`
