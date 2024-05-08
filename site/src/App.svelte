@@ -57,11 +57,34 @@
 			>pnpm add fractl-ui @fractl-ui/evm \
 @fractl-ui/fuel @fractl-ui/starknet
 		</Code>
-
+		<div
+			style="
+			display: flex; 
+			gap: 1em;
+			font-family: Arial, Helvetica, sans-serif;
+			font-weight: 500;
+			padding-block-start: 1.75em;
+			padding-block-end: .25em;
+			padding-inline: .25em;
+			"
+		>
+			<button
+				class="menu-option btn-reset"
+				on:click={() => {
+					ecosystem = 'evm'
+				}}>EVM</button
+			>
+			<button
+				class="menu-option btn-reset"
+				on:click={() => {
+					ecosystem = 'starknet'
+				}}>Starknet</button
+			>
+		</div>
 		<div class="preview">
 			{#if ecosystem === 'evm'}
 				<Evm class="connect" />
-			{:else if ecosystem === 'starkware'}
+			{:else if ecosystem === 'starknet'}
 				<Starknet class="connect" />
 			{/if}
 		</div>
@@ -171,7 +194,7 @@
 
 	main {
 		padding-block-start: 3em;
-		margin-block-end: 300em;
+		/* margin-block-end: 300em; */
 	}
 	.hero {
 		display: flex;
@@ -190,7 +213,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		margin-block: 1em;
+		/* margin: auto; */
+		margin-block: 0.25em;
 		width: min(1000px, 100%);
 		border: 2px solid rgba(76 76 76 / 0.4);
 		border-radius: 0.5em;
@@ -202,5 +226,16 @@
 		background-size: 1.5em 1.5em;
 		/* opacity: 0.2; */
 		aspect-ratio: 3 / 1;
+	}
+	.btn-reset {
+		background: none;
+		color: inherit;
+		font-size: inherit;
+		border: none;
+		padding: 0;
+	}
+	.menu-option {
+		font-weight: 600;
+		font-size: 96%;
 	}
 </style>
