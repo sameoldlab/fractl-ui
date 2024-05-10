@@ -107,10 +107,10 @@ button.fcl__btn-primary svg,
 	width: 2em;
 	/* margin-inline: .5em; */
 }
-/*	
-	Styles button as regular text. 
+/*
+	Styles button as regular text.
 	Keep specificity at 0,1,0 to allow
-	overides from additonal styles 
+	overides from additonal styles
 */
 .fcl__btn-text {
 	background: transparent;
@@ -237,6 +237,40 @@ button.fcl__btn-primary svg,
 		background: hsla(0, 0%, 100%, 6%);
 	}
 }
+
+:root {
+	--fcl-scrollbar-color-thumb: var(--fcl-body-background, #222429);
+	--fcl-scrollbar-color-track: var(--fcl-body-background, hsl(228, 11%, 9%));
+}
+@supports (scrollbar-width: auto) {
+	#fractl-dialog,
+	#fractl-dialog * {
+		scrollbar-color: var(--fcl-scrollbar-color-thumb)
+			var(--fcl-scrollbar-color-track);
+		scrollbar-width: var(--fcl-scrollbar-width, thin);
+	}
+}
+@supports selector(::-webkit-scrollbar) {
+	#fractl-dialog,
+	#fractl-dialog * {
+		&::-webkit-scrollbar {
+			inline-size: 0.5em;
+		}
+
+		&::-webkit-scrollbar-track {
+			background: var(--fcl-scrollbar-color-track);
+		}
+		&::-webkit-scrollbar-button,
+		&::-webkit-scrollbar-thumb {
+			background: var(--fcl-scrollbar-color-thumb);
+			border-radius: calc(var(--fcl-border-radius, 50em) / 8);
+			&:hover {
+				background-color: var(--fcl-btn-hover-background, #2f3139);
+			}
+		}
+	}
+}
+
 /* =============== */
 /* Utility Classes */
 /* =============== */

@@ -1,8 +1,12 @@
 <script lang="ts">
-	import type { Connector } from '@wagmi/core'
+	import type { Connector } from '@fractl-ui/types'
 	import { toString, create } from 'qrcode'
+	import type { Writable } from 'svelte/store'
+	import { getPage } from './context.js'
 
-	export let connector: Connector
+	const page = getPage() as Writable<{ connecting: Connector }>
+	const connector = $page.connecting
+
 	let uri: string = ''
 	let QR
 

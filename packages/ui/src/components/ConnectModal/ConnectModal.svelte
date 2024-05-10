@@ -1,33 +1,43 @@
 <script lang="ts">
-	import copyEN from '../../copy/copy.EN.js'
+	import '../../styles/index.css'
 	import Modal from '../Common/Modal.svelte'
 	import Scannable from './Scannable.svelte'
-	import type { ConfigDisconnected, Connector } from '@fractl-ui/types'
+	import Injected from './Injected.svelte'
+	import type { Config, Connector, State } from '@fractl-ui/types'
+	import { setPage, getPage } from './context.js'
+	import { derived } from 'svelte/store'
 
-	export let config: ConfigDisconnected
-	export let state
+	export let config: Config<Connector<unknown>>
+	export let state: State<unknown>
 	export let btnClass = ''
 	export let triggerText = 'Connect Wallet'
 
 	let open: () => void
 	let close: () => void
 
-	// export let demo = true
-	// export let inputWatch = true
-	// export let accountStatus: string
-	// export let chainStatus
-	// export let showBalance: string
+	setPage()
+	const page = getPage()
+
 	$: if (state.status === 'connected') close()
 
-	let activeRequest: Connector | null = null //config.connectors[3]
-	$: title = !activeRequest ? 'Connect Wallet' : activeRequest.name
+	const activeRequest = derived(page, ($page) => {
+		if (typeof $page === 'object' && $page.connecting) return $page.connecting
+		return null
+	})
+
+	const title = derived(page, ($page) => {
+		if ($page === 'main') return 'Connect Wallet'
+		if ($page === 'explainer') return 'Connect Wallet'
+
+		return $page.connecting.name || 'Connect Wallet'
+	})
 
 	const handleConnect = async (connector: Connector) => {
 		await config.reconnect([connector])
 
 		try {
 			console.log('config.state: ', state.status)
-			activeRequest = connector
+			$page = { connecting: connector }
 			await config.connect(connector)
 		} catch (error) {
 			console.error('caught: ', error)
@@ -35,7 +45,7 @@
 
 		console.log('config.state: ', state.status)
 	}
-	const clearRequest = () => (activeRequest = null)
+	const returnHome = () => ($page = 'main')
 </script>
 
 <!-- aria-expanded={open ? 'true' : 'false'} -->
@@ -49,16 +59,16 @@
 </button>
 
 <Modal
-	titleText={title}
+	titleText={$title}
 	bind:open
 	bind:close
-	inlineSize={activeRequest ? 260 : 240}
+	inlineSize={$activeRequest ? 260 : 240}
 	customTrigger
 >
 	<svelte:fragment slot="icon-left">
 		<button
-			class:hide={!activeRequest}
-			on:click={clearRequest}
+			class:hide={$page === 'main'}
+			on:click={returnHome}
 			class="fcl__header-btn"
 		>
 			<svg
@@ -81,50 +91,13 @@
 		</button>
 	</svelte:fragment>
 
-	<div class="fcl__layout-1col">
-		{#if activeRequest}
-			{#if activeRequest.type === 'injected'}
-				<!-- <Injected connector={activeRequest}></Injected> -->
-				<div class="fcl__graphic-primary">
-					<!-- prettier-ignore -->
-					<svg class:hide={state.status !== 'connecting' && state.status !== 'reconnecting'} class="spin" width="108" height="108" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" > 
-						<path d="M98 50C98 23.4903 76.5097 2 50 2" stroke="url(#a)" stroke-width="4" stroke-linecap="round" /> 
-						<defs> 
-							<radialGradient id="radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(100 50) rotate(-90) scale(47 47)" > <stop stop-color="currentColor" /> <stop offset="1" stop-color="currentColor" stop-opacity="0" /> </radialGradient> 
-							<linearGradient x1="8.042%" y1="0%" x2="65.682%" y2="23.865%" id="a" > <stop stop-color="currentColor" stop-opacity="0" offset="0%" /> <stop stop-color="currentColor" stop-opacity=".631" offset="63.146%" /> <stop stop-color="currentColor" offset="100%" /> </linearGradient>
-						 </defs> 
-					</svg>
-					<img
-						class="fcl_graphic-icon rounded"
-						src={activeRequest.icon}
-						alt={activeRequest.name}
-					/>
-				</div>
-
-				{#if state.status === 'connecting' || state.status === 'reconnecting'}
-					<h3 class="fcl__text-primary">Requesting Connection</h3>
-					<p class="fcl__subhead">
-						{copyEN(activeRequest.name).connecting[activeRequest.type]}
-					</p>
-				{:else}
-					<h3 class="fcl__text-primary error">Connection Declined</h3>
-					<p class="fcl__subhead">
-						{copyEN(activeRequest.name).rejected[activeRequest.type]}
-					</p>
-					<button
-						on:click={() => handleConnect(activeRequest)}
-						class="fcl__btn-primary justify-center mt-1">Retry</button
-					>
-				{/if}
-			{:else if activeRequest.type === 'walletConnect'}
-				<Scannable connector={activeRequest} />
-			{/if}
-		{:else}
+	<div class="fcl__layout-1col scrollable">
+		{#if $page === 'main'}
 			<div class="connectors">
-				{#each config.connectors.toReversed() as connector}
+				{#each config.connectors as connector}
 					<button
 						on:click={() => handleConnect(connector)}
-						data-uid={connector.uid}
+						data-uid={connector.name}
 						class="fcl__btn-primary connector justify-between {connector.type}"
 					>
 						{connector.name}
@@ -137,17 +110,43 @@
 					</button>
 				{/each}
 			</div>
-
-			<slot name="footer" />
+		{:else if $page === 'explainer'}
+			<plc />
+		{:else if $page.connecting.type === 'injected'}
+			<Injected {state} {config} />
+		{:else if $page.connecting.type === 'walletConnect'}
+			<Scannable />
 		{/if}
 	</div>
+	<footer>
+		<button class="fcl__btn-text fcl__text-tertiary" on:click={() => {}}
+			>What is a wallet?
+		</button>
+		<slot name="footer" />
+	</footer>
 </Modal>
 
 <!-- </Modal> -->
 
 <style>
 	@import url('../../styles/index.css');
-
+	.scrollable {
+		overflow-y: auto;
+		max-height: calc(60px * 4);
+		min-height: 0;
+		scrollbar-gutter: stable both-edges;
+	}
+	footer {
+		display: grid;
+		align-items: center;
+		justify-content: center;
+		padding: 0.725em 0 0.5em;
+	}
+	.fcl__text-tertiary {
+		font-size: 0.9em;
+		color: var(--fcl-text-tertiatry-color, oklch(61.42% 0.18 264.03));
+		font-weight: 600;
+	}
 	.hide {
 		display: none;
 		opacity: 0;
@@ -167,9 +166,11 @@
 	}
 
 	.connectors {
+		box-sizing: border-box;
 		display: grid;
 		width: 100%;
 		gap: 0.5em;
+		padding: 0 var(--inner-padding);
 	}
 	.connector.mock {
 		background: hsla(76, 20%, 15%, 1);
