@@ -11,7 +11,7 @@
 		"check": "pnpm -r --no-bail check",
 		"dev:site": "pnpm -F site dev",
 		"dev:pkg": "pnpm -F='./packages/*' --parallel dev",
-		"build:site": "pnpm -F fractl-ui -F='@fractl-ui/*' -F x-svelte build",
+		"build:site": "pnpm -F site build",
 		"ci:publish": "pnpm build && pnpm publish -r --access=public"
 	},
 	"lint-staged": {
