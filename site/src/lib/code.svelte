@@ -35,7 +35,7 @@
 		padding: 0.25em 1em;
 		border: 2px solid rgba(76 76 76 / 0.4);
 
-		--base-color: #17171755;
+		--base-color: #171717;
 		background: var(--base-color);
 		border-radius: 0.5em;
 
