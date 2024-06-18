@@ -218,6 +218,10 @@ importers:
         version: 4.2.9
 
   packages/ui:
+    dependencies:
+      '@castlenine/svelte-qrcode':
+        specifier: ^2.2.0
+        version: 2.2.0(svelte@4.2.9)
     devDependencies:
       '@fractl-ui/types':
         specifier: workspace:^
