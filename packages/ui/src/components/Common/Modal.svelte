@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../../styles/index.css'
-	import { createEventDispatcher } from 'svelte'
+	import { createEventDispatcher, onDestroy } from 'svelte'
 	const dispatch = createEventDispatcher()
 
 	export let titleText = 'Title Text'
@@ -48,6 +48,9 @@
 		dialog.close()
 		dispatch('close')
 	}
+	onDestroy(()=>{
+		dispatch('close')
+	})
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
