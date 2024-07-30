@@ -7,6 +7,7 @@
 	} from '@fractl-ui/types'
 	import Zorb from './zorb/Zorb.svelte'
 	import Modal from './Common/Modal.svelte'
+	import { onDestroy } from 'svelte'
 
 	export let accountData: AccountData
 	export let config: ConfigConnected
@@ -19,8 +20,13 @@
 	$: symbol = accountData.balance?.symbol
 
 	let open: () => void
+	let close: () => void
+	onDestroy(() => {
+		close()
+	})
 
 	const handleDisconnect = async (connector: Connector) => {
+		close()
 		await config.disconnect(connector)
 	}
 </script>
@@ -42,7 +48,7 @@
 		{name || truncate(address)}
 	</button>
 
-	<Modal titleText="Connected" bind:open customTrigger>
+	<Modal titleText="Connected" bind:open bind:close customTrigger>
 		<!-- header>div*2+div.balance+hr+div>div.header -->
 		<div class="fcl__layout-3col">
 			{#if avatar}
