@@ -1,5 +1,13 @@
 # x-vue
 
+## 0.3.6
+
+### Patch Changes
+
+- Updated dependencies [c40fce4]
+  - fractl-ui@0.3.6
+  - @fractl-ui/evm@0.3.5
+
 ## 0.3.5
 
 ### Patch Changes

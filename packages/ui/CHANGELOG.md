@@ -1,5 +1,11 @@
 # fractl-ui
 
+## 0.3.6
+
+### Patch Changes
+
+- c40fce4: fixed hideen scrollbar on modal close
+
 ## 0.3.5
 
 ### Patch Changes
