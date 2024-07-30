@@ -15,9 +15,6 @@
 		"ci:publish": "pnpm build && pnpm publish -r --access=public"
 	},
 	"lint-staged": {
-		"**/*.{js,ts,svelte}": [
-			"eslint"
-		],
 		"**/*": "prettier --write --ignore-unknown"
 	},
 	"keywords": [],
