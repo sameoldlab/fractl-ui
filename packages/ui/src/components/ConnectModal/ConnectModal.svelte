@@ -1,4 +1,6 @@
 <script lang="ts">
+
+	import { onDestroy, onMount } from 'svelte'
 	import copyEN from '../../copy/copy.EN.js'
 	import Modal from '../Common/Modal.svelte'
 	import Scannable from './Scannable.svelte'
@@ -17,6 +19,7 @@
 	// export let accountStatus: string
 	// export let chainStatus
 	// export let showBalance: string
+	onDestroy(()=>{close()})
 	$: if (state.status === 'connected') close()
 
 	let activeRequest: Connector | null = null //config.connectors[3]
