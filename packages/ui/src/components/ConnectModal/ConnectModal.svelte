@@ -1,6 +1,6 @@
 <script lang="ts">
 
-	import { onDestroy, onMount } from 'svelte'
+	import { onDestroy } from 'svelte'
 	import copyEN from '../../copy/copy.EN.js'
 	import Modal from '../Common/Modal.svelte'
 	import Scannable from './Scannable.svelte'
