@@ -8,20 +8,23 @@
 	import { reconnect } from '@wagmi/core'
 	import FractlSvg from './assets/fractl.svg'
 	import './app.css'
-	// import { addStarknetConnection } frLom '@fractl-ui/starknet'
+	import { addStarknetConnection } from '@fractl-ui/starknet'
 
 	onMount(async () => {
 		reconnect($wagmiConfig, { connectors: $wagmiConfig.connectors })
 	})
-	// const config = addStarknetConnection()
-	const config = addEvmConnection($wagmiConfig)
-	// const { status } = config.state
-	const connect = async () =>
-		create(addEvmConnection($wagmiConfig)).then((connect) => connect())
+	const stark = addStarknetConnection()
+	const evm = addEvmConnection($wagmiConfig)
+
+	const connect = async (conf) =>  create(conf).then((connect) => connect()
+		.then(res => console.log(res))
+		.catch(err => console.error(err))
+		)
 </script>
 
 <header>
-	<button on:click={connect}>Connect</button>
+	<button on:click={()=>connect(evm)}>Connect EVM</button>
+	<button on:click={()=>connect(stark)}>Connect Stark</button>
 </header>
 <main>
 	<div class="hero">
@@ -35,8 +38,6 @@
 			</span>
 		</p>
 	</div>
-
-	<fractl-modal {config} btnClass="button-85" />
 
 	<!-- 
 	{#if connected}
