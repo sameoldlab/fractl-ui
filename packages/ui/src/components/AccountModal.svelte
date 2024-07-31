@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../styles/index.css'
 	import { truncate } from '../utils.js'
 	import type {
 		AccountData,
@@ -97,6 +98,3 @@
 	</Modal>
 {/if}
 
-<style lang="postcss">
-	@import url('../styles/index.css');
-</style>

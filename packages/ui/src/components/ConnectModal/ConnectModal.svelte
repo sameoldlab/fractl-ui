@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../../styles/index.css'
 
 	import { onDestroy } from 'svelte'
 	import copyEN from '../../copy/copy.EN.js'
@@ -145,11 +146,7 @@
 		{/if}
 	</div>
 </Modal>
-
-<!-- </Modal> -->
-
 <style>
-	@import url('../../styles/index.css');
 
 	.hide {
 		display: none;

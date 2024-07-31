@@ -1,14 +1,3 @@
-<svelte:options
-	customElement={{
-		tag: 'fractl-modal',
-		shadow: 'none',
-		props: {
-			config: { reflect: false, type: 'Object', attribute: 'config' }
-		}
-	}}
-	accessors={true}
-/>
-
 <script lang="ts">
 	import { ConnectModal, AccountModal } from './index.js'
 	import type { Config } from '@fractl-ui/types'

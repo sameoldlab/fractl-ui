@@ -103,8 +103,6 @@
 {/if}
 
 <style>
-	@import url('../../styles/index.css');
-
 	dialog:not([open]) {
 		pointer-events: none;
 		opacity: 0;
