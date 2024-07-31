@@ -4,14 +4,19 @@
 	import copyEN from '../../copy/copy.EN.js'
 	import Modal from '../Common/Modal.svelte'
 	import Scannable from './Scannable.svelte'
-	import type { ConfigConnected, ConfigDisconnected, Connector, StateConnected, StateDisconnected } from '@fractl-ui/types'
-	import type { Readable} from 'svelte/store'
+	import type {
+		ConfigConnected,
+		ConfigDisconnected,
+		Connector,
+		StateDisconnected
+	} from '@fractl-ui/types'
+	import type { Readable } from 'svelte/store'
 
-	export let config: ConfigDisconnected
+	export let config: ConfigDisconnected<Connector>
 	export let state: Readable<StateDisconnected<Connector>>
 	export let btnClass = ''
 	export let triggerText = 'Connect Wallet'
-	export let onConnect: (status: StateConnected<Connector>) => void
+	export let onConnect: (fractl: ConfigConnected<Connector>) => void
 	export let onConnectFail: (error: Error) => void
 
 	let open: () => void
@@ -22,8 +27,10 @@
 	// export let accountStatus: string
 	// export let chainStatus
 	// export let showBalance: string
-	onMount(()=> open())
-	onDestroy(()=>{close()})
+	onMount(() => open())
+	onDestroy(() => {
+		close()
+	})
 	$: if ($state.status === 'connected') close()
 
 	let activeRequest: Connector | null = null //config.connectors[3]
@@ -36,7 +43,7 @@
 			// console.debug('config.state: ', $state.status)
 			activeRequest = connector
 			await config.connect(connector)
-			onConnect({config, accountData: config.accountData})
+			onConnect(config)
 		} catch (error) {
 			onConnectFail(error)
 			// console.error('caught: ', error)
@@ -151,8 +158,8 @@
 		{/if}
 	</div>
 </Modal>
-<style>
 
+<style>
 	.hide {
 		display: none;
 		opacity: 0;

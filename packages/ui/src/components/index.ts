@@ -3,13 +3,15 @@ import AccountModal from './AccountModal.svelte'
 import FractlModal from './FractlModal.svelte'
 import type { Config, Connector, StateConnected } from '@fractl-ui/types'
 
-export const create = async <C extends Connector>(config: Promise<Config<C>>) => {
-	let _config = await Promise.resolve(config)
+export const create = async <C extends Connector>(
+	config: Promise<Config<C>>
+) => {
+	const _config = await Promise.resolve(config)
 
 	//TODO: return singleton when modal is dismissed without completing connection
 	return () => {
-		const getTarget = () =>  document.body
-		
+		const getTarget = () => document.body
+
 		return new Promise((resolve, reject) => {
 			const modal = new ConnectModal({
 				target: getTarget(),
