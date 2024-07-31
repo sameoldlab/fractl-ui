@@ -36,6 +36,7 @@
 		"@fractl-ui/types": "workspace:^",
 		"@fuel-wallet/playwright-utils": "^0.15.2",
 		"playwright": "^1.41.2",
-		"vite-plugin-dts": "^3.7.2"
+		"vite-plugin-dts": "^3.7.2",
+		"vite": "^5.3.5"
 	}
 }
