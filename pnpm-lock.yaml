@@ -278,7 +278,7 @@ importers:
         version: 0.3.4(@wagmi/core@2.6.15(react@18.2.0)(typescript@5.5.4)(viem@2.9.8(typescript@5.5.4)))(react@18.2.0)(viem@2.9.8(typescript@5.5.4))
       '@fractl-ui/fuel':
         specifier: 0.3.4
-        version: 0.3.4(dexie@4.0.1)
+        version: 0.3.4
       '@fractl-ui/starknet':
         specifier: 0.3.4
         version: 0.3.4(starknet@5.24.3)
@@ -312,6 +312,9 @@ importers:
       viem:
         specifier: ^2.7.16
         version: 2.9.8(typescript@5.5.4)
+      vite:
+        specifier: ^5.3.5
+        version: 5.3.5(@types/node@22.0.0)
 
 packages:
 
@@ -5638,7 +5641,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@fractl-ui/fuel@0.3.4(dexie@4.0.1)':
+  '@fractl-ui/fuel@0.3.4':
     dependencies:
       '@fuel-wallet/sdk': 0.15.2(dexie@4.0.1)(fuels@0.74.0(dexie@4.0.1))
       fuels: 0.74.0(dexie@4.0.1)
