@@ -2,7 +2,7 @@
 <script lang="ts">
 	// import config from '../../../../packages/ui.old/src/wagmiConfig'
 	import { addEvmConnection } from '@fractl-ui/evm'
-	import 'fractl-ui'
+	import { create } from 'fractl-ui'
 	import wagmiConfig from './lib/wagmiConfig'
 	import { onMount } from 'svelte'
 	import { reconnect } from '@wagmi/core'
@@ -16,10 +16,12 @@
 	// const config = addStarknetConnection()
 	const config = addEvmConnection($wagmiConfig)
 	// const { status } = config.state
+	const connect = async () =>
+		create(addEvmConnection($wagmiConfig)).then((connect) => connect())
 </script>
 
 <header>
-	<fractl-modal {config} btnClass="button-85" />
+	<button on:click={connect}>Connect</button>
 </header>
 <main>
 	<div class="hero">
@@ -58,7 +60,6 @@
 		</svg>
 	</a>
 </footer>
-
 <style>
 	header {
 		display: flex;
