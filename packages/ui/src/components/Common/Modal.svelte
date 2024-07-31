@@ -48,7 +48,7 @@
 		dialog.close()
 		dispatch('close')
 	}
-	onDestroy(()=>{
+	onDestroy(() => {
 		dispatch('close')
 	})
 </script>
@@ -103,8 +103,6 @@
 {/if}
 
 <style>
-	@import url('../../styles/index.css');
-
 	dialog:not([open]) {
 		pointer-events: none;
 		opacity: 0;

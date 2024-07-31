@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../../styles/index.css'
 	import { gradientForAddress } from './lib.js'
 	export let size = '100%'
 	export let address = '0x0000000000000000000000000000000000000000'
@@ -36,7 +37,3 @@
 		<ellipse fill="url(#gzr)" cx="45" cy="45" rx="45" ry="45"></ellipse>
 	</g>
 </svg>
-
-<style lang="postcss">
-	@import url('../../styles/index.css');
-</style>

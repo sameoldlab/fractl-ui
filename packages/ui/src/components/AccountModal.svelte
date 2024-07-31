@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../styles/index.css'
 	import { truncate } from '../utils.js'
 	import type {
 		AccountData,
@@ -8,16 +9,17 @@
 	import Zorb from './zorb/Zorb.svelte'
 	import Modal from './Common/Modal.svelte'
 	import { onDestroy } from 'svelte'
+	import type { Readable } from 'svelte/store'
 
-	export let accountData: AccountData
-	export let config: ConfigConnected
+	export let accountData: Readable<AccountData>
+	export let config: ConfigConnected<Connector>
 	export let btnClass: string = ''
 
-	$: address = accountData.account?.address
-	$: name = accountData.nameService.name
-	$: avatar = accountData.nameService.avatar
-	$: balance = accountData.balance?.value
-	$: symbol = accountData.balance?.symbol
+	$: address = $accountData.account?.address
+	$: name = $accountData.nameService?.name
+	$: avatar = $accountData.nameService?.avatar
+	$: balance = $accountData.balance?.value
+	$: symbol = $accountData.balance?.symbol
 
 	let open: () => void
 	let close: () => void
@@ -82,7 +84,7 @@
 				<!-- <button on:click={handleDisconnect} disabled> Switch</button> -->
 
 				<button
-					on:click={() => handleDisconnect(accountData.account.connector)}
+					on:click={() => handleDisconnect($accountData.account.connector)}
 					class="fcl__btn-primary row justify-center"
 				>
 					<!-- prettier-ignore -->
@@ -96,7 +98,3 @@
 		</div>
 	</Modal>
 {/if}
-
-<style lang="postcss">
-	@import url('../styles/index.css');
-</style>

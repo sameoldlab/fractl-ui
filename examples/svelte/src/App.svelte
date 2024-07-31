@@ -1,25 +1,37 @@
-<!-- <svelte:options tag="my-app" /> -->
 <script lang="ts">
-	// import config from '../../../../packages/ui.old/src/wagmiConfig'
 	import { addEvmConnection } from '@fractl-ui/evm'
-	import 'fractl-ui'
+	import { create, AccountModal } from 'fractl-ui'
 	import wagmiConfig from './lib/wagmiConfig'
 	import { onMount } from 'svelte'
 	import { reconnect } from '@wagmi/core'
 	import FractlSvg from './assets/fractl.svg'
 	import './app.css'
-	// import { addStarknetConnection } frLom '@fractl-ui/starknet'
+	import { addStarknetConnection } from '@fractl-ui/starknet'
 
 	onMount(async () => {
 		reconnect($wagmiConfig, { connectors: $wagmiConfig.connectors })
 	})
-	// const config = addStarknetConnection()
-	const config = addEvmConnection($wagmiConfig)
-	// const { status } = config.state
+	const stark = addStarknetConnection()
+	const evm = addEvmConnection($wagmiConfig)
+	let account
+
+	const connect = async (conf) =>
+		create(conf).then((connect) =>
+			connect()
+				.then((res) => {
+					account = {
+						config: res,
+						accountData: res.accountData
+					}
+					console.log(res)
+				})
+				.catch((err) => console.error(err))
+		)
 </script>
 
 <header>
-	<fractl-modal {config} btnClass="button-85" />
+	<button on:click={() => connect(evm)}>Connect EVM</button>
+	<button on:click={() => connect(stark)}>Connect Stark</button>
 </header>
 <main>
 	<div class="hero">
@@ -33,8 +45,9 @@
 			</span>
 		</p>
 	</div>
-
-	<fractl-modal {config} btnClass="button-85" />
+	{#if account}
+		<AccountModal {...account} />
+	{/if}
 
 	<!-- 
 	{#if connected}

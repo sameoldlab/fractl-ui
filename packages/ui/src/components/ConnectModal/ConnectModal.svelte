@@ -1,15 +1,23 @@
 <script lang="ts">
-
-	import { onDestroy } from 'svelte'
+	import '../../styles/index.css'
+	import { onDestroy, onMount } from 'svelte'
 	import copyEN from '../../copy/copy.EN.js'
 	import Modal from '../Common/Modal.svelte'
 	import Scannable from './Scannable.svelte'
-	import type { ConfigDisconnected, Connector } from '@fractl-ui/types'
+	import type {
+		ConfigConnected,
+		ConfigDisconnected,
+		Connector,
+		StateDisconnected
+	} from '@fractl-ui/types'
+	import type { Readable } from 'svelte/store'
 
-	export let config: ConfigDisconnected
-	export let state
+	export let config: ConfigDisconnected<Connector>
+	export let state: Readable<StateDisconnected<Connector>>
 	export let btnClass = ''
 	export let triggerText = 'Connect Wallet'
+	export let onConnect: (fractl: ConfigConnected<Connector>) => void
+	export let onConnectFail: (error: Error) => void
 
 	let open: () => void
 	let close: () => void
@@ -19,8 +27,11 @@
 	// export let accountStatus: string
 	// export let chainStatus
 	// export let showBalance: string
-	onDestroy(()=>{close()})
-	$: if (state.status === 'connected') close()
+	onMount(() => open())
+	onDestroy(() => {
+		close()
+	})
+	$: if ($state.status === 'connected') close()
 
 	let activeRequest: Connector | null = null //config.connectors[3]
 	$: title = !activeRequest ? 'Connect Wallet' : activeRequest.name
@@ -29,14 +40,16 @@
 		await config.reconnect([connector])
 
 		try {
-			console.log('config.state: ', state.status)
+			// console.debug('config.state: ', $state.status)
 			activeRequest = connector
 			await config.connect(connector)
+			onConnect(config)
 		} catch (error) {
-			console.error('caught: ', error)
+			onConnectFail(error)
+			// console.error('caught: ', error)
 		}
 
-		console.log('config.state: ', state.status)
+		// console.debug('config.state: ', $state.status)
 	}
 	const clearRequest = () => (activeRequest = null)
 </script>
@@ -90,7 +103,7 @@
 				<!-- <Injected connector={activeRequest}></Injected> -->
 				<div class="fcl__graphic-primary">
 					<!-- prettier-ignore -->
-					<svg class:hide={state.status !== 'connecting' && state.status !== 'reconnecting'} class="spin" width="108" height="108" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" > 
+					<svg class:hide={$state.status !== 'connecting' && $state.status !== 'reconnecting'} class="spin" width="108" height="108" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" > 
 						<path d="M98 50C98 23.4903 76.5097 2 50 2" stroke="url(#a)" stroke-width="4" stroke-linecap="round" /> 
 						<defs> 
 							<radialGradient id="radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(100 50) rotate(-90) scale(47 47)" > <stop stop-color="currentColor" /> <stop offset="1" stop-color="currentColor" stop-opacity="0" /> </radialGradient> 
@@ -104,7 +117,7 @@
 					/>
 				</div>
 
-				{#if state.status === 'connecting' || state.status === 'reconnecting'}
+				{#if $state.status === 'connecting' || $state.status === 'reconnecting'}
 					<h3 class="fcl__text-primary">Requesting Connection</h3>
 					<p class="fcl__subhead">
 						{copyEN(activeRequest.name).connecting[activeRequest.type]}
@@ -146,11 +159,7 @@
 	</div>
 </Modal>
 
-<!-- </Modal> -->
-
 <style>
-	@import url('../../styles/index.css');
-
 	.hide {
 		display: none;
 		opacity: 0;
