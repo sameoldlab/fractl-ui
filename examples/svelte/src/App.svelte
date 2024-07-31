@@ -1,8 +1,6 @@
-<!-- <svelte:options tag="my-app" /> -->
 <script lang="ts">
-	// import config from '../../../../packages/ui.old/src/wagmiConfig'
 	import { addEvmConnection } from '@fractl-ui/evm'
-	import { create } from 'fractl-ui'
+	import { create, AccountModal } from 'fractl-ui'
 	import wagmiConfig from './lib/wagmiConfig'
 	import { onMount } from 'svelte'
 	import { reconnect } from '@wagmi/core'
@@ -15,13 +13,19 @@
 	})
 	const stark = addStarknetConnection()
 	const evm = addEvmConnection($wagmiConfig)
+	let account
 
 	const connect = async (conf) =>  create(conf).then((connect) => connect()
-		.then(res => console.log(res))
+		.then(res => {
+			account = {
+				config: res,
+				accountData: res.accountData
+			}
+			console.log(res)
+		})
 		.catch(err => console.error(err))
 		)
 </script>
-
 <header>
 	<button on:click={()=>connect(evm)}>Connect EVM</button>
 	<button on:click={()=>connect(stark)}>Connect Stark</button>
@@ -38,6 +42,9 @@
 			</span>
 		</p>
 	</div>
+	{#if account}
+  	<AccountModal {...account}/>
+  {/if}
 
 	<!-- 
 	{#if connected}

@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { ConnectModal, AccountModal } from './index.js'
 	import type { Config } from '@fractl-ui/types'
+	import ConnectModal from './ConnectModal/ConnectModal.svelte';
+	import AccountModal from './AccountModal.svelte';
 	import { blur } from 'svelte/transition'
 	import { quintOut } from 'svelte/easing'
 
@@ -23,10 +24,10 @@
 			out:blur={{ duration: 8 }}
 		>
 			{#if isConnected}
-				<AccountModal accountData={$accountData} {config} {btnClass} />
+				<AccountModal {accountData} {config} {btnClass} />
 			{:else}
 				<ConnectModal
-					state={$state}
+					{state}
 					{config}
 					{btnClass}
 					triggerText="Connect Wallet"
