@@ -1,5 +1,4 @@
 <script lang="ts">
-	import '../../styles/index.css'
 	import { onDestroy, onMount } from 'svelte'
 	import copyEN from '../../copy/copy.EN.js'
 	import Modal from '../Common/Modal.svelte'
@@ -7,6 +6,7 @@
 	import type {
 		ConfigConnected,
 		ConfigDisconnected,
+		Config,
 		Connector,
 		StateDisconnected
 	} from '@fractl-ui/types'
@@ -97,7 +97,7 @@
 		</button>
 	</svelte:fragment>
 
-	<div class="fcl__layout-1col">
+	<div id="fractl-connect" class="fcl__layout-1col fcl__el">
 		{#if activeRequest}
 			{#if activeRequest.type === 'injected'}
 				<!-- <Injected connector={activeRequest}></Injected> -->
