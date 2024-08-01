@@ -83,7 +83,7 @@
 				<!-- <button on:click={handleDisconnect} disabled> Switch</button> -->
 
 				<button
-					on:click={() => handleDisconnect($accountData.account.connector)}
+					on:click={() => handleDisconnect($accountData.account?.connector)}
 					class="fcl__btn-primary row justify-center"
 				>
 					<!-- prettier-ignore -->
