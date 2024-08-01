@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { addEvmConnection } from '@fractl-ui/evm'
-	import { create, AccountModal } from 'fractl-ui'
+	import { create } from 'fractl-ui'
+	import { ConnectModal, AccountModal } from 'fractl-ui/svelte'
 	import wagmiConfig from './lib/wagmiConfig'
 	import { onMount } from 'svelte'
 	import { reconnect } from '@wagmi/core'
