@@ -5,7 +5,7 @@
 	export let titleText = 'Title Text'
 	export let customTrigger = false
 
-	export let inlineSize: number
+	export let inlineSize = 300
 	export let triggerText = 'open dialog'
 	let dialog: HTMLDialogElement
 
@@ -62,7 +62,8 @@
 	on:click|self={close}
 	use:restoreStyles
 	inert={isOpen ? undefined : true}
-	style:inline-size={`min(${inlineSize || 240}px, 100%)`}
+	style:inline-size={`min(${inlineSize}px, 100%)`}
+	class="fcl__el"
 >
 	<!-- transition:fade={{ duration: 500, easing: quadInOut }} -->
 	<header>
@@ -119,9 +120,10 @@
 			position 128ms ease-in;
 
 		/* Position at center */
-		display: block;
+		/* display: block; */
 		position: fixed;
 		margin: auto;
+		overflow-x: hidden;
 		padding: 0;
 		inset: 0;
 
@@ -193,16 +195,18 @@
 		}
 	} */
 	.fcl__dialog-content {
+		box-sizing: border-box;
 		display: grid;
 		grid-template-rows: 1fr;
 		transition: 250ms grid-template-rows ease;
 		max-block-size: 300px;
 		overscroll-behavior: contain;
+		overflow-x: hidden;
 		overflow-y: auto;
 		padding-block-start: 0;
 
 		&::-webkit-scrollbar {
-			inline-size: 0.5em;
+			inline-size: 0.25em;
 		}
 
 		&::-webkit-scrollbar-track {
