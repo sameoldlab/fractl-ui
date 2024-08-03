@@ -5,7 +5,6 @@
 	export let titleText = 'Title Text'
 	export let customTrigger = false
 
-	export let inlineSize = 300
 	export let triggerText = 'open dialog'
 	let dialog: HTMLDialogElement
 
@@ -13,18 +12,15 @@
 		x: document.documentElement.style.overflowX,
 		y: document.documentElement.style.overflowY
 	}
-	let isOpen = false
 
 	const restoreStyles = (el: HTMLDialogElement) => {
 		el.addEventListener('close', () => {
-			isOpen = false
 			document.documentElement.style.overflowY = docOverflow.x
 			document.documentElement.style.overflowX = docOverflow.y
 		})
 		return {
 			destroy() {
 				el.removeEventListener('close', () => {
-					isOpen = false
 					document.documentElement.style.overflowY = docOverflow.x
 					document.documentElement.style.overflowX = docOverflow.y
 				})
@@ -33,7 +29,6 @@
 	}
 
 	export function open() {
-		isOpen = true
 		dialog.showModal()
 
 		/* Get the overflow at the point when dialog is being opened */
@@ -61,8 +56,6 @@
 	aria-labelledby="fcl__dialog-title"
 	on:click|self={close}
 	use:restoreStyles
-	inert={isOpen ? undefined : true}
-	style:inline-size={`min(${inlineSize}px, 100%)`}
 	class="fcl__el"
 >
 	<!-- transition:fade={{ duration: 500, easing: quadInOut }} -->
@@ -104,25 +97,17 @@
 
 <style>
 	dialog:not([open]) {
-		pointer-events: none;
+		display: none;
 		opacity: 0;
 	}
 
 	dialog[open] {
+		display: flex;
+		flex-direction: column;
 		opacity: 1;
 	}
 
 	dialog {
-		/* Managing transition */
-		transition:
-			width 128ms,
-			opacity 128ms ease-in,
-			position 128ms ease-in;
-
-		/* Position at center */
-		/* display: block; */
-		position: fixed;
-		margin: auto;
 		overflow-x: hidden;
 		padding: 0;
 		inset: 0;
@@ -182,8 +167,9 @@
 				font-weight: var(--fcl-modal-heading-font-weight, 700);
 			}
 		}
-		& .fcl__dialog-content {
+		& .fcl__dialog-content > * {
 			padding: var(--inner-padding);
+			box-sizing: border-box;
 		}
 	}
 	/* 	@media (max-width: 500px) {
@@ -196,33 +182,9 @@
 	} */
 	.fcl__dialog-content {
 		box-sizing: border-box;
-		display: grid;
-		grid-template-rows: 1fr;
-		transition: 250ms grid-template-rows ease;
-		max-block-size: 300px;
-		overscroll-behavior: contain;
-		overflow-x: hidden;
-		overflow-y: auto;
-		padding-block-start: 0;
-
-		&::-webkit-scrollbar {
-			inline-size: 0.25em;
-		}
-
-		&::-webkit-scrollbar-track {
-			background: var(--fcl-body-background);
-		}
-		&::-webkit-scrollbar-thumb {
-			background: var(--fcl-text-color, #222429);
-			border: 0.2em solid transparent;
-			border-radius: calc(var(--fcl-border-radius, 50em) / 8);
-			&:hover {
-				background-color: var(--fcl-btn-hover-background, #2f3139);
-			}
-		}
-		&::-webkit-scrollbar-button {
-			background: var(--fcl-body-background);
-		}
+		display: flex;
+		flex-direction: column;
+		padding: 0;
 	}
 	.fcl__header-icon {
 		height: 30px;

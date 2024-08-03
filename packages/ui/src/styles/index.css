@@ -144,7 +144,7 @@ button.fcl__btn-primary svg,
 }
 
 .fcl__text-secondary {
-	font-size: .9em;
+	font-size: 0.9em;
 	font-weight: 400;
 	margin: 0;
 	padding-block-start: 1.25em;
@@ -268,5 +268,24 @@ button.fcl__btn-primary svg,
 	}
 	.mt-1 {
 		margin-top: 1em;
+	}
+
+	&::-webkit-scrollbar {
+		inline-size: 0.5em;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: var(--fcl-body-background);
+	}
+	&::-webkit-scrollbar-thumb {
+		background: var(--fcl-text-color, #222429);
+		border: 0.2em solid transparent;
+		border-radius: calc(var(--fcl-border-radius, 50em) / 8);
+		&:hover {
+			background-color: var(--fcl-btn-hover-background, #2f3139);
+		}
+	}
+	&::-webkit-scrollbar-button {
+		background: var(--fcl-body-background);
 	}
 }
