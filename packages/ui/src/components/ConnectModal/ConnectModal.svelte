@@ -91,7 +91,6 @@
 		</button>
 	</svelte:fragment>
 
-	<div id="fractl-connect" class="fcl__layout-1col fcl__el">
 		{#if activeRequest}
 			{#if activeRequest.type === 'injected'}
 				<!-- <Injected connector={activeRequest}></Injected> -->
@@ -150,7 +149,6 @@
 
 			<slot name="footer" />
 		{/if}
-	</div>
 </Modal>
 
 <style>
