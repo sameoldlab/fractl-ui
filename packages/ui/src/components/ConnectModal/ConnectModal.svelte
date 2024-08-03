@@ -36,9 +36,7 @@
 
 		try {
 			// console.debug('config.state: ', $state.status)
-			makeTransition(() => {
-				activeRequest = connector
-			})
+			activeRequest = connector
 			await config.connect(connector)
 			onConnect(config)
 		} catch (error) {
@@ -48,20 +46,7 @@
 
 		// console.debug('config.state: ', $state.status)
 	}
-
-	const clearRequest = () =>
-		makeTransition(() => {
-			activeRequest = null
-		})
-
-	function makeTransition(transition: () => void) {
-		if (document.startViewTransition) {
-			transition()
-			// document.startViewTransition(() => { transition() })
-		} else {
-			transition()
-		}
-	}
+	const clearRequest = () => (activeRequest = null)
 </script>
 
 <!-- aria-expanded={open ? 'true' : 'false'} -->
@@ -179,12 +164,6 @@
 		/* transition: opacity 150ms 1s ease-in; */
 	}
 
-	#fractl-connect,
-	#fractl-injected {
-		flex: 0.000001;
-		transition: all 1s ease;
-		animation: flexGrow 150ms ease forwards;
-	}
 	.spin {
 		animation: 1500ms linear infinite spin;
 		color: oklch(70% 0.52 230);
@@ -197,16 +176,6 @@
 		}
 	}
 
-	@keyframes flexGrow {
-		to {
-			flex: 1;
-		}
-	}
-	@keyframes flexShrink {
-		to {
-			flex: 0.0000001;
-		}
-	}
 	.connectors {
 		display: grid;
 		width: 100%;
