@@ -89,6 +89,11 @@
 	<div class="fcl__dialog-content">
 		<slot />
 	</div>
+	<footer class="fcl__dialog-footer">
+		<slot name='footer'>
+			<!--<div class="spacer"></div>-->
+		</slot>
+	</footer>
 </dialog>
 
 {#if !customTrigger}
@@ -167,8 +172,10 @@
 				font-weight: var(--fcl-modal-heading-font-weight, 700);
 			}
 		}
-		& .fcl__dialog-content > * {
+		& .fcl__dialog-content > *,
+		& .fcl__dialog-footer {
 			padding: var(--inner-padding);
+			padding-block-start: 0;
 			box-sizing: border-box;
 		}
 	}

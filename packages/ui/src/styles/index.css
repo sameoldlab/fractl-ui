@@ -141,14 +141,14 @@ button.fcl__btn-primary svg,
 	margin: 0;
 	padding-block-start: 1.25em;
 	padding-block-end: 0.25em;
+	color: var(--fcl-text-primary-color);
 }
 
 .fcl__text-secondary {
-	font-size: 0.9em;
-	font-weight: 400;
+	font-size: var(--fcl-text-secondary-size, 0.85rem);
+	font-weight: var(--fcl-text-secondary-weight, 400);
 	margin: 0;
-	padding-block-start: 1.25em;
-	padding-block-end: 0.25em;
+	color: var(--fcl-text-secondary-color);
 }
 
 .fcl__subhead {
@@ -234,7 +234,7 @@ button.fcl__btn-primary svg,
 	border: 1px solid hsla(0, 0%, 100%, 0%);
 	border-radius: 50%;
 	background: transparent;
-	color: var(--fcl-text-color);
+	color: var(--fcl-text-primary-color);
 
 	transition:
 		background-color 140ms ease-in,
