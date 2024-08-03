@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createEventDispatcher, onDestroy } from 'svelte'
+	import { createEventDispatcher, onDestroy, tick } from 'svelte'
 	const dispatch = createEventDispatcher()
 
 	export let titleText = 'Title Text'
@@ -45,6 +45,36 @@
 	onDestroy(() => {
 		dispatch('close')
 	})
+
+	let contentHeight: number
+	const resize = async () => {
+		const reducedMotion = window.matchMedia(
+			'(prefers-reduced-motion: reduce)'
+		).matches
+		if (!dialog || reducedMotion) return
+
+		let firstHeight = dialog.getBoundingClientRect().height
+		console.log(firstHeight)
+		await tick()
+		const lastHeight = dialog.getBoundingClientRect().height
+		console.log(lastHeight)
+		dialog.animate(
+			[{ height: `${firstHeight}px` }, { height: `${lastHeight}px` }],
+			{
+				duration: 200,
+				fill: 'none',
+				easing: 'ease-out',
+				composite: 'accumulate'
+			}
+		)
+	}
+	// onMount(resize)
+	$: {
+		// console.log('contentHeight:', contentHeight)
+		titleText
+		resize()
+	}
+
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
@@ -86,11 +116,11 @@
 		</div>
 	</header>
 
-	<div class="fcl__dialog-content">
+	<div class="fcl__dialog-content" bind:clientHeight={contentHeight}>
 		<slot />
 	</div>
 	<footer class="fcl__dialog-footer">
-		<slot name='footer'>
+		<slot name="footer">
 			<!--<div class="spacer"></div>-->
 		</slot>
 	</footer>
@@ -110,18 +140,21 @@
 		display: flex;
 		flex-direction: column;
 		opacity: 1;
+		height: fit-content;
+		margin-block-start: 25svh;
 	}
 
 	dialog {
-		overflow-x: hidden;
+		overflow: hidden;
 		padding: 0;
-		inset: 0;
+		transition-property: height, max-height;
+		transition-duration: 300ms;
 
 		&::backdrop {
 			background: var(--fcl-overlay-background, hsla(0, 0%, 0%, 0.4));
 			backdrop-filter: var(--fcl-overlay-backdrop-filter, none);
 		}
-		/* max-inline-size: 336px; */
+		inline-size: 300px;
 		background: var(--fcl-body-background, hsl(228, 11%, 9%));
 		color: var(--fcl-text-color, #f1f1f1);
 		--fcl-sc: hsla(228, 11%, 9%, 0.08);
@@ -155,7 +188,7 @@
 			font-family: inherit;
 		}
 
-		/* Targetting Dialog Head Slot */
+		/* Targets Dialog Head Slot */
 		--inner-padding: var(--fcl-modal-padding, 1em);
 		& > header {
 			display: grid;
@@ -178,6 +211,10 @@
 			padding-block-start: 0;
 			box-sizing: border-box;
 		}
+
+		& .fcl__dialog-content > * {
+			padding-block-end: 0;
+		}
 	}
 	/* 	@media (max-width: 500px) {
 		dialog {
@@ -199,5 +236,8 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+	}
+	div.spacer {
+		padding-bottom: 1.5rem;
 	}
 </style>

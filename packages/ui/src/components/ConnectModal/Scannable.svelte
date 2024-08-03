@@ -2,6 +2,7 @@
 	import QRCode from '@castlenine/svelte-qrcode'
 	import type { Connector } from '@wagmi/core'
 	import skeleton from './skeletonQr.svg'
+	import { fade } from 'svelte/transition'
 	export let connector: Connector
 	let data: string = ''
 
@@ -25,8 +26,15 @@
 
 <div id="fractl-scan" class="fcl__layout-1col fcl__el">
 	<div class="main">
+		<img
+			width="256px"
+			height="256px"
+			src={skeleton}
+			alt="loading QRCode"
+			transition:fade
+		/>
 		{#if data}
-			<a href={data}>
+			<a href={data} transition:fade>
 				<QRCode
 					{data}
 					anchorsOuterColor="black"
@@ -40,11 +48,12 @@
 					logoPadding={4}
 				/>
 			</a>
-		{:else}
-			<img width="100%" src={skeleton} alt="loading QRCode" />
 		{/if}
 	</div>
-	<button on:click={()=>navigator.clipboard.writeText(data)} class="justify-center fcl__btn-primary">Copy to clipboard</button>
+	<button
+		on:click={() => navigator.clipboard.writeText(data)}
+		class="justify-center fcl__btn-primary">Copy to clipboard</button
+	>
 </div>
 
 <style>
@@ -59,5 +68,13 @@
 		justify-content: center;
 		align-items: center;
 		padding-block-end: 1rem;
+		display: grid;
+		& > * {
+			grid-area: 1 / 1;
+		}
+	}
+	a {
+		/* changes to an unhinged 260px for reasons beyond my comprehension if this is auto */
+		height: 256px;
 	}
 </style>

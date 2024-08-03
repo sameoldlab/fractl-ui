@@ -5,6 +5,7 @@
 	import Scannable from './Scannable.svelte'
 	import type { Config, Connector, StateDisconnected } from '@fractl-ui/types'
 	import type { Readable } from 'svelte/store'
+	import { slide } from 'svelte/transition'
 
 	export let config: Config<Connector>
 	export let state: Readable<StateDisconnected<Connector>>
@@ -39,7 +40,7 @@
 			await config.connect(connector)
 			onConnect(config)
 		} catch (error) {
-			onConnectFail(error)
+			// onConnectFail(error)
 			// console.error('caught: ', error)
 		}
 
@@ -117,7 +118,8 @@
 					</p>
 					<button
 						on:click={() => handleConnect(activeRequest)}
-						class="fcl__btn-primary justify-center mt-1">Retry</button
+						class="fcl__btn-primary justify-center mt-1"
+						in:slide>Retry</button
 					>
 				{/if}
 			</div>
