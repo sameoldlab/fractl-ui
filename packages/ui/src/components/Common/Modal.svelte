@@ -141,7 +141,6 @@
 		flex-direction: column;
 		opacity: 1;
 		height: fit-content;
-		margin-block-start: 25svh;
 	}
 
 	dialog {
@@ -149,6 +148,7 @@
 		padding: 0;
 		transition-property: height, max-height;
 		transition-duration: 300ms;
+		margin-block-start: 25svh;
 
 		&::backdrop {
 			background: var(--fcl-overlay-background, hsla(0, 0%, 0%, 0.4));
@@ -216,14 +216,16 @@
 			padding-block-end: 0;
 		}
 	}
-	/* 	@media (max-width: 500px) {
+	@media (max-width: 500px) {
 		dialog {
+			margin-block-start: auto;
 			margin-block-end: 0;
 			border-end-end-radius: 0;
 			border-end-start-radius: 0;
-			/* inline-size: 100%; *
+			inline-size: 100vw;
+			inline-size: 100svw;
 		}
-	} */
+	}
 	.fcl__dialog-content {
 		box-sizing: border-box;
 		display: flex;
