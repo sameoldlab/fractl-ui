@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher, onDestroy, tick } from 'svelte'
+	import type { Action } from 'svelte/action'
 	const dispatch = createEventDispatcher()
 
 	export let titleText = 'Title Text'
@@ -13,7 +14,7 @@
 		y: document.documentElement.style.overflowY
 	}
 
-	const restoreStyles = (el: HTMLDialogElement) => {
+	const restoreStyles: Action<HTMLDialogElement> = (el) => {
 		el.addEventListener('close', () => {
 			document.documentElement.style.overflowY = docOverflow.x
 			document.documentElement.style.overflowX = docOverflow.y
@@ -46,7 +47,6 @@
 		dispatch('close')
 	})
 
-	let contentHeight: number
 	const resize = async () => {
 		const reducedMotion = window.matchMedia(
 			'(prefers-reduced-motion: reduce)'
@@ -54,10 +54,8 @@
 		if (!dialog || reducedMotion) return
 
 		let firstHeight = dialog.getBoundingClientRect().height
-		console.log(firstHeight)
 		await tick()
 		const lastHeight = dialog.getBoundingClientRect().height
-		console.log(lastHeight)
 		dialog.animate(
 			[{ height: `${firstHeight}px` }, { height: `${lastHeight}px` }],
 			{
@@ -74,7 +72,6 @@
 		titleText
 		resize()
 	}
-
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
@@ -116,7 +113,7 @@
 		</div>
 	</header>
 
-	<div class="fcl__dialog-content" bind:clientHeight={contentHeight}>
+	<div class="fcl__dialog-content">
 		<slot />
 	</div>
 	<footer class="fcl__dialog-footer">
@@ -146,8 +143,6 @@
 	dialog {
 		overflow: hidden;
 		padding: 0;
-		transition-property: height, max-height;
-		transition-duration: 300ms;
 		margin-block-start: 25svh;
 
 		&::backdrop {
@@ -238,8 +233,5 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-	}
-	div.spacer {
-		padding-bottom: 1.5rem;
 	}
 </style>
