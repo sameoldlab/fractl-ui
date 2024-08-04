@@ -108,12 +108,12 @@
 
 				{#if $state.status === 'connecting' || $state.status === 'reconnecting'}
 					<h3 class="fcl__text-primary">Requesting Connection</h3>
-					<p class="fcl__subhead">
+					<p class="fcl__text-secondary">
 						{copyEN(activeRequest.name).connecting[activeRequest.type]}
 					</p>
 				{:else}
 					<h3 class="fcl__text-primary error">Connection Declined</h3>
-					<p class="fcl__subhead">
+					<p class="fcl__text-secondary">
 						{copyEN(activeRequest.name).rejected[activeRequest.type]}
 					</p>
 					<button
